@@ -1,6 +1,6 @@
 # Audit — the four imagegen design skills
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Audited:** 4,478 lines across four skills on disk
 **For:** `inter.face` spec at `/Users/taha/Documents/inter.face/docs/superpowers/specs/2026-07-28-inter-face-design.md`
 

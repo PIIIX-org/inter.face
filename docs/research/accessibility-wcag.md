@@ -1,5 +1,5 @@
 # Research — design-time accessibility (part 1: WCAG 2.2 + 3.0)
-**Date:** 2026-07-28  
+**Date:** 2026-08-01  
 **Method:** deep-research harness — 5 angles, 24 sources fetched, 120 claims extracted, 25 verified by 3-vote adversarial panel, 20 confirmed, 5 killed, 12 after synthesis.
 
 > **COVERAGE WARNING.** This run answered 2 of the 8 areas asked. Areas 3–8 (ARIA APG, SPA focus management, live regions, accessible names, legal enforcement detail, native iOS/Android) returned **no claims that survived verification** and are UNRESEARCHED, not settled. They are re-run separately.

@@ -1,6 +1,6 @@
 # Competitor audit — small design skills + the user's own gstack tooling
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Read against:** `docs/superpowers/specs/2026-07-28-inter-face-design.md`
 **Quality bar applied:** guidance counts if it is (a) a decision procedure, (b) a named failure with its opening/escape, or (c) a checkable rule. A list to browse does not count.
 

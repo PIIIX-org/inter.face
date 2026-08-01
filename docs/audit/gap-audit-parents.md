@@ -1,6 +1,6 @@
 # Gap audit — the three parents against "any interface"
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Scope tested:** web, mobile, tablet, desktop
 **Corpus:** `portfolio.me`, `webcrab`, `systemcicy` — all `.md` outside `runs/`, ~5,000 lines
 

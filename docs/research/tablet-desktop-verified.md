@@ -1,6 +1,6 @@
 # Verified — tablet and desktop as their own disciplines
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Method:** rendered DOM read off the live primary sources with a headless browser. Every
 number and every absence below was checked on the page, not recalled.
 

@@ -1,6 +1,6 @@
 # Verified platform numbers — targets, type, contrast
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Method:** rendered DOM text pulled with a headless browser from the primary source itself,
 then read in context. **Not** WebFetch summaries — the earlier research run caught
 summarizers returning fabricated normative wording twice, so every number here was read off

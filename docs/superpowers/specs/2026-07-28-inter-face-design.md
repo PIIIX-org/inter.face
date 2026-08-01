@@ -1,6 +1,6 @@
 # inter.face — design
 
-**Date:** 2026-07-28
+**Date:** 2026-08-01
 **Revision:** v2 — rewritten after the four competitor audits and the first research run
 **Status:** architecture settled; content pending five research runs
 
