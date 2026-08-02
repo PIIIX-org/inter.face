@@ -165,6 +165,7 @@ value a builder would otherwise have to measure off an image gets written down a
 | **Radius** | Every step in px, plus the concentric rule in use — inner = outer − gap | "Rounded" |
 | **Stroke and divider** | Weight per mode in px, and where hairlines come from grid gap rather than borders | "Subtle borders" |
 | **Elevation** | Offset, blur, spread, and color per level — or the statement that this direction has no shadow language | "Soft shadow" |
+| **Background and surface treatment** | Gradient stops in `oklch()` with the angle or shape; scrim and overlay opacity as a number; grain or noise as amount, scale, and blend mode; the treatment applied in-browser to every generated image (`§8`) and every supplied photograph (`§14`) — duotone stops, halftone pitch, dither, crop, mask | "Atmospheric." A gradient with no stops. A generated image placed raw. "Subtle texture" |
 | **Icons** | Source and licence, grid size, stroke weight, grade per mode, and the icon-size / target-size **pair** per input method | "Clean line icons" |
 | **Grid and layout** | Columns, gutters, and margins per breakpoint, with the collapse order named | "Responsive" |
 | **Navigation model** | The pattern, its keyboard contract, and its state at every breakpoint | "Standard nav" |
@@ -271,14 +272,27 @@ The shape:
     "easing": {
       "$type": "cubicBezier",
       "settle": { "$value": [0.16, 1, 0.3, 1] }
+    },
+    "transition": {
+      "$type": "transition",
+      "enter": {
+        "$value": {
+          "duration": "{motion.duration.enter}",
+          "delay": { "value": 0, "unit": "ms" },
+          "timingFunction": "{motion.easing.settle}"
+        },
+        "$description": "list and card entrance; stagger 40ms, capped at 8 items"
+      }
     }
   }
 }
 ```
 
-The motion spec becomes `transition` tokens composed from those two groups, which is the first
-time in this family of pipelines a motion spec has been machine-readable rather than prose that
-gets rebuilt three times.
+The motion spec becomes those `transition` tokens, aliased into the duration and easing groups
+rather than duplicating either — which is the first time in this family of pipelines a motion
+spec has been machine-readable rather than prose that gets rebuilt three times. Aliasing
+resolves into composites, so one easing curve is defined once and referenced by every
+transition that uses it.
 
 ---
 

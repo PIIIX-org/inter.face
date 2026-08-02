@@ -14,9 +14,10 @@ concept, and a signed Gate A.
 redesign or     page-shaped    iOS / Android   the Loop 1      physical experience
 greenfield      tool-shaped    or neutral      decision list   → three directions
                                                                      │
-5 palette ──► 6 type ──► 7 concepts ──► 8 dispatch ──► 9 set check ──► Gate A
-OKLCH pairs   two          2–3, both    one agent      conductor's      human
-from reality  families max  tests run    per surface    anti-repeat      decides
+5 palette ─► 6 type ─► 7 concepts ─► 8 ratio ─► 9 dispatch ─► 10 set check ─► Gate A
+per          per        one per       per class  one agent per  per concept,    human
+direction,   direction  direction,    announce   surface per    anti-repeat     decides
+sampled once            both tests    N first    concept
 ```
 
 ---
@@ -54,7 +55,8 @@ fork, not a slider — there is no "mostly a correction."
 | **Greenfield** | Start at §1 below. Nothing to preserve, so nothing to ask |
 | **Correction** — the position is right, execution drifted | **This loop does not run.** `REDESIGN.md`'s fix ladder runs against the extracted system, with its per-fix discipline as the stop. Any fix that touches position leaves the pass and escalates to Gate A |
 | **Reposition** — the position itself is wrong | This loop runs **in full**, with `CURRENT.md` as an input constraint rather than a blank page, and with the survival list written *before* §1 below rather than during it |
-| **Conformance** — `TRANSLATE.md` row 6 names a design system the surface must obey | Neither path. `TRANSLATE.md`'s escape hatch fires, `§1`–`§3` are suspended wholesale, and `BREAKING.md`'s recording rule covers writing that down. Route to conformance and say so plainly |
+| **Conformance** — `TRANSLATE.md` row 6 names a design system the surface must obey | Neither path. `TRANSLATE.md`'s escape hatch fires, `PRINCIPLES.md`'s `§1`–`§3` are suspended wholesale
+(that file's rules, not this file's steps), and `BREAKING.md`'s recording rule covers writing that down. Route to conformance and say so plainly |
 
 **On the reposition path, two things enter this loop that a greenfield run never carries.**
 `CURRENT.md` — the extracted rendered system, measured and not yet adjudicated — is an input
@@ -127,10 +129,22 @@ than the subject.
 Then read the families — to name what you derived, to learn what it implies technically, and
 to be warned how it fails. Not to generate it.
 
-Two outputs of this step are gating and both are easy to skip:
+**What this step hands to the next one, stated because the singular is a trap.**
+`STYLES.md` ends its procedure with *"never one answer — bring three directions to Gate A."*
+That is binding, and it means **the directions do not collapse here.** Two or three survive
+the cut, and **each surviving direction becomes one concept in §7 below.** Directions and
+concepts are the same objects at two stages of development, not two rounds of generation.
 
-- **The collision or subversion**, per `STYLES.md`. One parent carries structure, the other
-  carries surface, and which is which gets named now rather than during the build.
+So §5 and §6 below run **once per surviving direction**, not once for the run — a letterpress
+direction and a cockpit direction do not share a neutral ramp or a typeface, and a palette
+built before the directions exist is a palette built for none of them. The one thing genuinely
+shared is the sampled accent, because the subject has one logo (§5 below).
+
+Two further outputs of this step are gating and both are easy to skip:
+
+- **The collision or subversion**, per `STYLES.md`, per direction. One parent carries
+  structure, the other carries surface, and which is which gets named now rather than during
+  the build.
 - **The style-under-density line**, in the form *at forty rows this does X*. Asked at Gate A
   because the answer is sometimes *it cannot* — and a direction that is beautiful, coherent,
   correct for the archetype and structurally incapable of the surface it was chosen for is a
@@ -139,13 +153,17 @@ Two outputs of this step are gating and both are easy to skip:
 
 ## 5. Palette — sampled from reality, in OKLCH, as pairs
 
-`§6`: pull the accent from the subject or product's real logo, product, or work. Sample the
-pixels. No existing brand means a deliberate choice defended by one sentence of physical
-scene, then reconciled against `TRANSLATE.md` row 3.
+**Sampled once. Built out per direction.** `§6`: pull the accent from the subject or product's
+real logo, product, or work. Sample the pixels. There is one subject and one logo, so there is
+one sample, and every direction from §4 above reconciles against it. No existing brand means a
+deliberate choice defended by one sentence of physical scene, then reconciled against
+`TRANSLATE.md` row 3.
 
-Build out from the sample: an accent, a substrate, a neutral ramp, and the full state set —
-and tool-shaped, the status vocabulary from `TOOLS.md`, which needs shape or label as well as
-color because `§10` forbids color alone.
+Then build out **once per direction**: an accent, a substrate, a neutral ramp, and the full
+state set — and tool-shaped, the status vocabulary from `TOOLS.md`, which needs shape or label
+as well as color because `§10` forbids color alone. The same sampled hex sits at a different
+chroma, against a different substrate, in a different ramp in each of the two or three
+directions; that divergence is a large part of what Gate A is choosing between.
 
 Work in **OKLCH**, and write gradient endpoints in `oklch()`, because a single hex or `rgb()`
 endpoint silently drops the whole interpolation back to muddy sRGB.
@@ -162,7 +180,7 @@ art directions and both get built.
 
 ## 6. Type
 
-Two families at most, one if the direction earns it. Variable where the design drives an
+**Per direction, like §5 above.** Two families at most, one if the direction earns it. Variable where the design drives an
 axis, self-hosted and subset per `§7`, and checked against the actual script per `§13` — a
 Persian, Arabic, or Devanagari subject needs a face that draws it, not one that falls back.
 
@@ -173,7 +191,11 @@ typeface — a bare blacklist goes stale in eighteen months and a reason survive
 Tool-shaped surfaces add one requirement here: tabular figures on every column of numbers
 that updates. It is one declaration and it is not optional.
 
-## 7. Generate 2–3 concepts
+## 7. Develop each direction into a concept
+
+One concept per surviving direction from §4 above, carrying that direction's palette and type
+from §5 and §6. This is development, not a fresh generation — a concept invented here, with no
+direction behind it, has skipped the derivation and will read like it.
 
 The conductor does this, not a worker. `§1`–`§4` are asking for the collision, the opening
 move, and the thing nobody expects, and that is exactly where a cheaper model reaches for
@@ -205,6 +227,11 @@ artifact**, not asserted about the process. Both tests run before anything reach
 
 > **Swap test.** If someone could swap the headline text between two concepts without
 > noticing, they are too similar.
+>
+> **Tool-shaped surfaces frequently have no headline**, so swap what they do have: the screen
+> title, the primary action's label, and the empty state's copy. If all three move between two
+> concepts unnoticed, the concepts differ in styling and not in how the operator's day is
+> organized — which is the only axis this class is choosing on.
 
 > **Family pass.** Label each concept with a concrete noun of your own choosing — *exhibition,
 > cockpit, playbill, field-manual*. If two share a label, or a label applies equally well to
@@ -233,14 +260,24 @@ Two to three phones on one canvas is the **only** exception to never compressing
 and it holds because they are the same surface across a flow at readable scale rather than
 different surfaces stacked. The moment type stops being legible, drop to one phone per canvas.
 
-**Announce N before generating.** Write the count in text — *"nine surfaces, nine images"* —
-then label every image **"Surface X of N: \<name\>"**. Committing to N first makes stopping at
-three a visible contradiction rather than a silent one, and silent under-generation is the
-failure this costs one line to prevent.
+**Announce N before generating.** **N is the surface count, not the image count** — and every
+concept is rendered across all N, so three concepts and nine surfaces is twenty-seven images.
+Write both numbers in text before generating — *"three concepts, nine surfaces, twenty-seven
+images"* — and label every image **"\<concept label>: Surface X of N — \<name\>"**, with the
+label from the family pass in §7 above, so the three renders of the same surface never collide.
+
+That 3× is the real cost of `§4` and it is paid deliberately. **If it is not affordable, cut to
+two concepts rather than to a partial set** — a concept rendered at three surfaces cannot be
+compared against one rendered at nine, and the set-level check in §10 below has nothing to run
+on. Two complete concepts is a choice. Three partial ones is a preference dressed as one.
+
+Committing to the numbers first makes stopping early a visible contradiction rather than a
+silent one, and silent under-generation is the failure this costs one line to prevent.
 
 ## 9. Dispatch `surface-designer`
 
-**One agent per surface, one image each.** Never compress multiple surfaces into one board: a
+**One agent per surface per concept, one image each.** Never compress multiple surfaces into
+one board, and never compress two concepts into one either: a
 compressed board hides exactly the detail the human needs to judge, and what it hides first is
 the smallest type and the primary action.
 
@@ -255,7 +292,8 @@ redesign and not a variant: same design system, cleaner render.
 
 ## 10. The set-level check
 
-Run by the conductor, on what comes back. No worker can run it.
+Run by the conductor, on what comes back, **once per concept** — the set is one concept's N
+surfaces, since that is the set a human reads as one thing. No worker can run it.
 
 Reject the set and regenerate the offending surfaces if:
 
@@ -268,10 +306,12 @@ as the stated direction. There, sameness is the design and this check would be a
 the brief. Say out loud that it was suspended and why, so a later reader does not read a
 uniform set as an oversight.
 
-Also check what the set does *not* vary: palette, type hierarchy, component family, and
-surface treatment stay identical across every image. Composition, emphasis, and visual tempo
-are where variation belongs. A set that varies the palette has not produced range, it has
-produced three different products.
+Also check what the set does *not* vary: **within one concept**, palette, type hierarchy,
+component family, and surface treatment stay identical across every image. Composition,
+emphasis, and visual tempo are where variation belongs. A set that varies the palette has not
+produced range, it has produced three different products. Across concepts the opposite holds —
+palette and type *must* differ, because that is what §5 and §6 above built per direction and
+what Gate A is choosing between.
 
 ---
 
@@ -279,9 +319,10 @@ produced three different products.
 >
 > **Presented:**
 >
-> - **The rendered images**, per concept, all N of them, labeled
-> - **The palette**, as pairs, each with its sampled source and its measured ratio
-> - **The type system**, each family with its reason on the same line
+> - **The rendered images**, per concept, all N surfaces of each, labeled
+> - **The palette per concept**, as pairs, each with its measured ratio, and the one sampled
+>   source they all reconcile against
+> - **The type system per concept**, each family with its reason on the same line
 > - **The collision sentence** per concept, with the structural parent named
 > - **The style-under-density line** — *at forty rows this does X*
 > - **The `ACCESS.md` answers**, and any row deferred, with its cost
