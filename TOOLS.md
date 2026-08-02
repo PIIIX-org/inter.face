@@ -112,7 +112,7 @@ window does, and a desktop-shaped tool is designed against three of them, not on
 
 | State | What it must do | The failure |
 |---|---|---|
-| **Main** | The window someone is working in. Content and controls read as fully live | Treating "not the frontmost app" the same as "not receiving input," which erases a state the operator actually relies on |
+| **Main** | Distinct from Key. Controls render in color only when this window is also Key — the common case. When Main but not Key, controls gray, the same rendering as Inactive | Assuming Main alone means colored, "live" chrome — a document window that stays Main while a floating inspector or Find panel holds Key still renders gray, and coloring every Main window regardless of Key ships backwards from what macOS actually shows |
 | **Key** | Receives keyboard input right now. Window controls (close, minimize, zoom) render in color; a window becomes key only when someone clicks its title bar or a component that requires keyboard input | A custom title bar that never changes, so an operator with several windows open cannot tell which one their next keystroke lands in |
 | **Inactive** | Window chrome — including those same controls — grays out, signaling "not receiving input" without hiding content | Content that dims or disables along with the chrome, so a background window an operator is monitoring goes unreadable |
 
