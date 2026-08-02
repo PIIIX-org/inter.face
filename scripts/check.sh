@@ -49,7 +49,7 @@ done < <(grep -rhoE '\]\(\.{1,2}/[^)#]+\)' --include='*.md' . 2>/dev/null \
 [ "$BROKEN" -eq 0 ] && ok "all relative links resolve"
 
 echo "== every reference file forks on surface class =="
-for f in STYLES.md CRAFT.md TOOLS.md SURFACES.md ACCESS.md; do
+for f in STYLES.md CRAFT.md TOOLS.md SURFACES.md ACCESS.md REDESIGN.md BREAKING.md; do
   if [ -f "$f" ]; then
     if grep -qiE 'page-shaped' "$f" && grep -qiE 'tool-shaped' "$f"; then
       ok "$f forks on surface class"

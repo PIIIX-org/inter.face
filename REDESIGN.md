@@ -67,10 +67,12 @@ console will run them:
 [...new Set([...document.querySelectorAll('*')].map(e => getComputedStyle(e).fontFamily))]
 
 // the real palette, ranked by how often each value is actually painted
-[...document.querySelectorAll('*')].flatMap(e => { const s = getComputedStyle(e);
-  return [s.color, s.backgroundColor, s.borderTopColor]; })
+Object.entries([...document.querySelectorAll('*')].flatMap(e => { const s = getComputedStyle(e);
+  return [s.color, s.backgroundColor,
+          parseFloat(s.borderTopWidth) > 0 ? s.borderTopColor : null]; })
   .filter(v => v && v !== 'rgba(0, 0, 0, 0)')
-  .reduce((m, v) => (m[v] = (m[v] || 0) + 1, m), {})
+  .reduce((m, v) => (m[v] = (m[v] || 0) + 1, m), {}))
+  .sort((a, b) => b[1] - a[1])
 
 // the heading scale, as rendered
 [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].map(e => {
@@ -82,12 +84,26 @@ console will run them:
   .filter(([, r]) => r.width < 44 || r.height < 44)
 ```
 
+**The border gate in the palette query is load-bearing.** `borderTopColor` computes to the
+element's own `color` whenever no border is set, which is nearly every element on a page —
+ungated, it double-counts every text color and body text out-ranks the page background even
+where the background paints a thousand times the area. Even gated, the count is a census of
+computed values rather than painted pixels: every element carries a `color` whether or not it
+paints any text. Read the ranking as *what this surface is made of*, never as coverage.
+
 **44 is a net, not the law.** It catches everything worth adjudicating and it is not itself a
 standard. `SURFACES.md` holds the law and it is not one number: WCAG 2.5.8's 24×24 CSS px
 with its geometric spacing exception on the web, 48dp / 44pt as the cross-platform-neutral
 pair, and Apple's 28pt control minimum which is a different quantity from the 44pt hit
 region. Sweep wide, then adjudicate each hit against `SURFACES.md`. Reporting a 44px sweep as
 a count of WCAG failures is a fabricated finding, and it will be believed.
+
+**And the sweep returns noise by construction.** `getBoundingClientRect()` reports 0×0 for
+anything `display: none`, so every closed dropdown, every hidden menu item, and every control
+inside an unmounted modal lands in the results at zero by zero. `[tabindex]` adds a second
+source: `tabindex="-1"` programmatic focus targets, which are not interactive elements at all.
+On a real application those two together are usually the majority of the hits. Drop everything
+that is not visibly rendered before you count, and never report the raw length as a finding.
 
 **Run every query at the viewports the surface actually gets.** Computed styles are viewport
 dependent. A heading scale read at 1440px is not the one most of the traffic sees, and a
