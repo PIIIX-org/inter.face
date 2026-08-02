@@ -67,7 +67,7 @@ It does not deprecate WCAG 2 — WAI's own intro page states WCAG 3 "will not su
 WCAG 2 will not be deprecated for at least several years after WCAG 3 is finalized." No design
 or procurement decision in 2026 anchors to WCAG 3.
 
-**And no law in force names 2.2 either** (§12 below). Section 508 names WCAG 2.0. The ADA Title
+**And no law verified here names 2.2 either** (§12 below). Section 508 names WCAG 2.0. The ADA Title
 II rule names WCAG 2.1. The European Accessibility Act names no WCAG version at all. So designing
 to 2.2 is **anticipatory, not compliance** — which is the honest framing and also the right
 decision, because the gap between 2.1 and 2.2 is precisely the six new A/AA criteria in §2 below,
@@ -668,8 +668,8 @@ restoration.
 
 The consequence is not "so it does not matter." It is the opposite: **it is a decision, it is
 yours, and it goes in `DIRECTION.md`** rather than being inherited from whatever the router does
-by default. The default, in most frameworks, is that focus falls to `<body>` — which means the
-next Tab starts at the top of the browser chrome and a screen reader announces nothing at all. An
+by default. The widely reported default is that focus falls to `<body>` — which means the next Tab
+starts at the top of the browser chrome and a screen reader announces nothing at all. An
 interface where every navigation silently resets a keyboard user to zero has failed `§15`
 completely, and no automated checker will report it, because nothing is technically wrong.
 
