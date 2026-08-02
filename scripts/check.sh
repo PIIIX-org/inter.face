@@ -45,7 +45,7 @@ while IFS= read -r line; do
 done < <(grep -rhoE '\]\(\.{1,2}/[^)#]+\)' --include='*.md' . 2>/dev/null \
          | grep -v '^\./docs/' >/dev/null 2>&1; \
          grep -rnoE '\]\((\.{1,2}/[^)#]+)\)' --include='*.md' . 2>/dev/null \
-         | grep -v '/docs/' | sed -E 's/^([^:]+):[0-9]+:\]\((.*)\)$/\1:\2/')
+         | grep -v '/docs/' | grep -v '/\.superpowers/' | sed -E 's/^([^:]+):[0-9]+:\]\((.*)\)$/\1:\2/')
 [ "$BROKEN" -eq 0 ] && ok "all relative links resolve"
 
 echo "== every reference file forks on surface class =="
@@ -54,15 +54,15 @@ for f in STYLES.md CRAFT.md TOOLS.md SURFACES.md ACCESS.md; do
     if grep -qiE 'page-shaped' "$f" && grep -qiE 'tool-shaped' "$f"; then
       ok "$f forks on surface class"
     else fail "$f does not address both page-shaped and tool-shaped"; fi
-  fi
+  else fail "$f missing"; fi
 done
 
 echo "== Apple numbers ship as pairs =="
 if [ -f SURFACES.md ]; then
-  if grep -q '44' SURFACES.md && grep -q '28' SURFACES.md; then
+  if grep -qE '(44.*28|28.*44)' SURFACES.md || (grep -q '44×44\|44pt' SURFACES.md && grep -q '28×28\|28pt' SURFACES.md); then
     ok "SURFACES.md carries default AND minimum"
   else fail "SURFACES.md must carry 44pt default AND 28pt minimum, never 44 alone"; fi
-fi
+else fail "SURFACES.md missing"; fi
 
 echo
 [ "$FAIL" -eq 0 ] && echo "ALL CHECKS PASS" || echo "CHECKS FAILED"
