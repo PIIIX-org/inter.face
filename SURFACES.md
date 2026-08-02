@@ -34,8 +34,8 @@ silently.
 
 **And a third question, for anything that runs on a tablet or a desktop:** *what is the
 narrowest and the widest this can be dragged to, and is every width between them correct?*
-There is no notification and no control — see §5. A tablet layout is not a breakpoint. It is
-a resize contract.
+There is no notification and no control — see §5 below. A tablet layout is not a breakpoint.
+It is a resize contract.
 
 ---
 
@@ -47,17 +47,17 @@ discovering the fork during the build is a rewrite.
 
 ### iOS-native
 
-- **Liquid Glass binds** (§4). It is the functional layer for controls and navigation. Standard
-  components pick it up automatically; the only decision is where to extend it to custom
-  elements, and the instruction there is *sparingly*.
+- **Liquid Glass binds** (§4 below). It is the functional layer for controls and navigation.
+  Standard components pick it up automatically; the only decision is where to extend it to
+  custom elements, and the instruction there is *sparingly*.
 - **Targets: 44×44 pt default, 28×28 pt minimum.** Type: 17 pt default, 11 pt minimum.
 - **Dynamic Type is twelve sizes**, and surviving them is a layout decision, not a font
-  decision (§3).
+  decision (§3 below).
 - **SF Symbols is a font, not an icon set.** It aligns to San Francisco by weight and by cap
   height, and the container picks the variant: *"an iOS tab bar prefers the fill variant,
   whereas a toolbar takes the outline variant."* An SF Symbol in a logo is a licence
   violation, not a taste question.
-- **Layout is designed against available width, not against the size class** (§5).
+- **Layout is designed against available width, not against the size class** (§5 below).
 - **Reduce Transparency and Increase Contrast are designed states**, not runtime accidents.
 
 ### Android-native
@@ -70,11 +70,11 @@ discovering the fork during the build is a rewrite.
   *even where it extends past the visible bounds of the element*. **Pointer targets are a
   separate, smaller spec: 44×44 dp.**
 - **Icon and target sizes are two decisions, paired per input method** — 24dp icon in a 48dp
-  target for touch, 20dp icon in a 40dp target for mouse and keyboard (§2).
+  target for touch, 20dp icon in a 40dp target for mouse and keyboard (§2 below).
 - **Type is declared in `sp`** so the OS font-scaling setting applies at all, with a 12sp floor
   for body text — and above Android 14 the scaling curve is non-linear, so `4sp + 20sp ≠ 24sp`
-  and any layout arithmetic that adds sp values is wrong (§3).
-- **Five breakpoints, and the pane count per breakpoint** (§5).
+  and any layout arithmetic that adds sp values is wrong (§3 below).
+- **Five breakpoints, and the pane count per breakpoint** (§5 below).
 
 ### Cross-platform-neutral
 
@@ -85,7 +85,7 @@ discovering the fork during the build is a rewrite.
   scaling obligation — at least 200% (140% in watchOS apps) — because that one is a layout
   decision and layout is the thing all three branches share.
 - **Material's five breakpoints are the usable breakpoint system**, because Apple's size
-  classes do not vary on the device where they would matter most (§5).
+  classes do not vary on the device where they would matter most (§5 below).
 
 ### They do not mix
 
@@ -236,9 +236,8 @@ Same structure as the target table, same discipline — the pair, never one numb
 Apple's own word is *ideally*. App Store Connect converts the same numbers into pass/fail
 criteria for the Larger Text badge, so the aspiration has a scoreboard.
 
-**Apple's Dynamic Type ramp is twelve sizes** — seven standard, running from xSmall up to the
-largest standard step with Large as the default, plus five accessibility sizes, AX1 through
-AX5. Body runs **17 pt to 53 pt**,
+**Apple's Dynamic Type ramp is twelve sizes** — seven standard (xSmall through xxxLarge,
+default Large) plus five accessibility sizes, AX1 through AX5. Body runs **17 pt to 53 pt**,
 about 3.1×, **crossing 200% already at AX3** and exceeding 300% at AX5. Scaling is *not*
 uniform across styles: Large Title runs 34 pt to 60 pt, about 1.76×. At the top of the ramp,
 Body at 53 pt exceeds a default-size Large Title — the hierarchy inverts, and a layout whose
@@ -446,8 +445,8 @@ rather than as a compatibility footnote:
 > keyboard or pointing device, Apple Pencil, or voice, and they often combine multiple input
 > modes.
 
-**Hybrid input is the documented default.** Which is why the icon/target pair in §2 has two
-rows and a tablet has to satisfy the touch row.
+**Hybrid input is the documented default.** Which is why the icon/target pair in §2 above has
+two rows and a tablet has to satisfy the touch row.
 
 ### Material's five breakpoints — not three
 
@@ -537,8 +536,8 @@ pretend it crosses.
 - **Prototype before you design around it.** Standalone, screenshotted, frame rate measured
   under load, verdict recorded in `DIRECTION.md`. Platform-independent.
 - **Three states.** The names change — on Apple platforms, Reduce Transparency and Increase
-  Contrast join reduced motion as designed states (§4) — but the rule that a technique with one
-  state is unfinished does not.
+  Contrast join reduced motion as designed states (§4 above) — but the rule that a technique
+  with one state is unfinished does not.
 - **The two-tier budget.** A shell that paints something real on its own, and heavy work that
   loads after. The units change; the boundary does not.
 - **Name what the technique teaches.** A technique that carries no argument about the subject is

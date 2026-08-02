@@ -9,7 +9,7 @@ ok()   { printf '  ok: %s\n' "$1"; }
 echo "== placeholder scan =="
 # The deep-research harness once returned a literal "test claim" / example.com
 # stub that passed schema validation. Never let that reach a shipped file.
-HITS=$(grep -rniE 'example\.com|\bTBD\b|\bTODO\b|Lorem ipsum|test claim|FIXME|XXX' \
+HITS=$(grep -rniE 'example\.com|\bTBD\b|\bTODO\b|Lorem ipsum|test claim|FIXME|\bXXX\b' \
   --include='*.md' --include='*.json' --include='*.mdc' . \
   2>/dev/null | grep -v '^\./docs/' | grep -v '^\./\.git' | grep -v '^\./\.superpowers/' || true)
 if [ -n "$HITS" ]; then fail "placeholder text in shipped files:"; echo "$HITS" | sed 's/^/    /'
