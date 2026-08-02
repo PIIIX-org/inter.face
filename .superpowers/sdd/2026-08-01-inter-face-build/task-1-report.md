@@ -245,3 +245,93 @@ positives, training readers to ignore real FAILs.
 ```
 
 SHA: `5b19354`
+
+---
+
+## Task 1 Fix Report #2: Apple Numbers Pairing Check
+
+### Issue Identified
+
+The fix for the Apple numbers check still contained a bug: the `||` fallback reintroduced the substring-anywhere flaw.
+
+**Original buggy fix:**
+```bash
+if grep -qE '(44.*28|28.*44)' SURFACES.md || (grep -q '44×44\|44pt' SURFACES.md && grep -q '28×28\|28pt' SURFACES.md); then
+```
+
+The first branch `(44.*28|28.*44)` is correct — it requires both on the same line. But the fallback still allowed independent substrings: a file stating "Apple's minimum tap target is 44pt" in one place and "caption line-height is 28pt" unrelated elsewhere would pass.
+
+### Root Cause
+
+The `||` (OR) operator means only one branch needs to succeed. The fallback used `grep -q '44pt'` and `grep -q '28pt'`, which check for those substrings anywhere in the file independently — the exact flaw the original check was meant to prevent.
+
+### Solution
+
+Delete the `||` fallback entirely. Keep only the same-line requirement.
+
+**Fixed:**
+```bash
+if grep -qE '(44.*28|28.*44)' SURFACES.md; then
+```
+
+This enforces that 44 and 28 **must appear on the same line**. If a future `SURFACES.md` legitimately needs the pair on separate lines, that is the check working correctly — the right response is to state the pair on one line, which is better writing anyway.
+
+### Verification Tests
+
+#### Test 1: Myth text with unrelated 28pt → FAIL
+Created SURFACES.md with:
+```markdown
+Apple's minimum tap target is 44pt (this is the myth).
+
+The caption line-height is 28pt.
+```
+
+Script output:
+```
+== Apple numbers ship as pairs ==
+  FAIL: SURFACES.md must carry 44pt default AND 28pt minimum, never 44 alone
+```
+
+**Result:** PASS ✓ — myth text is correctly rejected
+
+#### Test 2: Proper pair on one line → PASS
+Created SURFACES.md with:
+```markdown
+Apple tap targets: 44×44 pt default, 28×28 pt minimum for compressed layouts.
+```
+
+Script output:
+```
+== Apple numbers ship as pairs ==
+  ok: SURFACES.md carries default AND minimum
+```
+
+**Result:** PASS ✓ — proper pairing is accepted
+
+#### Test 3: Real repo tree → FAIL as missing
+Removed SURFACES.md:
+
+Script output:
+```
+== Apple numbers ship as pairs ==
+  FAIL: SURFACES.md missing
+```
+
+**Result:** PASS ✓ — missing file is correctly reported
+
+### Commit
+
+```
+commit 437b043...
+Fix Apple numbers check to require same-line pairing only
+
+Remove the || fallback that still allowed independent substrings.
+The regex (44.*28|28.*44) correctly requires both numbers on the
+same line. The previous fallback to '44×44\|44pt' and '28×28\|28pt'
+checking independently reintroduced the bug: a file claiming
+'Apple's minimum tap target is 44pt' elsewhere and '28pt' unrelated
+would still pass. Delete the fallback entirely — same-line requirement
+only, which also encourages better writing.
+```
+
+SHA: `437b043`
