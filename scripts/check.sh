@@ -59,7 +59,7 @@ done
 
 echo "== Apple numbers ship as pairs =="
 if [ -f SURFACES.md ]; then
-  if grep -qE '(44.*28|28.*44)' SURFACES.md || (grep -q '44×44\|44pt' SURFACES.md && grep -q '28×28\|28pt' SURFACES.md); then
+  if grep -qE '(44.*28|28.*44)' SURFACES.md; then
     ok "SURFACES.md carries default AND minimum"
   else fail "SURFACES.md must carry 44pt default AND 28pt minimum, never 44 alone"; fi
 else fail "SURFACES.md missing"; fi
