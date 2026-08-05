@@ -306,6 +306,20 @@ as the stated direction. There, sameness is the design and this check would be a
 the brief. Say out loud that it was suspended and why, so a later reader does not read a
 uniform set as an oversight.
 
+**Suspended on a tool-shaped set — all three criteria, not only the background one.** Each of
+the three fires on a compliant console: nine screens honestly log `flat-surface` throughout,
+`dense-grid` is the *correct* anchor for consecutive table screens, and a dashboard carrying a
+full-bleed treatment somewhere in it has a defect rather than a range. All three were derived
+from a page-shaped scroll, where varying the opening move is the job; a screen inventory keyed
+to tasks is not that object. The paragraph below still binds in full, and the distinctness
+burden sits where §7 above already put it — on the swap test and the family pass, which for
+this class swap the screen title, the primary action's label, and the empty state's copy. Say
+out loud that the three were suspended, the same as for a minimal brief.
+
+Where a tool-shaped run has genuinely page-shaped surfaces in it — a marketing-adjacent
+landing, an onboarding sequence, a teaching empty state — run all three across those, as their
+own subset.
+
 Also check what the set does *not* vary: **within one concept**, palette, type hierarchy,
 component family, and surface treatment stay identical across every image. Composition,
 emphasis, and visual tempo are where variation belongs. A set that varies the palette has not

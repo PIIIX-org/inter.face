@@ -147,4 +147,8 @@ same agent that assigned them — which makes an honest `cut` harder, because yo
 grading your own assignment. Run the verdict against the measured number, not against how
 much work the prototype took.
 
+It binds in the other direction too. On a harness that grants every tool regardless of what
+the frontmatter says, treat `tools:` as an instruction rather than a fence: still no
+re-deriving Loop 1's files, still no building the real surface, still no vendoring.
+
 The gate does not degrade. Whatever the harness, Gate B is the human's.

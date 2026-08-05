@@ -100,10 +100,20 @@ quietly drops an item on that list has not been proposed, it has been mis-scoped
    and background-mode logs. No worker can run it — none of them can see its neighbors.
    Reject and regenerate the offending surfaces if the same composition anchor repeats more
    than twice in a row, the same background mode repeats more than three times in a row, or
-   no full-bleed treatment appears anywhere. Suspended for a deliberately minimal brief;
-   say out loud that it was suspended and why. Then check what the set does *not* vary:
-   within one concept, palette, type hierarchy, component family, and surface treatment are
-   identical across every image.
+   no full-bleed treatment appears anywhere.
+
+   **All three are suspended for a deliberately minimal brief, and all three are suspended on
+   a tool-shaped set.** Each fires on a compliant console: nine screens honestly log
+   `flat-surface` throughout, `dense-grid` is the correct anchor for consecutive table
+   screens, and a dashboard with a full-bleed treatment in it has a defect rather than a
+   range. Say out loud that they were suspended and why. The distinctness burden then sits
+   where step 7 above already put it, on the swap test and the family pass. Genuinely
+   page-shaped surfaces inside a tool-shaped run — a landing, an onboarding sequence, a
+   teaching empty state — get all three run across them as their own subset.
+
+   Then check what the set does *not* vary, which is **never suspended**: within one concept,
+   palette, type hierarchy, component family, and surface treatment are identical across every
+   image.
 
 ## What you return
 
@@ -152,5 +162,9 @@ budget discipline above becomes a manual one — read the named sections, not th
 the set-level check, which existed because no worker sees its neighbors, becomes a check you
 run against your own earlier output, which is harder to be honest about; run it anyway,
 against the logged tokens rather than your memory of the images.
+
+It binds in the other direction too. On a harness that grants every tool regardless of what
+the frontmatter says, treat `tools:` as an instruction rather than a fence: still no `CRAFT.md`,
+still no code, still no Loop 2.
 
 The gate does not degrade. Whatever the harness, Gate A is the human's.

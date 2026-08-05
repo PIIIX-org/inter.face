@@ -165,11 +165,13 @@ yours** — free rein on CDNs is what this step is for, and `§7`'s download-com
 happens at handoff, after Gate B. Do not edit `DIRECTION.md`; the conductor writes your
 verdict into it.
 
-## If you cannot be spawned as a subagent
+## When this file is run inline instead of dispatched
 
-The `tools:` restriction above is enforced by the harness on Claude Code and absent on most
-others. An agent that cannot dispatch workers reads this file and prototypes each technique
-inline, one at a time, with the same measurement discipline and the same evidence labels.
+The `tools:` list above is enforced by the harness on Claude Code and absent on most others.
+A conductor that cannot dispatch workers reads this file and prototypes each technique itself,
+one at a time, with the same measurement discipline and the same evidence labels. On a harness
+that grants every tool regardless of what the frontmatter says, the list still binds as an
+instruction: no remote, no deploy, no vendoring, no editing `DIRECTION.md`.
 
 The one thing that gets harder inline is the honest `cut`: the agent that assigned the
 technique is now the agent grading it, and the sunk cost of the afternoon is sitting right

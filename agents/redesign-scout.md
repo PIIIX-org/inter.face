@@ -134,3 +134,7 @@ extraction output lands in the session that holds the gates, so summarize aggres
 code is not the rendered system — it names what was intended, which is the exact failure
 this step exists to correct. Reporting it as a DOM extraction is a fabricated finding. Label
 it as a source read, or return the gap.
+
+The list binds in the other direction too. On a harness that grants every tool regardless of
+what the frontmatter says, treat `tools:` as an instruction rather than a fence: still no
+fixing, still no `DIRECTION.md`, still no taking the fork.
