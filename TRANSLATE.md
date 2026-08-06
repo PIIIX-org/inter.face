@@ -115,6 +115,13 @@ category-typical family — the exact outcome anti-positioning exists to rule ou
 load-bearing brand element that has to survive this run. Also where an existing design system
 the subject must conform to — GOV.UK, Material, a corporate DS — gets named.
 
+**The accent is a required field, not an optional extra.** Fill it with the sampled accent
+hex, or with the explicit sentence "none exists — an accent will be chosen and justified in
+Loop 1" — never with silence, because a row that lists the substrate colors and stops before
+the accent reads downstream as "no accent owned," even when the subject's own CSS declares
+one with a contrast comment attached. And the row is a summary either way: Loop 1 re-samples
+the source itself rather than trusting this table.
+
 **Derives.** `PRINCIPLES.md` `§6` reads this row for whether a color already exists to sample
 from reality or needs a deliberate, defended invention instead. On a redesign, `REDESIGN.md`'s
 reposition path reads it to answer "what is load-bearing and must survive" — the question a
@@ -174,6 +181,12 @@ moment — deciding (page-shaped) or working (tool-shaped). Two viewers with gen
 different decisions is the row 1 disagreement wearing a different hat: probably two
 surfaces.
 
+One answer is legitimately that general: the identity portfolio, where the subject says the
+surface is just for them, with no objective. Viewer "anyone", decision "an accurate read of
+who this person is" — that is a filled row, not an unfinished one. The decision is real and
+an inaccurate read is its failure mode; the 90-day push has nothing further to extract
+there, so stop pushing rather than inventing a funnel.
+
 ### Deriving row 3 — the three-second feel
 
 The method is already in the row. Row 3 above ships as a forcing question; ask it verbatim,
@@ -193,7 +206,9 @@ Work from the subject's own words instead:
 
 1. Ask for **five sentences they have actually said about the work** — to a customer, in a
    README, in the email that closed their last deal. Said, not would say; aspiration is
-   what the lookup table produces, and this step exists to get underneath it.
+   what the lookup table produces, and this step exists to get underneath it. A refusal to
+   answer is itself an answer — a subject who declines because they do not praise their own
+   work has just stated a stance; extract it from the refusal.
 2. **Pull the recurring stance.** The posture that shows up in three of the five sentences
    — precision, defiance, patience, appetite — is the archetype. Two or three words,
    quoted or near-quoted from their own phrasing, not synthesized into marketing language.
@@ -221,7 +236,11 @@ row is still empty, so probe again with directions further apart.
 
 This row is an audit, not an interview: the logo file as shipped, the colors actually in
 production rather than the ones in the brand PDF, the typeface the last three real things
-were set in, any design system the subject is bound to. For a surface that already exists,
+were set in, any design system the subject is bound to. For owned type the audit enumerates
+the actual `@font-face` declarations — families, weights, and styles as the files declare
+them, never the family name alone. A type scale written against weights the files do not
+hold renders in whatever the browser substitutes, and the standard font-loading check will
+not report the gap. For a surface that already exists,
 `REDESIGN.md`'s extraction step does this mechanically — its queries return the fonts
 really in use and the palette ranked by occurrence, which is this row measured instead of
 remembered.

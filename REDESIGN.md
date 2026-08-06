@@ -84,6 +84,11 @@ Object.entries([...document.querySelectorAll('*')].flatMap(e => { const s = getC
   .filter(([, r]) => r.width < 44 || r.height < 44)
 ```
 
+**The queries assume a rendered site; local source without one changes the tool, not the
+step.** When no live URL exists but the source does, grep the source instead — custom
+properties for the palette, `@font-face` for the type — and skip the browser; there is no
+DOM to ask, and the stylesheet the subject actually wrote is the shipped record here.
+
 **The border gate in the palette query is load-bearing.** `borderTopColor` computes to the
 element's own `color` whenever no border is set, which is nearly every element on a page —
 ungated, it double-counts every text color and body text out-ranks the page background even
