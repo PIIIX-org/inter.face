@@ -26,13 +26,13 @@ Nothing else until §3 sends you there.
 
 ## 3. The phase routing table
 
-The corpus is **5,329 lines** across eleven reference files. An agent that reads it before
+The corpus is **5,435 lines** across eleven reference files. An agent that reads it before
 deciding anything has spent the context the decisions needed. Read by phase.
 
 | Phase | Core — always | Conditional — read only if the condition holds |
 |---|---|---|
-| **Scout** (brownfield only) | [`REDESIGN.md`](./REDESIGN.md) 326 | — |
-| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 172 · [`TRANSLATE.md`](./TRANSLATE.md) 141 · [`STYLES.md`](./STYLES.md) 687 · [`loops/01-direction.md`](./loops/01-direction.md) 409 · **`ACCESS.md` §13 only** — 45 of 1,357 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 249 of 558 **if native** · `CURRENT.md` **if reposition** |
+| **Scout** (brownfield only) | [`REDESIGN.md`](./REDESIGN.md) 326 · `TRANSLATE.md` rows 1 and 6 · `STYLES.md`'s family sections, for positioning only · **`SURFACES.md` §2**, to adjudicate the target sweep | `TOOLS.md` §4 **if tool-shaped** — what the nine data states owe, so the absence sweep knows what it is looking for |
+| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 172 · [`TRANSLATE.md`](./TRANSLATE.md) 247 · [`STYLES.md`](./STYLES.md) 687 · [`loops/01-direction.md`](./loops/01-direction.md) 409 · **`ACCESS.md` §13 only** — 45 of 1,357 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 249 of 558 **if this surface runs on a phone or a tablet** — platform mode has three branches and `cross-platform-neutral` is one of them, so a responsive mobile web surface owes §1 too · `CURRENT.md` **if reposition** |
 | **Gate A** | the returned package. Nothing new is read at a gate | — |
 | **Loop 2 · craft** | [`CRAFT.md`](./CRAFT.md) 704 · [`loops/02-craft.md`](./loops/02-craft.md) 363 | [`TOOLS.md`](./TOOLS.md) **if tool-shaped** · [`BREAKING.md`](./BREAKING.md) 339 **only when a rule is actually being broken** |
 | **Gate B** | the returned package | — |
@@ -43,17 +43,24 @@ Loop 2 does not re-open `PRINCIPLES.md`, `STYLES.md`, `ACCESS.md`, `SURFACES.md`
 decision gets quietly overturned. A genuine gap there is a **finding about Loop 1**, reported
 as one, not filled in silently.
 
-**Section-level entry exists for exactly two files.** `ACCESS.md` §13 is the Loop 1 decision
-list — thirteen rows both classes owe, six more tool-shaped, four more native — and you follow
-a row's *where it binds* pointer into the body only when you cannot answer the row without it.
-`SURFACES.md` §1–§3 is platform mode, the four target numbers, and type scaling. Every other
-file loads whole. **Over-splitting is its own failure**: one extra file-read hop costs more
-than 500 resident lines, which is why the corpus is eleven files and not forty.
+**Two files carry a follow-the-pointer escape at section entry.**
+`ACCESS.md` §13 is the Loop 1 decision list — thirteen rows both classes owe, six more
+tool-shaped, four more native — and you follow a row's *where it binds* pointer into the body
+only when you cannot answer the row without it. `SURFACES.md` §1–§3 is platform mode, the four
+target numbers, and type scaling; follow §1's own pointers into **§4** (Liquid Glass, on
+iOS-native) and **§5** (the breakpoint and pane-count table `STYLES.md` promises, on tablet or
+desktop) where they bind. Every other file is read by the sections its phase's reading list
+names — both conductors read `TOOLS.md` and `CRAFT.md` by named section — or entered whole and
+read by name inside it: `STYLES.md`'s seven family sections are a reference you consult, not a
+list you read through, and `CRAFT.md` gives up the one or two arsenal groups you are assigning
+from, not all nine.
+**Over-splitting is its own failure**: one extra file-read hop costs more than 500 resident
+lines, which is why the corpus is eleven files and not forty.
 
-**Worked example — page-shaped, web, Loop 1.** This file 200 + `PRINCIPLES.md` 172 +
-`TRANSLATE.md` 141 + `STYLES.md` 687 + `loops/01-direction.md` 409 + `ACCESS.md` §13 45 =
-**~1,650 lines**, not 5,329. `TOOLS.md`, `SURFACES.md`, `REDESIGN.md`, `BREAKING.md`, and 1,312
-lines of `ACCESS.md` never load. The same run's Loop 2 is 200 + 704 + 363 = **~1,270**.
+**Worked example — page-shaped, web, Loop 1.** This file 194 + `PRINCIPLES.md` 172 +
+`TRANSLATE.md` 247 + `STYLES.md` 687 + `loops/01-direction.md` 409 + `ACCESS.md` §13 45 =
+**~1,750 lines**, not 5,435. `TOOLS.md`, `SURFACES.md`, `REDESIGN.md`, `BREAKING.md`, and 1,312
+lines of `ACCESS.md` never load. The same run's Loop 2 is 194 + 704 + 363 = **~1,260**.
 
 **The honest ceiling.** Nothing in markdown can stop an agent reading everything. What this
 protocol does is make the right path cheap and the wrong path visibly wasteful. An agent that
@@ -63,7 +70,8 @@ to use it.
 ## 4. Where everything is written
 
 One run per **surface**, not per product. `<slug>` is that surface, kebab-cased —
-`acme-marketing` and `acme-console` are two runs.
+`acme-marketing` and `acme-console` are two runs. `runs/` lives in the invoking project's
+working directory, never in the plugin's install directory.
 
 ```text
 runs/<slug>/
@@ -81,9 +89,9 @@ runs/<slug>/
 `<concept>` is the family-pass label from `loops/01-direction.md` §7 — *exhibition*, *cockpit*
 — so the three renders of one surface never collide. `<NN>` is surface order, zero-padded.
 
-**`SKIPS.md`** is the ledger: one row per `§16` deferral — *decision needed · if deferred, what
-happens* — appended at each gate, never rewritten. `DIRECTION.md` carries the same rows for
-whatever affects the build. A skip is a decision recorded with its cost; silence is not a skip.
+`§16` records every deferral in `DIRECTION.md` as a decision — *decision needed · if deferred,
+what happens* — and `DIRECTION.md` carries every row. **`SKIPS.md`** is the run-level
+append-only copy: appended at each gate, never rewritten. Silence is not a skip.
 
 Dispatches carry absolute paths built from this layout. Every agent writes where its dispatch
 says, and this section is what the dispatch says.
@@ -106,7 +114,8 @@ not satisfied. Three rejections at one gate means `TRANSLATE.md` is wrong, not t
 internal tool. Set once per surface by `TRANSLATE.md` row 1, before anything else, with no safe
 default. It decides which half of every reference file applies — `STYLES.md`, `CRAFT.md`,
 `TOOLS.md`, `SURFACES.md`, `ACCESS.md`, `REDESIGN.md`, and `BREAKING.md` each open with the
-fork — the state set owed (3 render states, or `TOOLS.md`'s 9 data states), the image aspect
+fork — the state set owed (3 render states and, crossed, `TOOLS.md`'s 9 data states where both
+apply — a tool-shaped surface carrying motion owes both sets), the image aspect
 ratio, and whether `§15` binds **[HARD]** or as `§10`'s ordinary keyboard reachability.
 
 ## 7. The three hard rules
