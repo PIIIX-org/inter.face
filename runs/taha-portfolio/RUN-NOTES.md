@@ -28,3 +28,4 @@
 - Session boundary destroyed all 7 worker reports; verdicts reconstructed from disk artifacts. Observation 11 (write verdicts BESIDE the prototype, not only in return messages) is now proven twice in one run.
 - Loop 2 corrected Loop 1 twice by measurement: focus-ring flip failed (paper-on-coral 2.59:1, asserted never measured) -> mode field colour 4.81/4.78; disabled token was absent -> filled from the drawing's own logic. All 13 other ratios and 7 OKLCH values reproduced exactly.
 - Budget: tier 1 ~79KB vs 100KB ceiling, paints with no JS (proven by JS-off screenshots). Tier 2 = 0, declared. Fixing the font weights adds ~40.5KB -> OVER ceiling -> Latin subsetting mandatory, not optional.
+- Gate B presented as a coded artifact with the two prototypes embedded LIVE (iframe srcdoc, fonts injected as data URIs) — the reviewer scrolls the actual draw-on, not a screenshot of it. Second gate on the coded medium; the pattern holds.
