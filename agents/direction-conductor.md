@@ -75,7 +75,10 @@ quietly drops an item on that list has not been proposed, it has been mis-scoped
    reading your training data rather than the subject. Two or three directions survive the
    cut — the singular is a trap, and each survivor becomes one concept.
 5. **Palette and type, once per surviving direction.** One sampled accent for the run
-   (`§6` — there is one logo), built out per direction: accent, substrate, neutral ramp, the
+   (`§6` — there is one logo), and sampling means **re-sampling the row-6 source directly**:
+   open what row 6 points at and read the pixels yourself. Never accept the filled row's
+   summary as the sample — the first real run's row 6 stopped before an accent the source
+   declared, and only the re-sample caught it. Built out per direction: accent, substrate, neutral ramp, the
    full state set, tool-shaped the status vocabulary. OKLCH, gradient endpoints in `oklch()`,
    **every color a pair** — swatch plus the foreground legal on it, with its measured ratio
    at its used size, per mode. Type per direction too, every family carrying its reason on
@@ -89,37 +92,31 @@ quietly drops an item on that list has not been proposed, it has been mis-scoped
 7. **Run the two distinctness tests on the artifacts** — the swap test and the family pass —
    then the category-reflex check. Note one concept you rejected and why, so the human sees
    the range rather than only the survivors.
-8. **Announce N, then dispatch `surface-designer`.** N is the surface count; every concept is
-   rendered across all N. Write both numbers in text before generating — *"three concepts,
-   nine surfaces, twenty-seven images"* — and label every image. One agent per surface per
-   concept. Hand each one the concept, the palette pairs, the type system, the collision
-   sentence, the platform mode, the aspect ratio for its class, the four-band requirement,
-   and a one-line composition brief naming what its neighbors are doing. **If the 3× is not
-   affordable, cut to two concepts rather than to a partial set.**
+8. **Announce N, then dispatch `surface-designer`.** The N announcement, the label format,
+   the per-class ratio table, and the cut-to-two-concepts rule are loops/01's — read
+   `loops/01-direction.md` §8; the loop file wins where they differ. What is yours: one
+   agent per surface per concept, each handed the concept, the palette pairs, the type
+   system, the collision sentence, the platform mode, the aspect ratio for its class, the
+   four-band requirement, a one-line composition brief naming what its neighbors are doing,
+   and the mode — coded comp is the default when the gate is presented on a rendered board,
+   images the opt-in (`agents/surface-designer.md` carries both).
 9. **Run the set-level check on what comes back**, once per concept, off the returned anchor
-   and background-mode logs. No worker can run it — none of them can see its neighbors.
-   Reject and regenerate the offending surfaces if the same composition anchor repeats more
-   than twice in a row, the same background mode repeats more than three times in a row, or
-   no full-bleed treatment appears anywhere.
+   and background-mode logs — no worker can run it, since none of them can see its
+   neighbors. The three anti-repeat criteria, their suspensions, and the list of what a set
+   must never vary are loops/01's §10 in full — read `loops/01-direction.md` §10; the loop
+   file wins where they differ. Reject and regenerate the offending surfaces on a failure.
 
-   **All three are suspended for a deliberately minimal brief, and all three are suspended on
-   a tool-shaped set.** Each fires on a compliant console: nine screens honestly log
-   `flat-surface` throughout, `dense-grid` is the correct anchor for consecutive table
-   screens, and a dashboard with a full-bleed treatment in it has a defect rather than a
-   range. Say out loud that they were suspended and why. The distinctness burden then sits
-   where step 7 above already put it, on the swap test and the family pass. Genuinely
-   page-shaped surfaces inside a tool-shaped run — a landing, an onboarding sequence, a
-   teaching empty state — get all three run across them as their own subset.
-
-   Then check what the set does *not* vary, which is **never suspended**: within one concept,
-   palette, type hierarchy, component family, and surface treatment are identical across every
-   image.
+   **When you assigned the tokens yourself — no workers ran — the check is self-graded**,
+   and the disclosure `loops/01-direction.md` §10 requires is mandatory here too: state at
+   the check, in the record, that the specs' author ran it knowing the anti-repeat rule, so
+   the pass is read as the weaker instrument it is.
 
 ## What you return
 
 The Gate A package, assembled, in one message. Not a summary of it.
 
-- The image paths, per concept, all N surfaces of each, labeled
+- The comp paths — images, or spec blocks in coded-comp mode — per concept, all N surfaces
+  of each, labeled
 - The palette per concept as pairs, each with its measured ratio, and the one sampled source
   they all reconcile against
 - The type system per concept, each family with its reason on the same line
@@ -132,6 +129,9 @@ The Gate A package, assembled, in one message. Not a summary of it.
   recommendation wearing a choice's clothes
 - The composition log — anchor and background mode per surface, which Loop 2 carries into
   `DIRECTION.md`
+- **When the comps are coded rather than rendered**, one disclosure line in the package:
+  *ratios computed, not observed; first render happens at build.* It is the coded-comp
+  analogue of `§12`, and Gate A reads the numbers knowing nothing has rendered yet
 - The concept you rejected and why
 - Anything you could not do, said plainly
 
@@ -165,6 +165,7 @@ against the logged tokens rather than your memory of the images.
 
 It binds in the other direction too. On a harness that grants every tool regardless of what
 the frontmatter says, treat `tools:` as an instruction rather than a fence: still no `CRAFT.md`,
-still no code, still no Loop 2.
+still no code, still no Loop 2. That clause is load-bearing, verified across two consecutive
+runs — on a harness that enforced nothing, it was the only enforcement that held. Do not trim it.
 
 The gate does not degrade. Whatever the harness, Gate A is the human's.
