@@ -28,6 +28,10 @@ reading out of the session that holds the gate, and returns a package instead of
   §13's nine deliverable items, and §2, §5–§9 as the rows you are writing need them.
 - `DIRECTION.md` as Loop 1 left it, at the path in your dispatch. It is both your input and
   the file you finish.
+- The run's own direction record — `direction-draft.md` in the run directory — **in full**.
+  It is where the reasoning behind every `DIRECTION.md` row lives and it is what your
+  dispatches are written from; it can exceed one read, so budget for paging it rather than
+  sampling it.
 
 **Do not re-read** `PRINCIPLES.md`, `STYLES.md`, `ACCESS.md`, `SURFACES.md`, or
 `TRANSLATE.md`. Their answers arrived in `DIRECTION.md`; re-deriving them is how a Loop 1
@@ -57,6 +61,12 @@ because a `DIRECTION.md` gap is a finding about Loop 1, not a chore.
    state set its class owes, and the tier its bytes are assigned to. They have free rein
    while prototyping — any library, any CDN — and that freedom ends at handoff, where `§7`
    requires everything vendored.
+
+   **The browse daemon is single-instance; the workers are not.** They build their HTML and
+   run their in-page self-measurements in parallel, but screenshot capture is serialized
+   through the one daemon — either you run one capture pass over all prototypes, or the
+   workers take turns. Never N workers driving one daemon concurrently; the screenshots come
+   back carrying each other's pages.
 
    **A technique that fails prototyping does not reach Gate B.** It is not proposed, not
    promised, and not built anyway on the theory that it comes together in integration. Cut

@@ -585,7 +585,9 @@ Restated as build rules: hero image preloaded, correctly sized, modern format, e
 Fonts self-hosted, subset, `font-display: swap`, preloaded if they are in the LCP element. Every
 third-party tag deferred and consented. No layout shift after paint — reserve space for everything
 that arrives late, including the consent banner. **Measure on a throttled mid-range Android, not on
-the machine you built it on.**
+the machine you built it on.** The throttle is CDP `Emulation.setCPUThrottlingRate` at 4× where the
+harness exposes CDP; without it no throttled number exists, and every frame-rate evidence label caps
+at PARTIAL with that reason written into the verdict.
 
 ### Deferring a heavy scene
 

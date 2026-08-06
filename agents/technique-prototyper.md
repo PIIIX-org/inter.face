@@ -57,6 +57,16 @@ Do not read the rest of the corpus. The design decisions were made two gates ago
    like it does, and a technique that works on gray boxes and fails on the actual type is a
    technique that failed.
 
+   **The stand-in rule, hard.** A prototype may use a stand-in for any asset you were not
+   handed — a product screen, a photograph — and it may never make a provenance claim about
+   one. Any asset you did not receive is labeled generated, in the prototype itself, so the
+   label ships with the pixels. Stand-in prose carries no factual claims — no numbers, no
+   dates, no events; it is structure-only placeholder, because Loop 3 owns all real copy and
+   an invented fact written in-register reads downstream as a fact about the subject.
+   `CRAFT.md`'s integrity boundary — never fake a screen that implies a feature that does not
+   exist — lives in an arsenal group you are told not to read, which is why it is restated
+   here. Breaking it is a cut.
+
 4. **Build every state the surface class owes**, in the same file, switched by query string so
    each one is screenshotable.
 
@@ -82,10 +92,17 @@ Do not read the rest of the corpus. The design decisions were made two gates ago
 
 5. **Instrument the frame rate inside the page.** Sample `requestAnimationFrame` over ten
    seconds under the heaviest load this surface will ever see, and paint the median and the 1%
-   low into a fixed readout in a corner. The screenshot then carries the number, which is the
-   difference between a measurement and a claim about one. Measure **throttled as well as
-   unthrottled** — a 4× or 6× CPU throttle is the mid-range Android the budget is actually
-   for — and record the viewport and the machine alongside every figure.
+   low into a fixed readout in a corner. Paint it because the screenshot then carries the
+   number and the number survives you — a return message dies with the session, and a painted
+   readout is what lets a verdict be reconstructed from the frames alone. Measure **throttled
+   as well as unthrottled** — the instrument is CDP `Emulation.setCPUThrottlingRate` at 4×,
+   the mid-range Android the budget is actually for, where the harness exposes CDP — and
+   record the viewport and the machine alongside every figure. Where no CDP is reachable, no
+   throttled number exists: the evidence label caps at **PARTIAL**, with the cap's reason
+   written into the verdict. Do not substitute a synthetic main-thread burn for the throttle —
+   a burn that fits inside the frame budget moves nothing, so it reads as a throttle while
+   measuring nothing. The honest fallback claim is *low risk by construction* — tier-1
+   CSS/SVG, no render loop — which is a stated claim, not a measured one.
 
    On a tool-shaped surface, measure the cost that repeats: an unthrottled always-on render
    loop drains a laptop for eight hours a day and undoes every other performance decision in
@@ -104,6 +121,10 @@ Do not read the rest of the corpus. The design decisions were made two gates ago
    working width and the narrowest width the tool supports for a tool-shaped one. **A
    technique that holds at 1440 and dies on a phone has failed.** Read the images back and
    look at them; a state you rendered but never viewed was never tested.
+
+   If your proof reads pixels back (`getImageData`), serve the prototype over HTTP —
+   `python3 -m http.server` — because `file://` taints the canvas and the read throws a
+   `SecurityError`.
 
 ## The verdict
 
@@ -146,6 +167,10 @@ The conductor cannot check your work by re-running it, and neither can the human
 The evidence label is the only thing carrying that distinction, and it is load-bearing.
 
 ## What you return
+
+**First, to disk:** the verdict, its evidence label, and the measurements are written to
+`<name>.verdict.md` beside the prototype before you return — a return message dies with the
+session; the file beside the prototype does not. The return message summarizes that file:
 
 - The prototype path
 - The screenshot paths, per state, with viewport and machine

@@ -9,6 +9,9 @@ decisions to make.
 **Output:** `DIRECTION.md`, complete. `tokens.json` alongside it. One runnable prototype per
 technique, each with a measured verdict. A signed Gate B.
 
+**Timekeeping:** run `date` at each phase boundary and write it into the run ledger — a
+subagent has no clock of its own.
+
 ```text
 1 assign ──► 2 prototype ──► 3 motion ──► 4 budget ──► 5 DIRECTION.md ──► Gate B
 technique     one agent      curves,      two tiers,   + 6 tokens.json     human
