@@ -1283,6 +1283,11 @@ in April 2026.
 
 This is the output. It runs in `loops/01-direction.md` and lands in `DIRECTION.md` before an image
 is generated. A skipped row is recorded as a decision with its cost, per `§16` — never as silence.
+A row whose surface does not exist in the run — no login, so no authentication path to decide — is
+recorded as **N/A with the reason**, which is distinct from a deferral: a deferral names a cost,
+and a cost for a surface that does not exist would be a fabrication. Rows marked **⑂** fork per
+concept — sticky chrome, the still frame, and the ring's backgrounds all change with the concept,
+so each concept answers them itself; unmarked rows have one answer per run.
 
 **Both surface classes:**
 
@@ -1291,14 +1296,14 @@ is generated. A skipped row is recorded as a decision with its cost, per `§16` 
 | 1 | Target size route: size, or the spacing exception with its 24 px centre-to-centre geometry | §2 above; spacing unit enters the scale |
 | 2 | Contrast boundary — the web's 18 px / 14 pt bold, or Apple's 17 pt — stated, not assumed | §3 above |
 | 3 | Whether the sampled brand accent can carry body text, a 3:1 graphical role, or neither | §3 above; constrains `§6` |
-| 4 | The focus indicator, drawn — on every background it can land on, light and dark | §6 above |
-| 5 | Sticky chrome geometry: reserved layout space, or modal, or none | 2.4.11, §2 above |
+| 4 | ⑂ The focus indicator, drawn — with its ratio measured on every background it can land on, light and dark, including the accent itself, the background most likely to break it | §6 above |
+| 5 | ⑂ Sticky chrome geometry: reserved layout space, or modal, or none | 2.4.11, §2 above |
 | 6 | Every author-built drag gets a visible non-drag affordance, in the comp | 2.5.7, §2 above |
 | 7 | Authentication path: the Alternative that makes 3.3.8 conform; paste and password managers unblocked | 3.3.8, §2 above |
 | 8 | Help's fixed slot in the global template | 3.2.6, §2 above |
 | 9 | Landmark map and heading outline — separate from the type scale | §9 above |
 | 10 | The accessible name for every icon-only control, written as the actual string | §8 above |
-| 11 | Reduced-motion still frame, art-directed | `§10` |
+| 11 | ⑂ Reduced-motion still frame, art-directed | `§10` |
 | 12 | Script, direction, and the expansion budget on the tightest string in the design | §11 above |
 | 13 | Where focus goes on route change, and on the removal of the focused element | §6 above |
 
