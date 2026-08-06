@@ -186,8 +186,8 @@ and it has nothing in between. Every computed value is written out below, in bot
 | sheet title (h1) | `clamp(2.5rem, 5vw, 4.5rem)` | 40 → 72 | 700 | 1.0 | 0.02em | caps | — |
 | drawing lettering (h2) | 1.125rem | 18 | 500 | 1.2 | 0.16em | caps | — |
 | title-block field | 0.8125rem | 13 | 600 | 1.3 | 0.08em | caps | — |
-| dimension micro | 0.75rem | 12 | 400 | 1.1 | 0.1em | caps, **tabular** | — |
-| note / body | 1.0625rem | 17 | 400 | 1.65 | 0 | sentence | **60ch** |
+| dimension micro | 0.75rem | 12 | **500** (per Gate B ruling) | 1.1 | 0.1em | caps, **tabular** | — |
+| note / body | 1.0625rem | 17 | **500** (per Gate B ruling; renders from the 500 file) | 1.65 | 0 | sentence | **60ch** |
 | redline | 1rem | 16 | 500 *italic* | 1.4 | 0.01em | sentence | — |
 
 **Variable axes:** none. Cabinet Grotesk is shipped here as static instances, so `CRAFT.md`'s
@@ -371,7 +371,7 @@ grid; the concept has no card anywhere.
 
 | Column | Width (≥1024) | Type | Alignment |
 |---|---|---|---|
-| `MARK` | 96px | 13px / 400 / **tabular** | left |
+| `MARK` | 96px | 13px / 500 / **tabular** | left |
 | `DESCRIPTION` | fluid, min 280px | 15px / 400 | left |
 | `SCALE` | 120px | 13px / 400 / **tabular** | left |
 | `REV` | 72px | 13px / 400 / **tabular**, **the only column carrying the redline** | right |
@@ -855,3 +855,24 @@ default.**
 Three things in this file are not preferences and are not negotiable at build time: **RISK 4's
 accent-placement table** (§5), **the reduced-motion still** (§19, `§10` is [HARD]), and **the
 focus-ring flip correction** (§21), which failed measurement once already.
+
+---
+
+## GATE B — SIGNED, 2026-08-06
+
+All four rulings by the subject, recorded verbatim in intent:
+
+1. **Technique set approved as returned:** 6 ship / 1 cut (T5 cut on integrity — the
+   fabricated asset ships nowhere). No-technique verdicts on S2/S6 stand.
+2. **Weight question, ruling (a):** the 500/700 rendering IS the design. The type scale
+   below is respecced to name the weights that actually render: body and micro at **500**
+   (was written 400), semibold roles at **700** (was written 600), and the redline slants
+   via **synthesized oblique, declared as such** — no italic file exists and none is
+   sourced. What the subject approved at both gates is what ships.
+3. **T2's caveat accepted:** the draw-on ships with its art-directed reduced-motion still
+   and nothing animating above the fold.
+4. **Latin subsetting approved** for the build. Mandatory under the budget regardless of
+   the weight ruling.
+
+This document is signed. The run's deliverable — DIRECTION.md + tokens.json + 7 prototypes
+with measurements — is complete and ready for any build step.
