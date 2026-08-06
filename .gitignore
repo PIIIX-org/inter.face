@@ -1,5 +1,5 @@
 .DS_Store
-runs/*/
+runs/*/prototypes/node_modules/
 !runs/_template/
 .gstack/
 .superpowers/
