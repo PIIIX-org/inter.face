@@ -1,8 +1,9 @@
 # TRANSLATE.md
 
 The input contract. Six rows, filled in before any design work starts — by a sibling
-pipeline passing them through, or by a human answering six questions. `loops/01-direction.md`
-reads this file first, before it reads anything else.
+pipeline passing them through, by a human answering six questions, or derived cold using the
+derivation section at the end of this file. `loops/01-direction.md` reads this file first,
+before it reads anything else.
 
 This file, like every reference file in this plugin, means something different for a
 **page-shaped** surface (read for seconds, once — a landing page, a marketing site) and a
@@ -139,3 +140,108 @@ conformance and say so plainly; do not run Loop 1 as if this were a greenfield s
 This is the one case where `§1`–`§3` are suspended: the goal stops being a distinctive
 interface and becomes a correct one. `BREAKING.md` covers how to record that decision out
 loud, the same way it records every other deliberately broken rule.
+
+## Deriving the rows when nobody hands them to you
+
+The six rows above assume someone did the strategy work — a sibling pipeline passing a
+filled table through, a strategist with a brief, a founder who has answered these questions
+before. A person invoking this cold has none of that, and the place they discover it is
+row 4: archetype and shadow is a fast row to copy in and a paralyzing one to invent. This
+section is the method, row by row, in the order the rows run. It needs nothing installed
+and nobody upstream — a subject to talk to when one exists, and the floor at the end when
+one doesn't.
+
+### Deriving row 1 — surface class
+
+Two questions, and their answers usually agree:
+
+- Is this **read once or used daily**? A viewer arrives, decides, leaves — or the same
+  person opens it every working morning?
+- Is a visit **seconds or hours**?
+
+Once-and-seconds is `page-shaped`. Daily-and-hours is `tool-shaped`. When the two answers
+disagree — read daily but for seconds, the status page a lead glances at between meetings —
+you are usually looking at two surfaces sharing a product, and row 1's own rule already
+covers it: set the class per surface and run each separately.
+
+### Deriving row 2 — viewer and their decision or task
+
+Ask: **who actually sees this in the next 90 days, and what do they decide or do while
+looking?** The 90-day window is what kills the demographic answer. "Developers" see nothing
+in 90 days; "the two platform leads comparing this against their current vendor before the
+quarter closes" do, and they arrive mid-decision. Push until the answer is a person in a
+moment — deciding (page-shaped) or working (tool-shaped). Two viewers with genuinely
+different decisions is the row 1 disagreement wearing a different hat: probably two
+surfaces.
+
+### Deriving row 3 — the three-second feel
+
+The method is already in the row. Row 3 above ships as a forcing question; ask it verbatim,
+wait, and refuse the list — the first of the three rules above already says a list means
+the row is not filled in yet. There is nothing to derive here that the question does not
+extract on its own.
+
+### Deriving row 4 — archetype and shadow
+
+The tempting shortcut is a twelve-archetype lookup table — Sage, Hero, Outlaw — keyed on
+what kind of subject this is. Do not. A lookup keyed on subject category is a
+subject-indexed catalog: the reflex `STYLES.md`'s "derive, don't pick" procedure exists to
+route around, arrived at one file early. Every consultancy lands on Sage, every startup on
+Explorer, and the row stops deriving anything.
+
+Work from the subject's own words instead:
+
+1. Ask for **five sentences they have actually said about the work** — to a customer, in a
+   README, in the email that closed their last deal. Said, not would say; aspiration is
+   what the lookup table produces, and this step exists to get underneath it.
+2. **Pull the recurring stance.** The posture that shows up in three of the five sentences
+   — precision, defiance, patience, appetite — is the archetype. Two or three words,
+   quoted or near-quoted from their own phrasing, not synthesized into marketing language.
+3. **The shadow is the stance they suppress** — the thing they stop themselves from
+   saying, apologize for after saying, or visibly edit out of the fifth sentence. It is
+   already the shape row 4 needs: the thing this must not become while chasing the
+   archetype.
+
+Then check the words against the evidence: what does the work **physically evoke** —
+handled, heavy, fast, exact? Archetype words the work itself cannot back are aspiration
+again, and `STYLES.md`'s derivation will build three directions on them.
+
+### Deriving row 5 — anti-positioning
+
+Derive it from recoil. Describe three or four named directions from different `STYLES.md`
+families — say Editorial / print, Cinematic dark, Risograph, Radical minimalism — each in
+the one concrete sentence that file requires, and watch the reaction. The probes are for
+extracting the ban, not the shortlist; the shortlist still comes from `STYLES.md`'s
+derivation, later. What they react against, written down concretely, is the row. **A
+strong negative is worth more than a weak positive**: "never anything that dark and
+cinematic" cuts the style space, polite interest in all four cuts nothing — and means the
+row is still empty, so probe again with directions further apart.
+
+### Deriving row 6 — what is already owned
+
+This row is an audit, not an interview: the logo file as shipped, the colors actually in
+production rather than the ones in the brand PDF, the typeface the last three real things
+were set in, any design system the subject is bound to. For a surface that already exists,
+`REDESIGN.md`'s extraction step does this mechanically — its queries return the fonts
+really in use and the palette ranked by occurrence, which is this row measured instead of
+remembered.
+
+### The floor: no subject to interview
+
+Sometimes there is nobody to ask — a side project designed for a future audience, a subject
+who answers every probe with "you decide." Fill the row with the best available assumption
+anyway, and mark it **ASSUMED** in the row itself: "archetype: exact, unhurried — ASSUMED
+from the repository's commit style, no interview." An ASSUMED row arrives at Gate A (`§16`)
+as a visible question the human can overturn in one sentence. A silently invented row
+arrives as a fact, and the whole run builds on it.
+
+If gstack's `/design-consultation` is installed, it runs a fuller version of this interview
+and its output maps onto these rows directly — an accelerant, never a prerequisite.
+Everything above runs on a bare machine.
+
+### Whose answers win
+
+If a strategist, a founder, or a sibling pipeline already did this work, **theirs wins** —
+this section substitutes for absent strategy, it does not compete with real strategy. What
+it produces is minimum viable strategy: enough to design against, and visible enough to be
+corrected at the gate.
