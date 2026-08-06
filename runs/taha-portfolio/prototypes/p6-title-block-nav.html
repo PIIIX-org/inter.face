@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taha Mahmoodi — As-Built Sheet Set</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ---------------------------------------------------------------
+   p6-title-block-nav — the title block as the navigation model
+   Palette + type are the measured Gate-A values, not eyeballed.
+   Radius 0 everywhere. 4px vertical rhythm. 16 cols @ 24px gutter.
+   --------------------------------------------------------------- */
+
+/* LIGHT is the CSS default so the no-JS (?state=nogpu) run renders a real
+   page: with no script there is nothing to read ?mode= from, and the OS
+   preference is the only correct source. Dark upgrades via the media query
+   or via [data-theme=dark] which the toggle / ?mode= sets. */
+:root{
+  --sheet:#fbf8f1;
+  --line:#0e2e2c;      /* 13.69:1 */
+  --line2:#14403d;     /* 10.82:1 */
+  --micro:#14403d;
+  --red:#c63f28;       /* 4.78:1 — text-legal */
+  --tint:#e9503a;      /* 3.49:1 — GRAPHIC ONLY, never text */
+  --ring:#c63f28;
+  --ring-flip:#0c2422; /* ring colour when the element itself is coral */
+  --on-red:#fbf8f1;
+  --w1:1px;            /* primary line weight */
+  --w2:0.75px;         /* secondary line weight */
+  --wr:1.5px;          /* redline weight */
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --sheet:#0e2e2c;
+    --line:#efe7d6;    /* 11.81:1 */
+    --line2:#7fb5ad;   /* 6.30:1 */
+    --micro:#7fb5ad;
+    --red:#f26a52;     /* 4.81:1 — text-legal */
+    --tint:#f26a52;
+    --ring:#f26a52;
+    --ring-flip:#f2ede3;
+    --on-red:#0e2e2c;
+    --w1:1.5px;
+    --w2:1px;
+    --wr:2px;
+    color-scheme:dark;
+  }
+}
+html[data-theme=light]{
+  --sheet:#fbf8f1;--line:#0e2e2c;--line2:#14403d;--micro:#14403d;
+  --red:#c63f28;--tint:#e9503a;--ring:#c63f28;--ring-flip:#0c2422;
+  --on-red:#fbf8f1;--w1:1px;--w2:0.75px;--wr:1.5px;color-scheme:light;
+}
+html[data-theme=dark]{
+  --sheet:#0e2e2c;--line:#efe7d6;--line2:#7fb5ad;--micro:#7fb5ad;
+  --red:#f26a52;--tint:#f26a52;--ring:#f26a52;--ring-flip:#f2ede3;
+  --on-red:#0e2e2c;--w1:1.5px;--w2:1px;--wr:2px;color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box;border-radius:0}
+html{
+  background:var(--sheet);
+  /* (a) THE PROPERTY UNDER TEST. 96px title-block band is fixed at the
+     block-end edge, so the scrollport's usable end is 96px short. */
+  scroll-padding-block-end:96px;
+}
+html[data-nopad]{scroll-padding-block-end:0}          /* ?nopad=1 kill switch */
+html[data-state=full]{scroll-behavior:smooth}
+html[data-state=reduced]{scroll-behavior:auto}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto !important}}
+
+body{
+  margin:0;
+  background:var(--sheet);
+  color:var(--line);
+  font-family:'Cabinet Grotesk',system-ui,sans-serif;
+  font-weight:400;                 /* resolves to the 500 file — see report */
+  font-size:17px;line-height:1.65;
+  font-variant-numeric:tabular-nums;
+  -webkit-font-smoothing:antialiased;
+  padding-block-end:96px;          /* clearance for the fixed title block */
+}
+
+/* --- the drawn sheet border: 32px inset, decorative ------------------- */
+.frame{
+  position:fixed;inset:32px 32px 128px;   /* 32 + 96 band */
+  border:var(--w2) solid var(--line2);
+  pointer-events:none;z-index:1;
+}
+.frame::before{                            /* inner trim line, drawing convention */
+  content:"";position:absolute;inset:6px;
+  border:var(--w2) solid var(--line2);opacity:.45;
+}
+
+/* --- type scale ------------------------------------------------------- */
+h1{
+  font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1;
+  letter-spacing:.02em;text-transform:uppercase;margin:0;
+  scroll-margin-block-start:32px;
+}
+h2{
+  font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;
+  text-transform:uppercase;margin:0 0 24px;
+  /* clears the sheet's own header rule when the fragment jump top-aligns it */
+  scroll-margin-block-start:88px;
+}
+.micro{
+  font-size:12px;font-weight:400;line-height:1.1;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--micro);margin:0;
+  font-variant-numeric:tabular-nums;
+}
+.field{
+  font-size:13px;font-weight:600;line-height:1.3;letter-spacing:.08em;
+  text-transform:uppercase;        /* 600 has no file — resolves to 700 */
+}
+p.body{max-width:60ch;margin:0 0 16px}
+/* prose links carry the redline; both values are the text-legal accent */
+p.body a{color:var(--red);text-decoration-thickness:var(--w1);text-underline-offset:3px}
+
+/* --- layout ----------------------------------------------------------- */
+.wrap{max-width:1512px;margin-inline:auto;padding-inline:48px;position:relative;z-index:2}
+
+header.masthead{padding-block:64px 48px}
+.masthead .rule{border-top:var(--w1) solid var(--line);margin-block:24px 12px}
+.mast-row{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+
+/* the dimension grid strip: real drawing furniture, zero bytes */
+.dimgrid{
+  height:16px;margin-block:12px 0;
+  border-block:var(--w2) solid var(--line2);
+  background-image:repeating-linear-gradient(to right,
+    var(--line2) 0 var(--w2), transparent var(--w2) 24px);
+  opacity:.55;
+}
+
+main{display:block}
+main:focus-visible{outline:2px solid var(--ring);outline-offset:-6px}
+
+.sheet{padding-block:0 96px}
+/* The index marks the last sheet whose top has crossed a line 30% down the
+   viewport. The LAST sheet can only cross it if the document keeps scrolling
+   past it, so it carries 72vh of trailing sheet. Without this the index can
+   never say SHEET 06. This is a real constraint the technique imposes on the
+   layout, not decoration. */
+.sheet:last-child{padding-block-end:72vh}
+/* the sheet rule sits on the content box so it never crosses the drawn frame */
+.sheet-head{
+  display:flex;justify-content:space-between;gap:24px;margin-bottom:32px;
+  border-top:var(--w1) solid var(--line);padding-top:32px;
+}
+.cols{display:grid;grid-template-columns:repeat(16,1fr);gap:0 24px}
+.c-main{grid-column:1 / span 9}
+.c-side{grid-column:11 / span 6}
+
+dl.schedule{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 24px}
+dl.schedule dt{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--micro);padding-block:4px;border-bottom:var(--w2) solid var(--line2)}
+dl.schedule dd{margin:0;font-size:15px;padding-block:4px;border-bottom:var(--w2) solid var(--line2)}
+
+ul.notes{margin:0;padding:0;list-style:none}
+ul.notes li{border-bottom:var(--w2) solid var(--line2);padding-block:12px}
+ul.notes a{color:var(--line);text-decoration:none;display:flex;justify-content:space-between;gap:16px;align-items:baseline;min-height:44px;align-content:center;flex-wrap:wrap}
+ul.notes a:hover{color:var(--red)}
+
+/* --- the redline: the site engineer's coral over the print ------------ */
+.redline{
+  border:var(--wr) solid var(--red);color:var(--red);
+  padding:12px 16px;max-width:44ch;position:relative;
+}
+.redline .field{color:var(--red)}
+.redline::before{           /* leader line */
+  content:"";position:absolute;left:-32px;top:50%;width:32px;
+  border-top:var(--wr) solid var(--red);
+}
+.cloud{display:block;color:var(--red);margin-bottom:12px}
+
+/* --- skip link (d): first in tab order, visible on focus -------------- */
+.skip{
+  position:absolute;left:-9999px;top:0;z-index:99;
+  background:var(--sheet);color:var(--red);
+  border:var(--wr) solid var(--red);
+  padding:12px 20px;text-decoration:none;
+  font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+}
+.skip:focus-visible{left:32px;top:32px}
+
+/* --- focus ring (e): 2px ring, 2px offset, 1px substrate separator ---- */
+:focus-visible{
+  outline:2px solid var(--ring);
+  outline-offset:2px;
+  box-shadow:0 0 0 1px var(--sheet);   /* the separator, in the substrate */
+}
+/* the flip case: on a coral element the ring becomes ink (light) / paper (dark) */
+.is-accent:focus-visible{
+  outline-color:var(--ring-flip);
+  box-shadow:0 0 0 1px var(--sheet);
+}
+
+/* --- THE TITLE BLOCK -------------------------------------------------- */
+footer.title-block{
+  position:fixed;inset-block-end:0;inset-inline:0;height:96px;z-index:10;
+  background:var(--sheet);
+  border-top:var(--w1) solid var(--line);
+}
+.tb-inner{
+  max-width:1512px;margin-inline:auto;height:100%;
+  display:grid;grid-template-columns:264px 1fr 216px 64px;
+  align-items:stretch;
+}
+.tb-cell{padding:12px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px;border-inline-start:var(--w2) solid var(--line2)}
+.tb-cell:first-child{border-inline-start:0}
+.tb-cell .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--micro)}
+.tb-cell .v{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+
+nav.tb-index{border-inline:var(--w2) solid var(--line2)}
+nav.tb-index ol{
+  margin:0;padding:0;list-style:none;height:100%;
+  display:grid;grid-template-columns:repeat(6,1fr);
+}
+nav.tb-index li{display:flex}
+nav.tb-index li + li{border-inline-start:var(--w2) solid var(--line2)}
+nav.tb-index a{
+  flex:1;display:flex;flex-direction:column;justify-content:center;gap:4px;
+  min-width:44px;min-height:44px;padding:8px 12px;
+  text-decoration:none;color:var(--line);
+  /* the current-marker box is a border, always present, transparent when not
+     current: layout-stable, and it leaves box-shadow free for the focus ring */
+  border:var(--wr) solid transparent;
+}
+nav.tb-index a:hover{color:var(--red)}
+nav.tb-index .n{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+nav.tb-index .t{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--micro)}
+nav.tb-index .cur{display:none;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:700}
+
+/* (c) CURRENT = coral box + the printed word + aria-current. Three carriers,
+   only one of which is hue. The JS path is .is-current; the no-JS path is
+   :target, so the visual marker survives with scripting off. */
+nav.tb-index a.is-current,
+html:not(.js):not(:has(:target)) nav.tb-index a[href="#sheet-01"],
+html:not(.js):has(#sheet-01:target) nav.tb-index a[href="#sheet-01"],
+html:not(.js):has(#sheet-02:target) nav.tb-index a[href="#sheet-02"],
+html:not(.js):has(#sheet-03:target) nav.tb-index a[href="#sheet-03"],
+html:not(.js):has(#sheet-04:target) nav.tb-index a[href="#sheet-04"],
+html:not(.js):has(#sheet-05:target) nav.tb-index a[href="#sheet-05"],
+html:not(.js):has(#sheet-06:target) nav.tb-index a[href="#sheet-06"]{
+  border-color:var(--red);
+  color:var(--red);
+}
+nav.tb-index a.is-current .cur,
+html:not(.js):not(:has(:target)) nav.tb-index a[href="#sheet-01"] .cur,
+html:not(.js):has(#sheet-01:target) nav.tb-index a[href="#sheet-01"] .cur,
+html:not(.js):has(#sheet-02:target) nav.tb-index a[href="#sheet-02"] .cur,
+html:not(.js):has(#sheet-03:target) nav.tb-index a[href="#sheet-03"] .cur,
+html:not(.js):has(#sheet-04:target) nav.tb-index a[href="#sheet-04"] .cur,
+html:not(.js):has(#sheet-05:target) nav.tb-index a[href="#sheet-05"] .cur,
+html:not(.js):has(#sheet-06:target) nav.tb-index a[href="#sheet-06"] .cur{
+  display:block;
+}
+/* the sheet title stays visible in the current cell so the JS and the no-JS
+   (:target) paths render identically */
+/* No transition on the marker: a focus ring must never fade in, and this
+   element carries both. The full/reduced difference is scroll-behavior. */
+
+/* icon-only controls (i) */
+.icon-btn{
+  display:flex;align-items:center;justify-content:center;
+  min-width:44px;min-height:44px;width:100%;height:100%;
+  border:0;background:var(--red);color:var(--on-red);
+  font-family:inherit;font-size:20px;line-height:1;cursor:pointer;
+  text-decoration:none;
+}
+#theme{
+  background:transparent;color:var(--line);
+  border:var(--w1) solid var(--line);
+  width:auto;height:auto;min-height:44px;padding:10px 14px;font-size:13px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+}
+
+/* --- (g) 390 COLLAPSE: the band becomes a static footer --------------- */
+@media (max-width:900px){
+  html{scroll-padding-block-end:0}   /* nothing overlays the scrollport now */
+  body{padding-block-end:0}
+  .frame{inset:16px}
+  .wrap{padding-inline:16px}
+  h2{scroll-margin-block-start:24px}
+  .cols{grid-template-columns:1fr;gap:32px}
+  .c-main,.c-side{grid-column:1}
+  footer.title-block{position:static;height:auto;inset:auto}
+  .tb-inner{grid-template-columns:1fr;padding-inline:16px}
+  .tb-cell{border-inline-start:0;border-block-start:var(--w2) solid var(--line2)}
+  nav.tb-index{border-inline:0;border-block-start:var(--w1) solid var(--line)}
+  nav.tb-index ol{grid-template-columns:repeat(3,1fr)}   /* serial order preserved */
+  nav.tb-index a{min-height:64px}
+  nav.tb-index li{border-block-start:var(--w2) solid var(--line2)}
+  nav.tb-index li:nth-child(3n+1){border-inline-start:0}
+  .icon-btn{height:56px}
+  .redline::before{display:none}
+  .redline{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+<div class="frame" aria-hidden="true"></div>
+
+<header class="masthead wrap">
+  <div class="mast-row">
+    <p class="micro">Issued for construction &middot; Rev C &middot; 2026-08-06</p>
+    <button id="theme" hidden aria-label="Switch to dark theme">Theme</button>
+  </div>
+  <div class="rule"></div>
+  <h1 id="top" tabindex="-1">Taha Mahmoodi</h1>
+  <div class="dimgrid" aria-hidden="true"></div>
+  <div class="mast-row" style="margin-top:16px">
+    <p class="body">Design engineer. Six sheets, issued as built: what was drawn, what
+      changed on site, and what the change cost. The title block at the foot of the
+      page is the index &mdash; it is where a drawing set has always kept it.</p>
+    <p class="micro">Sheets 01&ndash;06 &middot; Scale 1:50 &middot; Drawn TM</p>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <article class="sheet wrap" data-sheet="sheet-01">
+    <div class="sheet-head"><p class="micro">Sheet 01 / 06</p><p class="micro">Dwg. TM-2026-01</p></div>
+    <h2 id="sheet-01" tabindex="-1">General Arrangement</h2>
+    <div class="cols">
+      <div class="c-main">
+        <p class="body">Ten years of building interfaces for people who have to use them all
+          day, not for people who have to approve them once. The work below is arranged the
+          way a drawing set is arranged: general arrangement first, then the sections, then
+          the details, then the schedule of what everything is actually made of.</p>
+        <p class="body">Every sheet in this set carries a revision mark where the built
+          thing diverged from the drawn thing. Those marks are the interesting part.</p>
+        <p class="body"><a href="#sheet-02">Continue to the site plan<span aria-hidden="true"> &rarr;</span></a></p>
+      </div>
+      <div class="c-side" style="margin-left:32px">
+        <div class="redline">
+          <svg class="cloud" width="120" height="18" viewBox="0 0 120 18" fill="none" aria-hidden="true">
+            <path d="M2 12a6 6 0 0 1 10-4 6 6 0 0 1 10-2 6 6 0 0 1 10 0 6 6 0 0 1 10 1 6 6 0 0 1 10-1 6 6 0 0 1 10 2 6 6 0 0 1 10 0 6 6 0 0 1 10 1 6 6 0 0 1 10-1 6 6 0 0 1 10 4"
+              stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <p class="field" style="margin:0 0 8px">Rev C &mdash; site note</p>
+          <p class="micro" style="color:inherit;line-height:1.5">Nav bar removed at client request. Sheet index relocated to title block. Verified on site.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet wrap" data-sheet="sheet-02">
+    <div class="sheet-head"><p class="micro">Sheet 02 / 06</p><p class="micro">Dwg. TM-2026-02</p></div>
+    <h2 id="sheet-02" tabindex="-1">Site Plan &mdash; Work Index</h2>
+    <div class="cols">
+      <div class="c-main">
+        <ul class="notes">
+          <li><a href="#sheet-03"><span>Ledger &mdash; reconciliation console</span><span class="micro">2024 &middot; Section A-A</span></a></li>
+          <li><a href="#sheet-04"><span>Harbour &mdash; shipment tracking</span><span class="micro">2025 &middot; Detail 04</span></a></li>
+          <li><a href="#sheet-05"><span>Kiln &mdash; design system</span><span class="micro">2023 &middot; Schedule</span></a></li>
+          <li><a href="#sheet-06"><span>Sundial &mdash; scheduling primitives</span><span class="micro">2022 &middot; Revisions</span></a></li>
+        </ul>
+      </div>
+      <div class="c-side">
+        <dl class="schedule">
+          <dt>Discipline</dt><dd>Interface</dd>
+          <dt>Location</dt><dd>Remote / EU</dd>
+          <dt>Status</dt><dd>Open to work</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet wrap" data-sheet="sheet-03">
+    <div class="sheet-head"><p class="micro">Sheet 03 / 06</p><p class="micro">Dwg. TM-2026-03</p></div>
+    <h2 id="sheet-03" tabindex="-1">Section A-A &mdash; Ledger</h2>
+    <div class="cols">
+      <div class="c-main">
+        <p class="body">A reconciliation console for a team of nine who close the books in
+          four days. The drawn version had a dashboard. The built version does not: nobody
+          opened it twice.</p>
+        <p class="body">What shipped instead is a single table with a keyboard path through
+          it, and a diff view that shows the two numbers side by side rather than the
+          difference between them. Close time went from four days to a day and a half.</p>
+        <p class="body"><a href="#sheet-04">Next: Detail 04<span aria-hidden="true"> &rarr;</span></a></p>
+      </div>
+      <div class="c-side">
+        <dl class="schedule">
+          <dt>Role</dt><dd>Lead</dd>
+          <dt>Duration</dt><dd>11 months</dd>
+          <dt>Stack</dt><dd>TS, Postgres</dd>
+          <dt>Rev</dt><dd>C</dd>
+        </dl>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet wrap" data-sheet="sheet-04">
+    <div class="sheet-head"><p class="micro">Sheet 04 / 06</p><p class="micro">Dwg. TM-2026-04</p></div>
+    <h2 id="sheet-04" tabindex="-1">Detail 04 &mdash; Harbour</h2>
+    <div class="cols">
+      <div class="c-main">
+        <p class="body">Shipment tracking for a freight forwarder. The constraint was a
+          warehouse tablet in direct sun, held at arm's length, by someone wearing gloves.
+          Every target on the built version is 44 pixels or larger, and the type never
+          drops below 17.</p>
+        <p class="body">The redline on this sheet is the one that mattered: the status
+          colour alone failed on the tablet at noon, so status is now a printed word as
+          well as a colour.</p>
+        <p class="body"><a href="#sheet-05">Next: schedule of finishes<span aria-hidden="true"> &rarr;</span></a></p>
+      </div>
+      <div class="c-side" style="margin-left:32px">
+        <div class="redline">
+          <p class="field" style="margin:0 0 8px">Rev B &mdash; site note</p>
+          <p class="micro" style="color:inherit;line-height:1.5">Colour-only status rejected on site. Word added. Applies to every state marker in this set, including the sheet index below.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet wrap" data-sheet="sheet-05">
+    <div class="sheet-head"><p class="micro">Sheet 05 / 06</p><p class="micro">Dwg. TM-2026-05</p></div>
+    <h2 id="sheet-05" tabindex="-1">Schedule of Finishes</h2>
+    <div class="cols">
+      <div class="c-main">
+        <dl class="schedule">
+          <dt>Interface</dt><dd>TypeScript, React, plain DOM where plain DOM is enough</dd>
+          <dt>Data</dt><dd>Postgres, SQLite, whatever is already there</dd>
+          <dt>Drawing</dt><dd>Figma for the argument, CSS for the answer</dd>
+          <dt>Access</dt><dd>WCAG 2.2 AA, tested with a keyboard and a screen reader</dd>
+          <dt>Motion</dt><dd>Compositor only. Reduced state art-directed, not disabled</dd>
+          <dt>Measure</dt><dd>Lighthouse on a throttled mid-range Android, not on the laptop</dd>
+        </dl>
+      </div>
+      <div class="c-side">
+        <p class="micro" style="line-height:1.6">Finishes are listed as built. Where the
+          specified finish was substituted, the substitution is marked on the revision
+          sheet.</p>
+      </div>
+    </div>
+  </article>
+
+  <article class="sheet wrap" data-sheet="sheet-06">
+    <div class="sheet-head"><p class="micro">Sheet 06 / 06</p><p class="micro">Dwg. TM-2026-06</p></div>
+    <h2 id="sheet-06" tabindex="-1">Revisions &amp; Contact</h2>
+    <div class="cols">
+      <div class="c-main">
+        <dl class="schedule">
+          <dt>Rev A</dt><dd>Issued for tender &mdash; 2026-04-02</dd>
+          <dt>Rev B</dt><dd>Colour-only status removed &mdash; 2026-06-18</dd>
+          <dt>Rev C</dt><dd>Nav bar removed, index to title block &mdash; 2026-08-06</dd>
+        </dl>
+        <p class="body" style="margin-top:32px">Drawings are available on request.
+          <a href="#sheet-01">Return to the general arrangement<span aria-hidden="true"> &rarr;</span></a>
+          or use the sheet index in the title block.</p>
+        <p class="body"><a href="#sheet-01">taha@example.com</a></p>
+      </div>
+      <div class="c-side">
+        <p class="micro" style="line-height:1.6">End of set. Six sheets issued.
+          This drawing is the property of the person who drew it.</p>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<footer class="title-block">
+  <div class="tb-inner">
+    <div class="tb-cell">
+      <span class="k">Project</span>
+      <span class="v">Taha Mahmoodi &mdash; Portfolio</span>
+    </div>
+
+    <nav class="tb-index" aria-label="Sections">
+      <ol>
+        <li><a href="#sheet-01"><span class="n">Sheet 01</span><span class="t">Gen. Arr.</span><span class="cur">Current</span></a></li>
+        <li><a href="#sheet-02"><span class="n">Sheet 02</span><span class="t">Site Plan</span><span class="cur">Current</span></a></li>
+        <li><a href="#sheet-03"><span class="n">Sheet 03</span><span class="t">Section A-A</span><span class="cur">Current</span></a></li>
+        <li><a href="#sheet-04"><span class="n">Sheet 04</span><span class="t">Detail 04</span><span class="cur">Current</span></a></li>
+        <li><a href="#sheet-05"><span class="n">Sheet 05</span><span class="t">Schedule</span><span class="cur">Current</span></a></li>
+        <li><a href="#sheet-06"><span class="n">Sheet 06</span><span class="t">Revisions</span><span class="cur">Current</span></a></li>
+      </ol>
+    </nav>
+
+    <div class="tb-cell">
+      <span class="k">Plot rate med / 1% low</span>
+      <span class="v"><span id="fps">&mdash; / &mdash;</span> fps</span>
+    </div>
+
+    <a class="icon-btn is-accent" id="btt" href="#top" aria-label="Back to top"><span aria-hidden="true">&uarr;</span></a>
+  </div>
+</footer>
+
+<script>
+/*JS-START*/
+(function(){
+  var q=new URLSearchParams(location.search),
+      state=q.get('state')||'full',
+      mode=q.get('mode'),
+      load=+(q.get('load')||0),
+      H=document.documentElement;
+  H.dataset.state=state;
+  if(mode)H.dataset.theme=mode;
+  if(q.get('nopad'))H.dataset.nopad='1';
+  if(state==='nogpu')return;              /* simulate scripting off */
+  H.classList.add('js');
+
+  /* aria-current from an IntersectionObserver. Never a scroll listener. */
+  var links={},cur=null;
+  [].forEach.call(document.querySelectorAll('nav.tb-index a'),function(a){
+    links[a.hash.slice(1)]=a;
+  });
+  function mark(id){
+    var a=links[id];
+    if(!a||a===cur)return;
+    if(cur){cur.classList.remove('is-current');cur.removeAttribute('aria-current');}
+    a.classList.add('is-current');a.setAttribute('aria-current','true');cur=a;
+  }
+  /* Current sheet = the last one whose top has crossed a line 30% down the
+     viewport. A centre-line observer reports the WRONG sheet whenever a sheet
+     is shorter than half the viewport, and reports the next sheet immediately
+     after a jump. The observer is a thin band on that line, so the callback
+     fires exactly when the answer changes — no scroll listener. */
+  var sheets=[].slice.call(document.querySelectorAll('.sheet'));
+  function pick(){
+    var line=innerHeight*0.3,best=null;
+    sheets.forEach(function(s){if(s.getBoundingClientRect().top<=line)best=s;});
+    if(best)mark(best.dataset.sheet);
+  }
+  var io=new IntersectionObserver(pick,{rootMargin:'-30% 0px -70% 0px'});
+  sheets.forEach(function(s){io.observe(s);});
+  mark('sheet-01');
+
+  /* theme toggle — accessible name states the destination, not the state */
+  var t=document.getElementById('theme'),
+      mq=matchMedia('(prefers-color-scheme: dark)');
+  function isDark(){return H.dataset.theme?H.dataset.theme==='dark':mq.matches;}
+  function relabel(){t.setAttribute('aria-label',isDark()?'Switch to light theme':'Switch to dark theme');}
+  t.hidden=false;relabel();
+  t.addEventListener('click',function(){H.dataset.theme=isDark()?'light':'dark';relabel();});
+
+  /* frame rate, sampled for 10s then stopped. ?load=N burns N ms per frame:
+     a main-thread contention approximation, NOT a CPU throttle. */
+  var t0=performance.now(),last=t0,d=[],done=false;
+  function finish(){
+    if(done)return;done=true;
+    var s=d.slice(1).sort(function(a,b){return a-b;});
+    if(!s.length)return;
+    var med=s[(s.length/2)|0],p99=s[Math.min(s.length-1,(s.length*0.99)|0)];
+    window.__fps={median:+(1000/med).toFixed(1),low1:+(1000/p99).toFixed(1),
+      frames:s.length,loadMs:load,vw:innerWidth,vh:innerHeight,state:state};
+    document.getElementById('fps').textContent=window.__fps.median+' / '+window.__fps.low1;
+  }
+  function frame(now){
+    if(done)return;
+    if(load>0){var e=performance.now()+load;while(performance.now()<e){}}
+    d.push(now-last);last=now;
+    if(now-t0>10000){finish();return;}
+    requestAnimationFrame(frame);
+  }
+  document.addEventListener('visibilitychange',function(){if(document.hidden)finish();});
+  requestAnimationFrame(frame);
+})();
+/*JS-END*/
+</script>
+</body>
+</html>

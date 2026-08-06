@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p7 — typography RISK 3 — as-built</title>
+<script>
+  // Read state + mode before first paint.
+  var Q = new URLSearchParams(location.search);
+  var STATE = Q.get('state') || 'full';          // full | reduced | nogpu
+  var MODE  = Q.get('mode')  || 'dark';          // dark (cyanotype) | light (diazo)
+  document.documentElement.setAttribute('data-mode', MODE);
+  document.documentElement.setAttribute('data-state', STATE);
+  // ?state=nogpu === the no-webfont state. The honest third state for a type prototype:
+  // font-display:swap guarantees somebody sees this. Skip the stylesheet entirely.
+  if (STATE !== 'nogpu') {
+    document.write('<link rel="stylesheet" href="fonts/fonts.css">');
+  }
+</script>
+<style>
+/* ---------------------------------------------------------------- palette */
+:root[data-mode="dark"]{                    /* cyanotype */
+  --field:#0e2e2c; --line:#efe7d6; --second:#7fb5ad; --red:#f26a52;
+}
+:root[data-mode="light"]{                   /* diazo */
+  --field:#fbf8f1; --line:#0e2e2c; --second:#14403d; --red:#c63f28;
+}
+:root{
+  /* The shipping stack. Cabinet first; the rest is the nogpu-state fallback. */
+  --stack: 'Cabinet Grotesk', 'Helvetica Neue', Helvetica, 'Segoe UI', Roboto, Arial, sans-serif;
+  --ctrl:  'General Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--field)}
+body{
+  background:var(--field); color:var(--line);
+  font-family:var(--stack); font-weight:400; font-size:17px; line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  padding:48px;                                   /* 48px sheet margin */
+}
+.sheet{
+  max-width:1512px; margin:0 auto;
+  border:1px solid var(--line);                   /* drawn sheet border */
+  padding:32px;                                   /* 32px drawn sheet border inset */
+}
+/* ------------------------------------------------------------ type system */
+h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1.0;letter-spacing:.02em;text-transform:uppercase}
+h2{font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;color:var(--line)}
+.tbf{font-size:13px;font-weight:600;line-height:1.3;letter-spacing:.08em;text-transform:uppercase;color:var(--second)}
+.dim{font-size:12px;font-weight:400;line-height:1.1;letter-spacing:.1em;text-transform:uppercase;
+     font-variant-numeric:tabular-nums;color:var(--second)}
+.redline{font-size:16px;font-weight:500;font-style:italic;line-height:1.4;letter-spacing:.01em;color:var(--red)}
+.note{font-size:17px;font-weight:400;line-height:1.65;letter-spacing:0;max-width:min(60ch,100%)}
+/* ------------------------------------------------------------------ chrome */
+header{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:32px}
+header .tbf{margin-top:8px}
+section{border-top:1px solid var(--second);padding-top:16px;margin-top:32px}
+.hd{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;margin-bottom:16px}
+.cols{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.col{flex:0 1 auto}
+.cap{margin-bottom:8px}
+.m{margin-top:8px}
+/* measurement tables — rendered into the sheet so the screenshot carries the numbers */
+table.mt{border-collapse:collapse;font-family:var(--ctrl);font-size:12px;line-height:1.4;
+  font-variant-numeric:tabular-nums;color:var(--second);margin-top:12px;width:100%}
+table.mt th,table.mt td{border:1px solid var(--second);padding:4px 8px;text-align:left;vertical-align:top}
+table.mt th{color:var(--line);font-weight:600;text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+table.mt td.n{text-align:right;font-variant-numeric:tabular-nums}
+mark{background:none;color:var(--red);font-weight:500}
+.rule{outline:1px dashed var(--second);outline-offset:4px}
+.narrow{width:358px}                                /* 390 viewport minus 16px gutters */
+.ctrl{font-family:var(--ctrl);font-weight:400}
+canvas{display:block;border:1px solid var(--second);margin-top:8px;background:transparent}
+/* The grid spec names 48px sheet margin + 32px drawn border with no mobile reduction.
+   At 390 that is 160px of horizontal chrome and 230px of content — unusable for 17px body.
+   This breakpoint exists so the 390 screenshot tests the TYPE, not the missing media query.
+   The reduction itself is a finding, not a fix. */
+@media (max-width:480px){
+  body{padding:16px}
+  .sheet{padding:16px}
+  .narrow{width:100%}
+}
+.fixed{position:fixed;right:8px;bottom:8px;font-family:var(--ctrl);font-size:11px;
+  color:var(--field);background:var(--line);padding:4px 8px;letter-spacing:.04em;z-index:9}
+.warn{color:var(--red);border:1px solid var(--red);padding:12px;margin-top:12px;font-size:14px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+  <h1>Taha Mahmoodi</h1>
+  <p class="tbf">Sheet P7 &nbsp;·&nbsp; Typographic craft &nbsp;·&nbsp; RISK 3 — display face at body size
+     &nbsp;·&nbsp; <span id="hdstate"></span></p>
+  <p class="dim m">Rev A &nbsp; 2026-08-06 &nbsp; scale 1:1 &nbsp; 0123456789 &nbsp; 4px rhythm</p>
+</header>
+
+<!-- 0 — font availability, the central finding -->
+<section id="s0">
+  <div class="hd"><h2>00 &nbsp; Font availability — declared faces</h2><span class="dim">verified at runtime</span></div>
+  <p class="note">Every row below is read from <span class="ctrl">document.fonts</span> at runtime and cross-checked
+     against rendered advance widths. A weight with no file resolves to the nearest declared file; the browser does not
+     tell you, it just renders heavier or lighter than the spec says.</p>
+  <div id="faces"></div>
+  <div id="resolve"></div>
+  <div id="riskbox"></div>
+</section>
+
+<!-- 1 — the subject block -->
+<section id="s1">
+  <div class="hd"><h2>01 &nbsp; Subject block — Cabinet Grotesk 17 / 1.65 / 60ch</h2><span class="dim">the spec under test</span></div>
+  <div class="cols">
+    <div class="col">
+      <p class="tbf cap">A &nbsp; Cabinet Grotesk &nbsp; w400 (spec) &nbsp; 17px / 1.65 / 60ch</p>
+      <p class="note rule" id="blkCab"></p>
+    </div>
+    <div class="col">
+      <p class="tbf cap">B &nbsp; General Sans &nbsp; w400 (real) &nbsp; 17px / 1.65 / 60ch &nbsp;— the dropped face</p>
+      <p class="note ctrl rule" id="blkGS"></p>
+    </div>
+  </div>
+  <div id="cmp1"></div>
+</section>
+
+<!-- 2 — the fallback ladder -->
+<section id="s2">
+  <div class="hd"><h2>02 &nbsp; RISK 3 fallback ladder — body-size bump</h2><span class="dim">18px · 19px · what each costs</span></div>
+  <div class="cols">
+    <div class="col">
+      <p class="tbf cap">C &nbsp; Cabinet 18px / 1.65 / 60ch</p>
+      <p class="note rule" id="blk18" style="font-size:18px"></p>
+    </div>
+    <div class="col">
+      <p class="tbf cap">D &nbsp; Cabinet 19px / 1.65 / 60ch</p>
+      <p class="note rule" id="blk19" style="font-size:19px"></p>
+    </div>
+  </div>
+  <div id="cmp2"></div>
+  <p class="redline m" id="rl2"></p>
+</section>
+
+<!-- 3 — the narrow case -->
+<section id="s3">
+  <div class="hd"><h2>03 &nbsp; Narrow case — 358px content, measure collapsed</h2><span class="dim">where tight apertures hurt most</span></div>
+  <div class="cols">
+    <div class="col narrow">
+      <p class="tbf cap">E &nbsp; Cabinet 17px, 358px</p>
+      <p class="note rule narrow" id="blkNarCab"></p>
+    </div>
+    <div class="col narrow">
+      <p class="tbf cap">F &nbsp; General Sans 17px, 358px</p>
+      <p class="note ctrl rule narrow" id="blkNarGS"></p>
+    </div>
+  </div>
+  <div id="cmp3"></div>
+</section>
+
+<!-- 4 — synthesised oblique -->
+<section id="s4">
+  <div class="hd"><h2>04 &nbsp; Redline — 16px w500 italic vs upright</h2><span class="dim">no italic file exists</span></div>
+  <p class="tbf cap">G &nbsp; as specified — font-style: italic</p>
+  <p class="redline" id="obl">Add a wrong-answer path here. The user must be able to edit, not just retry — 0123456789.</p>
+  <p class="tbf cap m">H &nbsp; same string, upright</p>
+  <p class="redline" id="upr" style="font-style:normal">Add a wrong-answer path here. The user must be able to edit, not just retry — 0123456789.</p>
+  <div id="cmp4"></div>
+</section>
+
+<!-- 5 — glyph metrics -->
+<section id="s5">
+  <div class="hd"><h2>05 &nbsp; Glyph metrics — x-height, cap-height, stroke density</h2><span class="dim">canvas TextMetrics + pixel count</span></div>
+  <div id="cmp5"></div>
+  <div class="cols m">
+    <div class="col"><p class="dim">Cabinet Grotesk &nbsp; n &nbsp; 200px</p><canvas id="cvCab" width="260" height="260"></canvas></div>
+    <div class="col"><p class="dim">General Sans &nbsp; n &nbsp; 200px</p><canvas id="cvGS" width="260" height="260"></canvas></div>
+  </div>
+</section>
+
+<!-- 6 — states -->
+<section id="s6">
+  <div class="hd"><h2>06 &nbsp; States</h2></div>
+  <p class="note" id="statenote"></p>
+</section>
+
+</div>
+<div class="fixed" id="fps">fps —</div>
+
+<script>
+/* ------------------------------------------------------------------ copy */
+const PROSE = "I design systems and then I build them. Most of my work now sits where an existing product has to absorb a model — a support tool that already has ten thousand users, an internal dashboard people open every morning, a checkout flow nobody wants changed. The model is the easy part. The hard part is the seam: what the interface promises before the model answers, what it does when the answer is wrong, and who is accountable for the difference. There are two directions to the same problem. Building systems around AI means treating the model as a component with a failure rate, not as a feature. It needs a loading state that does not lie, an error state that hands control back to the person, and an edit path, so a wrong output is a draft rather than a dead end. Building systems for AI is the other direction: making a product legible to a machine that will read it — stable identifiers, documented actions, an interface whose structure survives being described in plain text. I came to this from brand and product design, and that is where the judgment comes from. A retrieval pipeline and a wordmark answer the same question at different scales: what does this thing claim about itself, and does the claim hold when someone tests it. I still draw. I still spec type. I still argue about a four pixel gap, because the gap is where a reader either believes the system or does not. What I actually do on a project is read the existing code, find the seam, write the smallest thing that works, put it in front of a user, and correct it. The corrections are the record. This page is set up to show them rather than hide them, which is a design decision and also an accurate one.";
+
+for (const id of ['blkCab','blkGS','blk18','blk19','blkNarCab','blkNarGS']) {
+  document.getElementById(id).textContent = PROSE;
+}
+document.getElementById('hdstate').textContent =
+  'state=' + STATE + '  mode=' + MODE + (STATE==='nogpu' ? '  — WEBFONTS BLOCKED' : '');
+
+/* --------------------------------------------------------------- helpers */
+const R = {};                                    // every measured number lands here
+const num = (v,d=2)=> (typeof v==='number' && isFinite(v)) ? v.toFixed(d) : String(v);
+
+function tbl(host, head, rows){
+  const t=document.createElement('table'); t.className='mt';
+  t.innerHTML = '<tr>'+head.map(h=>'<th>'+h+'</th>').join('')+'</tr>' +
+    rows.map(r=>'<tr>'+r.map((c,i)=>'<td'+(i?' class="n"':'')+'>'+c+'</td>').join('')+'</tr>').join('');
+  document.getElementById(host).appendChild(t);
+  return t;
+}
+
+// Line count: one text node per block => getClientRects() gives exactly one rect per line box.
+function lineInfo(el){
+  const r=document.createRange(); r.selectNodeContents(el);
+  const rects=[...r.getClientRects()].filter(x=>x.width>0.5);
+  const chars=el.textContent.length;
+  const w=el.getBoundingClientRect().width;
+  return {lines:rects.length, chars, cpl: chars/rects.length, widthPx:w,
+          blockH: rects.length ? (rects[rects.length-1].bottom-rects[0].top) : 0};
+}
+
+// Rendered advance width of a string at an explicit weight/style, via canvas.
+const cv=document.createElement('canvas'), cx=cv.getContext('2d');
+function adv(str, spec){ cx.font=spec; return cx.measureText(str).width; }
+
+// Tight glyph metrics from canvas TextMetrics, measured at 100px then normalised to 17px.
+function glyph(fam, weight, ch, px=100){
+  cx.font = weight+' '+px+'px "'+fam+'"';
+  const m = cx.measureText(ch);
+  return {asc:m.actualBoundingBoxAscent, desc:m.actualBoundingBoxDescent,
+          w:m.width, at17:(m.actualBoundingBoxAscent/px)*17};
+}
+
+// Apparent stroke weight proxy: fraction of covered pixels inside the glyph's own
+// tight bounding box, rendered opaque at 200px. Same glyph, same size, both faces.
+function density(canvasId, fam, weight, ch='n', px=200){
+  const c=document.getElementById(canvasId), g=c.getContext('2d');
+  g.clearRect(0,0,c.width,c.height);
+  g.fillStyle='#000'; g.textBaseline='alphabetic';
+  g.font = weight+' '+px+'px "'+fam+'"';
+  const m=g.measureText(ch);
+  const x=20, y=210;
+  g.fillText(ch,x,y);
+  const bx=Math.floor(x-m.actualBoundingBoxLeft), by=Math.floor(y-m.actualBoundingBoxAscent);
+  const bw=Math.ceil(m.actualBoundingBoxLeft+m.actualBoundingBoxRight);
+  const bh=Math.ceil(m.actualBoundingBoxAscent+m.actualBoundingBoxDescent);
+  const d=g.getImageData(bx,by,bw,bh).data;
+  let on=0; for(let i=3;i<d.length;i+=4) if(d[i]>128) on++;
+  // repaint in sheet ink so the screenshot is legible
+  g.clearRect(0,0,c.width,c.height);
+  g.fillStyle=getComputedStyle(document.body).color;
+  g.font = weight+' '+px+'px "'+fam+'"';
+  g.fillText(ch,x,y);
+  g.strokeStyle=getComputedStyle(document.body).color; g.globalAlpha=.35;
+  g.strokeRect(bx+.5,by+.5,bw,bh); g.globalAlpha=1;
+  return {covered:on, box:bw*bh, ratio:on/(bw*bh), bw, bh};
+}
+
+/* ------------------------------------------------------------ measurement */
+async function run(){
+  if (STATE !== 'nogpu') {
+    try {
+      await Promise.all([
+        document.fonts.load('500 17px "Cabinet Grotesk"'),
+        document.fonts.load('700 17px "Cabinet Grotesk"'),
+        document.fonts.load('800 17px "Cabinet Grotesk"'),
+        document.fonts.load('400 17px "General Sans"'),
+        document.fonts.load('500 17px "General Sans"'),
+        document.fonts.load('600 17px "General Sans"')
+      ]);
+    } catch(e){}
+    await document.fonts.ready;
+  }
+
+  /* --- 00 declared faces ------------------------------------------------ */
+  const faces=[...document.fonts].map(f=>[f.family,f.weight,f.style,f.status]);
+  R.declaredFaces = faces;
+  tbl('faces', ['@font-face declared','weight','style','status'],
+      faces.length ? faces.map(f=>[f[0],f[1],f[2],f[3]])
+                   : [['<mark>none — webfonts blocked (state=nogpu)</mark>','—','—','—']]);
+
+  /* --- resolution probe: does w400 render identically to w500? ---------- */
+  const P='Handgloves 0123456789 ijoxn';
+  const probe=(fam,styles)=>styles.map(s=>({s, w:adv(P, s+' 17px "'+fam+'"')}));
+  const cabW = probe('Cabinet Grotesk', ['400','500','600','700','800']);
+  const gsW  = probe('General Sans',    ['400','500','600','700']);
+  const cabIt= adv(P,'italic 500 16px "Cabinet Grotesk"');
+  const cabUp= adv(P,'normal 500 16px "Cabinet Grotesk"');
+  R.cabWidths=cabW; R.gsWidths=gsW; R.italicAdv=cabIt; R.uprightAdv=cabUp;
+
+  const eq=(a,b)=>Math.abs(a-b)<0.05;
+  const c4=cabW[0].w, c5=cabW[1].w, c6=cabW[2].w, c7=cabW[3].w, c8=cabW[4].w;
+  const f400to500 = eq(c4,c5), f600to700 = eq(c6,c7);
+  const italicSynth = eq(cabIt,cabUp);
+  R.finding_400_resolves_to_500 = f400to500;
+  R.finding_600_resolves_to_700 = f600to700;
+  R.finding_italic_synthesised  = italicSynth;
+  R.check = {
+    'cab 400': document.fonts.check('400 17px "Cabinet Grotesk"'),
+    'cab 500': document.fonts.check('500 17px "Cabinet Grotesk"'),
+    'cab 600': document.fonts.check('600 17px "Cabinet Grotesk"'),
+    'cab 700': document.fonts.check('700 17px "Cabinet Grotesk"'),
+    'cab italic 500': document.fonts.check('italic 500 17px "Cabinet Grotesk"'),
+    'gs 400': document.fonts.check('400 17px "General Sans"')
+  };
+
+  tbl('resolve',
+    ['probe string rendered at 17px','w400 px','w500 px','w600 px','w700 px','w800 px'],
+    [['Cabinet Grotesk — advance width', num(c4), num(c5), num(c6), num(c7), num(c8)],
+     ['General Sans — advance width', num(gsW[0].w), num(gsW[1].w), num(gsW[2].w), num(gsW[3].w), '—']]);
+
+  const v = b => b ? '<mark>CONFIRMED</mark>' : 'not observed';
+  tbl('resolve',
+    ['runtime finding','evidence','verdict'],
+    [['body <span class="ctrl">font-weight:400</span> resolves to the <b>500</b> file',
+      'w400 and w500 advance widths identical ('+num(c4)+' = '+num(c5)+')', v(f400to500)],
+     ['title-block <span class="ctrl">font-weight:600</span> resolves to the <b>700</b> file',
+      'w600 and w700 advance widths identical ('+num(c6)+' = '+num(c7)+')', v(f600to700)],
+     ['16px redline italic is a <b>synthesised oblique</b> (sheared upright)',
+      'italic and upright advance widths identical ('+num(cabIt)+' = '+num(cabUp)+'); a real italic face changes advances',
+      v(italicSynth)],
+     ['<span class="ctrl">document.fonts.check()</span> answers TRUE for every one of them',
+      Object.entries(R.check).map(([k,x])=>k+'='+x).join(' &nbsp; '),
+      'check() matches by <mark>nearest available face</mark>, so it cannot detect this — width comparison can']]);
+
+  if (STATE !== 'nogpu' && f400to500) {
+    document.getElementById('riskbox').innerHTML =
+      '<div class="warn"><b>RISK 3 is worse than Loop 1 assumed.</b> The body is not Cabinet Grotesk 400. '+
+      'There is no 400 file. Every word of body copy on this concept renders in the <b>500</b> weight, at 17px, '+
+      'in a display face. The spec says 400 and the browser silently ships 500.</div>';
+  }
+
+  /* --- 01 the A/B -------------------------------------------------------- */
+  const A=lineInfo(document.getElementById('blkCab'));
+  const B=lineInfo(document.getElementById('blkGS'));
+  R.blockCab17=A; R.blockGS17=B;
+  const zeroCab=adv('0','400 17px "Cabinet Grotesk"'), zeroGS=adv('0','400 17px "General Sans"');
+  R.chWidth={cabinet:zeroCab, generalSans:zeroGS};
+  tbl('cmp1',
+    ['condition','60ch = px','line count','mean chars/line','block height px','1ch (width of “0”) px'],
+    [['A &nbsp; Cabinet Grotesk 17/1.65 &nbsp; <mark>(renders w500)</mark>', num(A.widthPx,1), A.lines, num(A.cpl,1), num(A.blockH,0), num(zeroCab)],
+     ['B &nbsp; General Sans 17/1.65 &nbsp; (true w400)', num(B.widthPx,1), B.lines, num(B.cpl,1), num(B.blockH,0), num(zeroGS)],
+     ['delta', num(A.widthPx-B.widthPx,1), (A.lines-B.lines>0?'+':'')+(A.lines-B.lines),
+      (A.cpl-B.cpl>0?'+':'')+num(A.cpl-B.cpl,1), (A.blockH-B.blockH>0?'+':'')+num(A.blockH-B.blockH,0),
+      num(zeroCab-zeroGS)]]);
+
+  /* --- 02 ladder --------------------------------------------------------- */
+  const C=lineInfo(document.getElementById('blk18'));
+  const D=lineInfo(document.getElementById('blk19'));
+  R.blockCab18=C; R.blockCab19=D;
+  tbl('cmp2',
+    ['condition','60ch = px','line count','mean chars/line','block height px','grid cost'],
+    [['A &nbsp; Cabinet 17px (spec)', num(A.widthPx,1), A.lines, num(A.cpl,1), num(A.blockH,0), 'baseline'],
+     ['C &nbsp; Cabinet 18px', num(C.widthPx,1), C.lines, num(C.cpl,1), num(C.blockH,0),
+      '+'+num(C.widthPx-A.widthPx,0)+'px measure &nbsp;·&nbsp; '+num((C.widthPx-A.widthPx)/((1416-15*24)/16),2)+' cols'],
+     ['D &nbsp; Cabinet 19px', num(D.widthPx,1), D.lines, num(D.cpl,1), num(D.blockH,0),
+      '+'+num(D.widthPx-A.widthPx,0)+'px measure &nbsp;·&nbsp; '+num((D.widthPx-A.widthPx)/((1416-15*24)/16),2)+' cols']]);
+  const lh17=17*1.65, lh18=18*1.65, lh19=19*1.65;
+  document.getElementById('rl2').textContent =
+    'Redline: the ladder is not free. line-height 1.65 gives ' + lh17.toFixed(2) + 'px at 17, ' +
+    lh18.toFixed(2) + 'px at 18, ' + lh19.toFixed(2) + 'px at 19 — none of them a multiple of 4, ' +
+    'so every bump re-breaks the 4px rhythm as well as the 16-column measure.';
+  R.lineHeights={px17:lh17,px18:lh18,px19:lh19, on4pxGrid:{ '17':lh17%4===0, '18':lh18%4===0, '19':lh19%4===0 }};
+
+  /* --- 03 narrow --------------------------------------------------------- */
+  const E=lineInfo(document.getElementById('blkNarCab'));
+  const F=lineInfo(document.getElementById('blkNarGS'));
+  R.narrowCab=E; R.narrowGS=F;
+  tbl('cmp3',
+    ['condition (358px content)','rendered px','line count','mean chars/line','block height px'],
+    [['E &nbsp; Cabinet 17px', num(E.widthPx,1), E.lines, num(E.cpl,1), num(E.blockH,0)],
+     ['F &nbsp; General Sans 17px', num(F.widthPx,1), F.lines, num(F.cpl,1), num(F.blockH,0)],
+     ['delta', '0', (E.lines-F.lines>0?'+':'')+(E.lines-F.lines), num(E.cpl-F.cpl,1),
+      (E.blockH-F.blockH>0?'+':'')+num(E.blockH-F.blockH,0)]]);
+
+  /* --- 04 oblique -------------------------------------------------------- */
+  const G=document.getElementById('obl').getBoundingClientRect();
+  const H=document.getElementById('upr').getBoundingClientRect();
+  tbl('cmp4',
+    ['sample','canvas advance px (16px, same string)','DOM height px','reading'],
+    [['G &nbsp; font-style: italic', num(cabIt), num(G.height,1),
+      italicSynth?'<mark>synthesised oblique</mark> — advance unchanged, glyphs sheared':'real italic face'],
+     ['H &nbsp; font-style: normal', num(cabUp), num(H.height,1), 'upright, drawn']]);
+
+  /* --- 05 glyph metrics -------------------------------------------------- */
+  const gCabX=glyph('Cabinet Grotesk','500','x'), gCabH=glyph('Cabinet Grotesk','500','H');
+  const gGSX =glyph('General Sans','400','x'),    gGSH =glyph('General Sans','400','H');
+  const dCab=density('cvCab','Cabinet Grotesk','500');
+  const dGS =density('cvGS','General Sans','400');
+  R.glyph={cabinet:{x:gCabX,H:gCabH}, generalSans:{x:gGSX,H:gGSH}};
+  R.density={cabinet:dCab, generalSans:dGS};
+  const rCab=gCabX.asc/gCabH.asc, rGS=gGSX.asc/gGSH.asc;
+  tbl('cmp5',
+    ['face (weight as it really renders)','x-height @100px','cap-height @100px','x/cap ratio','x-height @17px','stroke density (covered px / bbox)'],
+    [['Cabinet Grotesk w500', num(gCabX.asc), num(gCabH.asc), num(rCab,3), num(gCabX.at17), num(dCab.ratio,4)+' &nbsp;('+dCab.covered+' / '+dCab.box+')'],
+     ['General Sans w400', num(gGSX.asc), num(gGSH.asc), num(rGS,3), num(gGSX.at17), num(dGS.ratio,4)+' &nbsp;('+dGS.covered+' / '+dGS.box+')'],
+     ['delta', num(gCabX.asc-gGSX.asc), num(gCabH.asc-gGSH.asc), num(rCab-rGS,3), num(gCabX.at17-gGSX.at17),
+      (dCab.ratio>dGS.ratio?'+':'')+num((dCab.ratio/dGS.ratio-1)*100,1)+'% denser']]);
+  tbl('cmp5', ['method',''],
+    [['x/cap-height','canvas TextMetrics actualBoundingBoxAscent on “x” and “H” at 100px, normalised ×0.17 for the 17px figure'],
+     ['stroke density','glyph “n” filled opaque at 200px, alpha&gt;128 pixels counted inside its own actualBoundingBox, divided by that box area']]);
+
+  /* --- 06 states --------------------------------------------------------- */
+  document.getElementById('statenote').innerHTML =
+    'This prototype has <b>no motion</b>. <span class="ctrl">?state=full</span> and '+
+    '<span class="ctrl">?state=reduced</span> are <b>deliberately byte-identical</b> — there is nothing to reduce, and '+
+    'faking a difference would be dishonest. <span class="ctrl">?state=nogpu</span> is reinterpreted as the honest third '+
+    'state for a typography prototype: <b>the no-webfont state</b>, with fonts.css never injected. '+
+    '<span class="ctrl">font-display: swap</span> guarantees a real visitor sees it.';
+
+  /* --- one rAF sanity sample; a load test here would be theatre ---------- */
+  let n=0, t0=performance.now();
+  (function tick(){ n++; if(performance.now()-t0<1000) requestAnimationFrame(tick);
+    else { R.fps = n/((performance.now()-t0)/1000);
+           document.getElementById('fps').textContent = 'idle ' + R.fps.toFixed(0) + ' fps · static page'; } })();
+
+  R.viewport = {w:innerWidth, h:innerHeight, dpr:devicePixelRatio};
+  R.state=STATE; R.mode=MODE;
+  R.computedBody = {family:getComputedStyle(document.getElementById('blkCab')).fontFamily,
+                    weight:getComputedStyle(document.getElementById('blkCab')).fontWeight,
+                    size:getComputedStyle(document.getElementById('blkCab')).fontSize,
+                    lineHeight:getComputedStyle(document.getElementById('blkCab')).lineHeight};
+  window.__M = R;
+  document.documentElement.setAttribute('data-measured','1');
+}
+run();
+</script>
+</body>
+</html>

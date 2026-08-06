@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p2 · redline draw-on — as-built</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+
+<!-- ===================================================================
+     SHIPPING JS — this block is the entire runtime cost of the technique.
+     Measured separately in the report. Nothing below the "HARNESS" comment
+     ships; it is instrumentation for this prototype only.
+     =================================================================== -->
+<script id="ship-js">
+(() => {
+  const root = document.documentElement;
+  const rm = matchMedia('(prefers-reduced-motion: reduce)');
+  const still = () => rm.matches || root.dataset.state === 'reduced' || root.dataset.state === 'nogpu'; // dataset check is demo-only
+  // NOTE: isIntersecting is true at 1px of overlap and ignores the threshold — gate on the ratio.
+  const io = new IntersectionObserver(
+    es => es.forEach(e => e.target.classList.toggle('drawn', e.intersectionRatio >= 0.4)),
+    { threshold: 0.4, rootMargin: '0px 0px -15% 0px' });
+  const sync = () => {
+    const s = still();
+    root.classList.toggle('js-motion', !s);
+    window.__rmSyncs = (window.__rmSyncs || 0) + 1;          // demo-only counter
+    if (s) return io.disconnect();
+    document.querySelectorAll('.rl-group .redline').forEach(p => p.style.setProperty('--L', p.getTotalLength()));
+    document.querySelectorAll('.rl-group').forEach(n => io.observe(n));
+  };
+  root.classList.toggle('js-motion', !still());              // pre-paint: no flash of drawn ink
+  rm.addEventListener('change', sync);
+  window.__sync = sync;                                      // demo-only handle
+  addEventListener('DOMContentLoaded', sync);
+})();
+</script>
+
+<style>
+/* ---------- palette: two art directions, measured values from DIRECTION ---------- */
+:root{
+  --field:#0e2e2c; --line1:#efe7d6; --line2:#7fb5ad; --micro:#7fb5ad;
+  --red:#f26a52;            /* text-legal on #0e2e2c — 4.81:1 */
+  --red-graphic:#f26a52;    /* dark has no separate graphic tint */
+  --w1:1.5px; --w2:1px; --wred:2px; --focus:#f26a52;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --field:#fbf8f1; --line1:#0e2e2c; --line2:#14403d; --micro:#14403d;
+    --red:#c63f28;          /* text-legal on #fbf8f1 — 4.78:1 */
+    --red-graphic:#e9503a;  /* 3.49:1 — GRAPHIC ONLY, never text */
+    --w1:1px; --w2:0.75px; --wred:1.5px; --focus:#c63f28;
+  }
+}
+:root[data-mode="dark"]{
+  --field:#0e2e2c; --line1:#efe7d6; --line2:#7fb5ad; --micro:#7fb5ad;
+  --red:#f26a52; --red-graphic:#f26a52; --w1:1.5px; --w2:1px; --wred:2px; --focus:#f26a52;
+}
+:root[data-mode="light"]{
+  --field:#fbf8f1; --line1:#0e2e2c; --line2:#14403d; --micro:#14403d;
+  --red:#c63f28; --red-graphic:#e9503a; --w1:1px; --w2:0.75px; --wred:1.5px; --focus:#c63f28;
+}
+
+/* ---------- motion tokens ---------- */
+:root{
+  --ink:cubic-bezier(0.33, 0, 0.15, 1);      /* enter — pen: fast to speed, long tail */
+  --ink-lift:cubic-bezier(0.4, 0, 1, 1);     /* exit  — ink retracts */
+  --dur-exit:260ms;
+  --stagger:90ms;
+  --stagger-cap:360ms;
+  --r:4px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--field)}
+body{
+  background:var(--field);
+  color:var(--line1);
+  font-family:'Cabinet Grotesk', ui-sans-serif, system-ui, sans-serif;
+  font-weight:500;
+  padding:48px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- the sheet: 1512 container, 32px drawn border zone, radius 0 ---------- */
+.sheet{width:min(1512px,100%);margin:0 auto;border:var(--w1) solid var(--line1);padding:32px;position:relative}
+.sheet::before{content:"";position:absolute;inset:32px;border:var(--w2) solid var(--line2);pointer-events:none}
+.tick{position:absolute;width:24px;height:24px;pointer-events:none}
+.tick i{position:absolute;background:var(--line2)}
+.tick i:first-child{left:0;top:11px;width:24px;height:var(--w2)}
+.tick i:last-child{left:11px;top:0;width:var(--w2);height:24px}
+.tick.tl{left:20px;top:20px}.tick.tr{right:20px;top:20px}
+.tick.bl{left:20px;bottom:20px}.tick.br{right:20px;bottom:20px}
+
+.inner{position:relative;padding:24px}
+
+/* ---------- type roles ---------- */
+h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1;letter-spacing:.02em;text-transform:uppercase}
+h2,.lettering{font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;text-transform:uppercase}
+.tb-field{font-size:13px;font-weight:600;line-height:1.3;letter-spacing:.08em;text-transform:uppercase}
+.micro{font-size:12px;font-weight:400;line-height:1.1;letter-spacing:.1em;text-transform:uppercase;
+       font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;color:var(--micro)}
+.note{font-size:17px;font-weight:400;line-height:1.65;letter-spacing:0;max-width:60ch}
+.redline-text{font-size:16px;font-weight:500;font-style:italic;line-height:1.4;letter-spacing:.01em;color:var(--red)}
+
+/* ---------- title block: 96px band ---------- */
+.titleblock{height:96px;display:grid;grid-template-columns:1.7fr 1fr .7fr 1.2fr 1fr 1.3fr;align-items:center;
+            border-bottom:var(--w1) solid var(--line1);gap:24px}
+.titleblock>div{border-left:var(--w2) solid var(--line2);padding-left:12px;height:56px;display:flex;
+                flex-direction:column;justify-content:center;gap:var(--r)}
+.titleblock>div:first-child{border-left:0;padding-left:0}
+.titleblock .tb-field{color:var(--line1)}
+
+/* ---------- dimension strip ---------- */
+.dimstrip{display:flex;align-items:center;gap:8px;padding:16px 0 0;color:var(--micro)}
+.dimstrip hr{flex:1;border:0;border-top:var(--w2) solid var(--line2);height:0}
+
+/* ===================== REDLINE INK ===================== */
+.redline{
+  fill:none;
+  stroke:var(--red-graphic);
+  stroke-width:var(--wred);
+  /* NO non-scaling-stroke on animated ink: it makes stroke-dasharray/dashoffset
+     screen-space while getTotalLength() stays user-space, and the ~4% viewBox scale
+     difference paints a visible tail in the hidden state. Cost of dropping it: the
+     stroke renders at wred x the viewBox scale (2.08px at 1440, not 2.00px). */
+  stroke-linecap:butt;             /* squared — the at-rest / art-directed still */
+  stroke-linejoin:round;
+  stroke-dasharray:none;           /* BASE = drawn. No JS ⇒ ink present, at rest. */
+  stroke-dashoffset:0;
+}
+/* motion is opt-IN, added pre-paint by the head script only when motion is allowed.
+   --L is the path's own getTotalLength(), written by the ship script. The 99999
+   fallback keeps the ink hidden between first paint and measurement, so there is
+   no flash of drawn ink. pathLength="1000" was tried first and REJECTED: Chrome's
+   internal flattened length disagrees with the author value by ~5% on a heavily
+   curved path, which left a visible tail of the cloud painted in the hidden state. */
+.js-motion .rl-group .redline{
+  stroke-linecap:round;            /* pen tip, only while the technique can run */
+  stroke-dasharray:var(--L, 99999);
+  transition:stroke-dashoffset var(--dur-exit) var(--ink-lift);
+}
+.js-motion .rl-group:not(.drawn) .redline{stroke-dashoffset:var(--L, 99999)}
+.js-motion .rl-group.drawn .redline{
+  stroke-dashoffset:0;
+  /* --delay overrides the stagger for ink that must FOLLOW another stroke (a leader after its cloud) */
+  transition:stroke-dashoffset var(--dur) var(--ink)
+             var(--delay, min(var(--i) * var(--stagger), var(--stagger-cap)));
+}
+/* CSS layer of the reduced-motion contract — independent of the JS layer above */
+@media (prefers-reduced-motion: reduce){
+  .redline{stroke-dashoffset:0 !important;stroke-linecap:butt !important;transition:none !important}
+}
+:root[data-state="reduced"] .redline,
+:root[data-state="nogpu"] .redline{stroke-dashoffset:0 !important;stroke-linecap:butt !important;transition:none !important}
+
+/* ---------- surface 1: hero ---------- */
+.hero{padding:48px 0 64px;position:relative}
+.hero h1{margin-bottom:16px}
+.struck{position:relative;display:inline-block;padding-bottom:12px}
+.struck svg{position:absolute;left:-6px;top:-2px;width:calc(100% + 12px);height:24px;overflow:visible}
+/* the hero strike never dashes, so it can safely keep a true 2px stroke despite its
+   extreme viewBox distortion (0.32 x 0.67) */
+.struck .redline{vector-effect:non-scaling-stroke}
+.hero .redline-text{margin-top:20px;max-width:56ch}
+.hero .note{margin-top:24px;color:var(--line2)}
+
+/* ---------- surface 3: revision cloud ---------- */
+.sec{border-top:var(--w1) solid var(--line1);padding:32px 0 48px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.cloudwrap{position:relative;display:grid;grid-template-columns:1fr 320px;aspect-ratio:1180/260}
+.cloudwrap svg.overlay{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.cloudwrap .body{padding:40px 40px 40px 44px;display:flex;align-items:center}
+.cloudwrap .aside{padding:24px 0 0 8px}
+.narrow-only{display:none}
+
+/* ---------- surface 4: revision table ---------- */
+.revtable{width:100%;border-collapse:collapse}
+.revtable th{text-align:left;padding:0 12px 8px 0;border-bottom:var(--w1) solid var(--line1)}
+.revtable td{padding:0;border-bottom:var(--w2) solid var(--line2)}
+.revrow{position:relative;height:44px;display:grid;grid-template-columns:96px 148px 1fr 96px;align-items:center;gap:0}
+.revrow svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.revrow .c{padding-right:12px}
+.rev-note{margin-top:24px;max-width:60ch}
+
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---------- 390 ---------- */
+@media (max-width:600px){
+  body{padding:16px}
+  .sheet{padding:16px}
+  .sheet::before{inset:16px}
+  .inner{padding:12px}
+  .titleblock{height:auto;grid-template-columns:repeat(2,1fr);gap:12px;padding:12px 0}
+  .titleblock>div{height:auto;border-left:0;padding-left:0}
+  .hero{padding:24px 0 32px}
+  .cloudwrap{grid-template-columns:1fr;aspect-ratio:358/560}
+  .cloudwrap .body{padding:28px 24px}
+  .cloudwrap .aside{padding:8px 24px 0}
+  .wide-only{display:none}
+  .narrow-only{display:block}
+  .revrow{grid-template-columns:56px 1fr;grid-template-rows:auto auto;height:auto;padding:10px 0;row-gap:2px}
+  .revrow .c-desc{grid-column:1/3}
+  .revrow .c-by{display:none}
+  .revtable th:nth-child(2),.revtable td:nth-child(2){display:none}
+}
+
+/* ===================== HARNESS — NOT SHIPPED ===================== */
+#fps{position:fixed;right:12px;bottom:12px;z-index:99;background:var(--field);color:var(--red);
+     border:2px solid var(--red);padding:8px 10px;font-family:'Cabinet Grotesk',monospace;font-size:12px;
+     line-height:1.35;letter-spacing:.1em;text-transform:uppercase;font-variant-numeric:tabular-nums;white-space:pre}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <span class="tick tl"><i></i><i></i></span><span class="tick tr"><i></i><i></i></span>
+  <span class="tick bl"><i></i><i></i></span><span class="tick br"><i></i><i></i></span>
+
+  <div class="inner">
+
+    <!-- ============ TITLE BLOCK ============ -->
+    <div class="titleblock">
+      <div><span class="micro">Project</span><span class="tb-field">Taha Mahmoodi — Portfolio</span></div>
+      <div><span class="micro">Sheet</span><span class="tb-field">A-01 of 06</span></div>
+      <div><span class="micro">Scale</span><span class="tb-field">1:1</span></div>
+      <div><span class="micro">Drawn</span><span class="tb-field">T. Mahmoodi</span></div>
+      <div><span class="micro">Issued</span><span class="tb-field">2026-08-06</span></div>
+      <div><span class="micro">Revision</span><span class="tb-field">E — As-Built</span></div>
+    </div>
+
+    <!-- ============ SURFACE 1 — HERO. ABOVE THE FOLD. NOTHING ANIMATES HERE. ============ -->
+    <section class="hero">
+      <div class="dimstrip"><span class="micro">0</span><hr><span class="micro">378</span><hr>
+        <span class="micro">756</span><hr><span class="micro">1134</span><hr><span class="micro">1512</span></div>
+
+      <h1 style="margin-top:32px">Taha Mahmoodi</h1>
+
+      <!-- hero redline: painted AT REST at first paint. never in a .rl-group, never animated. -->
+      <div class="struck">
+        <span class="lettering">AI-Powered Product Designer</span>
+        <svg viewBox="0 0 1180 36" preserveAspectRatio="none" aria-hidden="true">
+          <path class="redline" pathLength="1000"
+                d="M 4 22 C 180 15 420 27 690 17 C 880 11 1010 21 1176 14"/>
+        </svg>
+      </div>
+
+      <p class="redline-text">not &ldquo;powered by&rdquo;. he designs the system the model runs inside, then issues the
+        corrections against it. see rev D. &mdash; T.M.</p>
+
+      <p class="note">Sheet A-01 of a portfolio issued as an as-built drawing: the plan, and then every
+        correction made against it in the field. The corrections are the work.</p>
+    </section>
+
+    <!-- ============ SURFACE 3 — REVISION CLOUD. BELOW THE FOLD. DRAWS ON. ============ -->
+    <section class="sec" id="s3">
+      <div class="sec-head"><h2>03 &nbsp;/&nbsp; Method</h2><span class="micro">Rev C &middot; clouded</span></div>
+
+      <div class="cloudwrap rl-group" id="g-cloud">
+        <svg class="overlay wide-only" viewBox="0 0 1180 260" preserveAspectRatio="none" aria-hidden="true">
+          <path class="redline" style="--dur:900ms;--i:0"
+                d="M 10.0 12.0 Q 25.2 -12.0 40.4 12.0 Q 55.6 -12.0 70.8 12.0 Q 86.0 -12.0 101.2 12.0 Q 116.3 -12.0 131.5 12.0 Q 146.7 -12.0 161.9 12.0 Q 177.1 -12.0 192.3 12.0 Q 207.5 -12.0 222.7 12.0 Q 237.9 -12.0 253.1 12.0 Q 268.3 -12.0 283.5 12.0 Q 298.7 -12.0 313.8 12.0 Q 329.0 -12.0 344.2 12.0 Q 359.4 -12.0 374.6 12.0 Q 389.8 -12.0 405.0 12.0 Q 420.2 -12.0 435.4 12.0 Q 450.6 -12.0 465.8 12.0 Q 481.0 -12.0 496.2 12.0 Q 511.3 -12.0 526.5 12.0 Q 541.7 -12.0 556.9 12.0 Q 572.1 -12.0 587.3 12.0 Q 602.5 -12.0 617.7 12.0 Q 632.9 -12.0 648.1 12.0 Q 663.3 -12.0 678.5 12.0 Q 693.7 -12.0 708.8 12.0 Q 724.0 -12.0 739.2 12.0 Q 754.4 -12.0 769.6 12.0 Q 784.8 -12.0 800.0 12.0 Q 824.0 26.8 800.0 41.5 Q 824.0 56.2 800.0 71.0 Q 824.0 85.8 800.0 100.5 Q 824.0 115.2 800.0 130.0 Q 824.0 144.8 800.0 159.5 Q 824.0 174.2 800.0 189.0 Q 824.0 203.8 800.0 218.5 Q 824.0 233.2 800.0 248.0 Q 784.8 272.0 769.6 248.0 Q 754.4 272.0 739.2 248.0 Q 724.0 272.0 708.8 248.0 Q 693.7 272.0 678.5 248.0 Q 663.3 272.0 648.1 248.0 Q 632.9 272.0 617.7 248.0 Q 602.5 272.0 587.3 248.0 Q 572.1 272.0 556.9 248.0 Q 541.7 272.0 526.5 248.0 Q 511.3 272.0 496.2 248.0 Q 481.0 272.0 465.8 248.0 Q 450.6 272.0 435.4 248.0 Q 420.2 272.0 405.0 248.0 Q 389.8 272.0 374.6 248.0 Q 359.4 272.0 344.2 248.0 Q 329.0 272.0 313.8 248.0 Q 298.7 272.0 283.5 248.0 Q 268.3 272.0 253.1 248.0 Q 237.9 272.0 222.7 248.0 Q 207.5 272.0 192.3 248.0 Q 177.1 272.0 161.9 248.0 Q 146.7 272.0 131.5 248.0 Q 116.3 272.0 101.2 248.0 Q 86.0 272.0 70.8 248.0 Q 55.6 272.0 40.4 248.0 Q 25.2 272.0 10.0 248.0 Q -14.0 233.2 10.0 218.5 Q -14.0 203.8 10.0 189.0 Q -14.0 174.2 10.0 159.5 Q -14.0 144.8 10.0 130.0 Q -14.0 115.2 10.0 100.5 Q -14.0 85.8 10.0 71.0 Q -14.0 56.2 10.0 41.5 Q -14.0 26.8 10.0 12.0 Z"/>
+          <path class="redline" style="--dur:340ms;--i:1;--delay:820ms"
+                d="M 874 42 C 856 54 872 100 850 120 M 850 120 l 18 -3 M 850 120 l 11 13"/>
+        </svg>
+
+        <svg class="overlay narrow-only" viewBox="0 0 358 560" preserveAspectRatio="none" aria-hidden="true">
+          <path class="redline" style="--dur:900ms;--i:0"
+                d="M 10.0 12.0 Q 24.1 -10.0 38.2 12.0 Q 52.3 -10.0 66.3 12.0 Q 80.4 -10.0 94.5 12.0 Q 108.6 -10.0 122.7 12.0 Q 136.8 -10.0 150.8 12.0 Q 164.9 -10.0 179.0 12.0 Q 193.1 -10.0 207.2 12.0 Q 221.2 -10.0 235.3 12.0 Q 249.4 -10.0 263.5 12.0 Q 277.6 -10.0 291.7 12.0 Q 305.8 -10.0 319.8 12.0 Q 333.9 -10.0 348.0 12.0 Q 370.0 26.0 348.0 40.0 Q 370.0 54.0 348.0 68.0 Q 370.0 82.0 348.0 96.0 Q 370.0 110.0 348.0 124.0 Q 370.0 138.0 348.0 152.0 Q 370.0 166.0 348.0 180.0 Q 370.0 194.0 348.0 208.0 Q 370.0 222.0 348.0 236.0 Q 370.0 250.0 348.0 264.0 Q 370.0 278.0 348.0 292.0 Q 370.0 306.0 348.0 320.0 Q 370.0 334.0 348.0 348.0 Q 370.0 362.0 348.0 376.0 Q 370.0 390.0 348.0 404.0 Q 333.9 426.0 319.8 404.0 Q 305.8 426.0 291.7 404.0 Q 277.6 426.0 263.5 404.0 Q 249.4 426.0 235.3 404.0 Q 221.2 426.0 207.2 404.0 Q 193.1 426.0 179.0 404.0 Q 164.9 426.0 150.8 404.0 Q 136.8 426.0 122.7 404.0 Q 108.6 426.0 94.5 404.0 Q 80.4 426.0 66.3 404.0 Q 52.2 426.0 38.2 404.0 Q 24.1 426.0 10.0 404.0 Q -12.0 390.0 10.0 376.0 Q -12.0 362.0 10.0 348.0 Q -12.0 334.0 10.0 320.0 Q -12.0 306.0 10.0 292.0 Q -12.0 278.0 10.0 264.0 Q -12.0 250.0 10.0 236.0 Q -12.0 222.0 10.0 208.0 Q -12.0 194.0 10.0 180.0 Q -12.0 166.0 10.0 152.0 Q -12.0 138.0 10.0 124.0 Q -12.0 110.0 10.0 96.0 Q -12.0 82.0 10.0 68.0 Q -12.0 54.0 10.0 40.0 Q -12.0 26.0 10.0 12.0 Z"/>
+          <path class="redline" style="--dur:340ms;--i:1;--delay:820ms"
+                d="M 176 460 C 176 442 172 430 172 416 M 172 416 l -7 15 M 172 416 l 9 14"/>
+        </svg>
+
+        <div class="body">
+          <p class="note">I draw the system first — the flow, the data, the failure modes — and then I build it and
+            watch it break in someone&rsquo;s hands. The plan is the first pass. The redline is where the work
+            actually happened: the constraint nobody predicted, the assumption that did not survive contact,
+            the second version that is the one you use.</p>
+        </div>
+        <div class="aside">
+          <p class="redline-text">this is the whole argument. don&rsquo;t bury it under the case studies. put it on
+            sheet one. &mdash; rev C</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SURFACE 4 — REVISION COLUMN. BELOW THE FOLD. DRAWS ON, STAGGERED. ============ -->
+    <section class="sec" id="s4">
+      <div class="sec-head"><h2>04 &nbsp;/&nbsp; Revisions</h2><span class="micro">5 entries &middot; A through E</span></div>
+
+      <table class="revtable">
+        <thead><tr>
+          <th class="micro">Rev</th><th class="micro">Date</th><th class="micro">Description</th><th class="micro">By</th>
+        </tr></thead>
+        <tbody>
+          <tr><td colspan="4"><div class="revrow rl-group">
+            <svg class="wide-only" viewBox="0 0 1180 44" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:340ms;--i:2"
+                    d="M 96 22 C 96 10 74 6 54 8 C 30 10 18 17 20 26 C 22 35 44 40 66 37 C 86 34 98 28 94 20"/></svg>
+            <svg class="narrow-only" viewBox="0 0 358 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:340ms;--i:2"
+                    d="M 6 50 C 90 46 180 52 300 47"/></svg>
+            <span class="c tb-field">A</span><span class="c micro">2024-11-02</span>
+            <span class="c c-desc tb-field" style="letter-spacing:.04em">Issued for review — case studies written as outcomes</span>
+            <span class="c c-by micro">T.M.</span>
+          </div></td></tr>
+
+          <tr><td colspan="4"><div class="revrow rl-group">
+            <svg class="wide-only" viewBox="0 0 1180 44" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:370ms;--i:3"
+                    d="M 300 22 C 420 19 540 25 660 21 M 470 34 l -9 12 M 470 34 l 10 12"/></svg>
+            <svg class="narrow-only" viewBox="0 0 358 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:370ms;--i:3"
+                    d="M 6 50 C 90 46 180 52 300 47"/></svg>
+            <span class="c tb-field">B</span><span class="c micro">2025-03-18</span>
+            <span class="c c-desc tb-field" style="letter-spacing:.04em">Outcomes struck. Reissued with the decisions that made them</span>
+            <span class="c c-by micro">T.M.</span>
+          </div></td></tr>
+
+          <tr><td colspan="4"><div class="revrow rl-group">
+            <svg class="wide-only" viewBox="0 0 1180 44" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:370ms;--i:4"
+                    d="M 300 33 C 430 29 560 35 690 30"/></svg>
+            <svg class="narrow-only" viewBox="0 0 358 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:370ms;--i:4"
+                    d="M 6 50 C 90 46 180 52 300 47"/></svg>
+            <span class="c tb-field">C</span><span class="c micro">2025-09-07</span>
+            <span class="c c-desc tb-field" style="letter-spacing:.04em">Added the failures — three projects that did not ship</span>
+            <span class="c c-by micro">T.M.</span>
+          </div></td></tr>
+
+          <tr><td colspan="4"><div class="revrow rl-group">
+            <svg class="wide-only" viewBox="0 0 1180 44" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:340ms;--i:5"
+                    d="M 300 33 C 400 30 500 36 604 31"/></svg>
+            <svg class="narrow-only" viewBox="0 0 358 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:340ms;--i:5"
+                    d="M 6 50 C 90 46 180 52 300 47"/></svg>
+            <span class="c tb-field">D</span><span class="c micro">2026-02-14</span>
+            <span class="c c-desc tb-field" style="letter-spacing:.04em">AI section rewritten — &ldquo;uses AI&rdquo; struck, &ldquo;builds the system around it&rdquo; inserted</span>
+            <span class="c c-by micro">T.M.</span>
+          </div></td></tr>
+
+          <tr><td colspan="4"><div class="revrow rl-group">
+            <svg class="wide-only" viewBox="0 0 1180 44" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:390ms;--i:6"
+                    d="M 300 33 C 420 29 540 35 668 30 M 700 26 l 9 10 M 709 36 l 19 -22"/></svg>
+            <svg class="narrow-only" viewBox="0 0 358 60" preserveAspectRatio="none" aria-hidden="true">
+              <path class="redline" style="--dur:390ms;--i:6"
+                    d="M 6 50 C 90 46 180 52 300 47"/></svg>
+            <span class="c tb-field">E</span><span class="c micro">2026-08-06</span>
+            <span class="c c-desc tb-field" style="letter-spacing:.04em">This sheet. As-built.</span>
+            <span class="c c-by micro">T.M.</span>
+          </div></td></tr>
+        </tbody>
+      </table>
+
+      <p class="rev-note redline-text">every line above is a thing I got wrong the first time. that is the
+        portfolio. &mdash; rev E</p>
+    </section>
+
+  </div>
+</div>
+
+<div id="fps">FPS · SAMPLING</div>
+
+<!-- ===================== HARNESS — NOT SHIPPED ===================== -->
+<script id="harness-js">
+(() => {
+  const q = new URLSearchParams(location.search);
+  const root = document.documentElement;
+  const state = q.get('state') || 'full';
+  const mode  = q.get('mode');
+  const LOAD  = +(q.get('load') || 0);
+  const stress = q.has('stress') ? q.get('stress') !== '0' : state === 'full';
+  root.dataset.state = state;
+  if (mode) root.dataset.mode = mode;
+  window.__sync && window.__sync();
+
+  // ---- synthetic main-thread contention. NOT a CPU throttle. ----
+  const burn = () => { if (LOAD > 0) { const t0 = performance.now(); while (performance.now() - t0 < LOAD); } };
+
+  // ---- stress: replay the whole below-fold redline sequence so the sampler measures during draws ----
+  if (stress) {
+    addEventListener('load', () => {
+      document.getElementById('s3').scrollIntoView({ block: 'start' });
+      setTimeout(() => {
+        const gs = [...document.querySelectorAll('.rl-group')];
+        setInterval(() => {
+          gs.forEach(g => g.classList.remove('drawn'));
+          setTimeout(() => gs.forEach(g => g.classList.add('drawn')), 320);
+        }, 2200);
+      }, 400);
+    });
+  }
+
+  // ---- rAF sampler ----
+  const el = document.getElementById('fps');
+  const dts = []; let last = performance.now(), start = last, settled = false, paint = 0;
+  const pct = (a, p) => a[Math.min(a.length - 1, Math.max(0, Math.floor(a.length * p)))];
+  const calc = () => {
+    const s = dts.slice().sort((a, b) => a - b);
+    return { median: +(1000 / pct(s, .5)).toFixed(1), p1low: +(1000 / pct(s, .99)).toFixed(1), samples: s.length };
+  };
+  (function loop(now) {
+    const dt = now - last; last = now;
+    if (dt > 0 && dt < 500) dts.push(dt);
+    burn();
+    if (!settled && now - start > 10000) { settled = true; window.__fps = calc(); }
+    if (now - paint > 250) {
+      paint = now; const c = calc();
+      const jsm = root.classList.contains('js-motion') ? 1 : 0;
+      const rmm = matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 0;
+      const dr = document.querySelectorAll('.rl-group.drawn').length;
+      el.textContent = `FPS MED ${c.median}\nFPS 1% LOW ${c.p1low}\nN ${c.samples}  LOAD ${LOAD}MS\n`
+        + `JSMOTION ${jsm}  RM ${rmm}  SYNC ${window.__rmSyncs || 0}\nDRAWN ${dr}/6  CAP ${getComputedStyle(document.querySelector('.rl-group .redline')).strokeLinecap}\n`
+        + `${state.toUpperCase()} ${stress ? 'STRESS' : 'IDLE'} ${innerWidth}x${innerHeight}${settled ? '  SETTLED' : ''}`;
+    }
+    requestAnimationFrame(loop);
+  })(performance.now());
+
+  // ---- report surface ----
+  window.__probe = () => ({
+    state, mode: root.dataset.mode || 'system', load: LOAD, stress,
+    jsMotion: root.classList.contains('js-motion'),
+    rmMatches: matchMedia('(prefers-reduced-motion: reduce)').matches,
+    rmSyncs: window.__rmSyncs || 0,
+    cabinet500: document.fonts.check('500 17px "Cabinet Grotesk"'),
+    cabinetItalic: document.fonts.check('italic 500 16px "Cabinet Grotesk"'),
+    offsets: [...document.querySelectorAll('.rl-group .redline')].map(p => getComputedStyle(p).strokeDashoffset),
+    caps: [...new Set([...document.querySelectorAll('.redline')].map(p => getComputedStyle(p).strokeLinecap))],
+    heroOffset: getComputedStyle(document.querySelector('.struck .redline')).strokeDashoffset,
+    lengths: [...document.querySelectorAll('.redline')].map(p => +p.getTotalLength().toFixed(1))
+  });
+})();
+</script>
+</body>
+</html>

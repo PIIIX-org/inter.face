@@ -1,0 +1,406 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SHEET 01 — AS BUILT · Taha Mahmoodi</title>
+<link rel="preload" as="font" type="font/woff2" crossorigin href="fonts/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff2">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ── palette ─────────────────────────────────────────────────────────── */
+:root{
+  --field:#fbf8f1; --ln1:#0e2e2c; --ln2:#14403d; --micro:#14403d;
+  --rl:#c63f28; --rl-graphic:#e9503a; --focus:#c63f28;
+  --w1:1px; --w2:0.75px; --wr:1.5px;
+  --m:48px; --border:32px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --field:#0e2e2c; --ln1:#efe7d6; --ln2:#7fb5ad; --micro:#7fb5ad;
+    --rl:#f26a52; --rl-graphic:#f26a52; --focus:#f26a52;
+    --w1:1.5px; --w2:1px; --wr:2px;
+  }
+}
+html[data-mode="light"]{
+  --field:#fbf8f1; --ln1:#0e2e2c; --ln2:#14403d; --micro:#14403d;
+  --rl:#c63f28; --rl-graphic:#e9503a; --focus:#c63f28;
+  --w1:1px; --w2:0.75px; --wr:1.5px;
+}
+html[data-mode="dark"]{
+  --field:#0e2e2c; --ln1:#efe7d6; --ln2:#7fb5ad; --micro:#7fb5ad;
+  --rl:#f26a52; --rl-graphic:#f26a52; --focus:#f26a52;
+  --w1:1.5px; --w2:1px; --wr:2px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;border-radius:0}
+html,body{background:var(--field);color:var(--ln1)}
+body{font-family:'Cabinet Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+
+/* ── sheet ───────────────────────────────────────────────────────────── */
+.sheet{
+  position:relative; width:100%; max-width:1512px; margin:0 auto;
+  height:min(90vh,940px); min-height:620px; overflow:hidden;
+}
+.field{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+
+/* drawn sheet border: double rule, 32px inset */
+.bdr{fill:none;stroke:var(--ln1);stroke-width:var(--w1);
+     x:var(--border);y:var(--border);
+     width:calc(100% - var(--border)*2);height:calc(100% - var(--border)*2)}
+.bdr2{fill:none;stroke:var(--ln2);stroke-width:var(--w2);shape-rendering:crispEdges;
+     x:calc(var(--border) + 5px);y:calc(var(--border) + 5px);
+     width:calc(100% - var(--border)*2 - 10px);height:calc(100% - var(--border)*2 - 10px)}
+
+/* 16-col grid hairlines: FILLED rects, not strokes -- exact width, no
+   stroke-centre straddling. CRAFT "grid determinism for hairlines". */
+.gl{fill:var(--ln2);width:var(--w2);y:calc(var(--border) + 5px);
+    height:calc(100% - var(--border)*2 - 10px)}
+/* 16px-rhythm scale on the left border: one <pattern>, not 60 rects */
+.tk{fill:var(--ln2);height:var(--w2)}
+.tkscale{x:calc(var(--border) + 6px);y:120px;width:8px;
+  height:calc(100% - var(--border)*2 - 96px - 130px);opacity:.7}
+
+/* ── object drawing ──────────────────────────────────────────────────── */
+.obj{position:absolute;right:var(--m);top:96px;
+     width:min(58%,660px);height:auto;overflow:visible}
+.obj .ln1{fill:none;stroke:var(--ln1);stroke-width:var(--w1);vector-effect:non-scaling-stroke}
+/* MEASURED (a): a 0.75px ANTIALIASED stroke renders 2.06:1 at 1dppx -- it
+   fails 1.4.11. crispEdges snaps it onto the device pixel grid: 5.26:1 light /
+   4.20:1 dark at 1dppx. Applied to axis-aligned secondary line work only;
+   the 45 deg hatch and the redline clouds keep AA or they go jagged. */
+.obj .ln2{fill:none;stroke:var(--ln2);stroke-width:var(--w2);
+          vector-effect:non-scaling-stroke;shape-rendering:crispEdges}
+.obj .ln2.hatchline,#hatch .ln2{shape-rendering:auto}
+.obj .nofill{fill:var(--field)}
+.obj .dash{stroke-dasharray:5 4}
+.dim .ext,.dim .dimline{fill:none;stroke:var(--ln2);stroke-width:var(--w2);
+   vector-effect:non-scaling-stroke;shape-rendering:crispEdges}
+.dim .micro{fill:var(--micro);font-size:12px;font-weight:400;letter-spacing:.1em;
+            font-variant-numeric:tabular-nums;text-transform:uppercase;
+            paint-order:stroke;stroke:var(--field);stroke-width:5px;stroke-linejoin:round}
+.obj .vlabel{fill:var(--micro);font-size:12px;letter-spacing:.1em;
+             font-weight:400;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.obj .rlt{fill:var(--rl);font-size:16px;font-weight:500;font-style:italic;letter-spacing:.01em}
+#ar path{fill:var(--ln2)}
+#arR path{fill:var(--rl)}
+.rl-cloud{fill:none;stroke:var(--rl-graphic);stroke-width:var(--wr);vector-effect:non-scaling-stroke}
+.rl{fill:none;stroke:var(--rl);stroke-width:var(--wr);vector-effect:non-scaling-stroke}
+
+/* ── type ────────────────────────────────────────────────────────────── */
+/* note block: a real drawing puts its notes in a field-coloured box on the
+   sheet, so the grid can run at full 1.4.11 contrast without eating the text */
+.copy{position:absolute;left:var(--m);top:96px;width:min(38%,520px);z-index:2;
+      background:var(--field);padding:8px 28px 24px 0}
+h1{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1.0;
+   letter-spacing:.02em;text-transform:uppercase}
+h2{font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;
+   text-transform:uppercase;margin-bottom:20px;color:var(--ln2)}
+.note{font-size:17px;font-weight:400;line-height:1.65;max-width:60ch;margin-top:24px}
+.micro-t{font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+         font-variant-numeric:tabular-nums;color:var(--micro)}
+.rlnote{font-size:16px;font-weight:500;font-style:italic;line-height:1.4;
+        letter-spacing:.01em;color:var(--rl);margin-top:22px;max-width:38ch}
+.rlnote::before{content:"↖ ";font-style:normal}
+
+.revsched{margin-top:26px;border-collapse:collapse;width:100%;max-width:520px}
+.revsched caption{text-align:left;margin-bottom:10px}
+.revsched th,.revsched td{text-align:left;padding:6px 12px 6px 0;
+  border-bottom:var(--w2) solid var(--ln2);font-variant-numeric:tabular-nums}
+.revsched th{font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;color:var(--micro)}
+.revsched td{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.revsched td:first-child,.revsched th:first-child{width:56px}
+.revsched td:nth-child(2),.revsched th:nth-child(2){width:130px}
+.revsched tr.cur td{color:var(--rl)}
+
+/* ── title block: 96px band ──────────────────────────────────────────── */
+.tb{position:absolute;left:var(--border);right:var(--border);
+    bottom:var(--border);height:96px;
+    border-top:var(--w1) solid var(--ln1);
+    display:grid;grid-template-columns:repeat(5,1fr);z-index:2;
+    background:var(--field)}
+.tb div{padding:16px 20px;border-left:var(--w2) solid var(--ln2)}
+.tb div:first-child{border-left:0;padding-left:24px}
+.tb dt{font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+       font-variant-numeric:tabular-nums;color:var(--micro);margin-bottom:8px}
+.tb dd{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
+.tb .rev dd{color:var(--rl)}
+
+/* ── fps readout ─────────────────────────────────────────────────────── */
+#fps{position:fixed;right:8px;bottom:8px;z-index:99;
+     font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+     font-variant-numeric:tabular-nums;color:var(--field);background:var(--ln1);
+     padding:6px 10px;white-space:pre}
+
+/* ── stroke-width test strip (?strip=1) ──────────────────────────────── */
+#strip{display:none}
+html[data-strip] #strip{display:block;position:fixed;left:0;top:0;z-index:200;
+  background:var(--field);padding:12px}
+html[data-strip] .sheet{visibility:hidden}
+#strip svg{display:block}
+#strip .lbl{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ln1)}
+
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ── 390px: the drawing must still read as a drawing ─────────────────── */
+@media (max-width:760px){
+  :root{--m:24px;--border:16px}
+  .sheet{height:auto;min-height:0;padding-bottom:24px}
+  /* position:relative, not static -- z-index is inert on static boxes and the
+     grid bleeds straight through the note text otherwise */
+  .copy{position:relative;width:auto;padding:56px var(--m) 0}
+  .obj{position:static;width:calc(100% - var(--m)*2);margin:32px var(--m) 0}
+  .tb{position:relative;margin:32px var(--border) 0;height:auto;
+      grid-template-columns:repeat(2,1fr)}
+  .tb div{border-top:var(--w2) solid var(--ln2)}
+  .tb div:nth-child(-n+2){border-top:0}
+  .tb div:nth-child(odd){border-left:0;padding-left:20px}
+  h1{font-size:clamp(2rem,11vw,3rem)}
+  .gl{opacity:.4}
+  .gl:nth-child(even){display:none}   /* 16 cols -> 8 at phone width */
+  /* MEASURED (c): at 390 the 700-unit viewBox renders at k=0.49, so 12px
+     authored type lands at 5.9px on screen. Counter-scale so the dimension
+     callouts and the redline -- which carry the whole argument -- stay at
+     their spec'd 12px / 16px optical size. */
+  .obj .micro,.obj .vlabel{font-size:25px;letter-spacing:.06em}
+  .obj .rlt{font-size:31px}
+  .dim .micro{stroke-width:9px}
+  .obj .rlt:nth-of-type(2){text-anchor:end}   /* keeps it inside the sheet at 390 */
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="sheet" id="sheet">
+
+  <svg class="field" aria-hidden="true">
+    <defs>
+      <pattern id="rhythm" patternUnits="userSpaceOnUse" width="8" height="16">
+        <rect class="tk" x="0" y="0" width="7"/>
+      </pattern>
+    </defs>
+    <rect class="bdr"/>
+    <rect class="bdr2"/>
+    <g id="grid">
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*0)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*1)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*2)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*3)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*4)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*5)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*6)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*7)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*8)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*9)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*10)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*11)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*12)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*13)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*14)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*15)"/>
+      <rect class="gl" style="x:calc(var(--m) + (100% - var(--m)*2)/16*16)"/>
+    </g>
+    <rect class="tkscale" fill="url(#rhythm)"/>
+  </svg>
+
+  <div class="copy">
+    <h2>Sheet 01 — As Built</h2>
+    <h1>Taha<br>Mahmoodi</h1>
+    <p class="note">Designer who builds systems around AI. The drawing below is
+    the issued set; the coral is what changed once it met the site. Nothing here
+    was right the first time, and the record of that is the point.</p>
+    <p class="micro-t" style="margin-top:16px">Scale 1:1 · Proj. First Angle · Units PX</p>
+    <p class="rlnote">Field verify — this was three systems, not one. Redrawn 06 AUG.</p>
+
+    <table class="revsched">
+      <caption class="micro-t">Revision schedule</caption>
+      <thead><tr><th scope="col">Rev</th><th scope="col">Date</th><th scope="col">Description</th></tr></thead>
+      <tbody>
+        <tr><td>00</td><td>2024-03-11</td><td>Issued for construction</td></tr>
+        <tr><td>01</td><td>2025-09-02</td><td>Retrieval layer split from index</td></tr>
+        <tr class="cur"><td>02</td><td>2026-08-06</td><td>As built — node added, plate C opened</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <svg class="obj" viewBox="-70 -40 700 530" role="img"
+       aria-label="Orthographic drawing: plan view of a six-node system network above a four-plate front elevation and side elevation, dimensioned, with revision clouds marking two changed areas.">
+    <defs>
+      <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5"
+              orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M0 1 L9 4.5 L0 8 Z"/>
+      </marker>
+      <marker id="arR" markerWidth="11" markerHeight="11" refX="10" refY="5.5"
+              orient="auto" markerUnits="userSpaceOnUse">
+        <path d="M0 1 L11 5.5 L0 10 Z"/>
+      </marker>
+      <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+        <line class="ln2 hatchline" x1="0" y1="0" x2="0" y2="8" style="shape-rendering:auto"/>
+      </pattern>
+    </defs>
+
+    <g id="g-plan">
+      <rect class="ln1" x="0" y="0" width="300" height="180"/>
+      <path class="ln2" d="M50 0 V180 M100 0 V180 M150 0 V180 M200 0 V180 M250 0 V180 M0 45 H300 M0 90 H300 M0 135 H300"/>
+      <path class="ln1" d="M50 45 L150 45 M150 45 L150 90 M150 90 L100 135 M150 90 L200 135 M150 45 L250 90 M250 90 L200 135 M50 45 L100 135"/>
+      <circle class="ln1 nofill" cx="50" cy="45" r="5"/>
+      <circle class="ln1 nofill" cx="150" cy="45" r="5"/>
+      <circle class="ln1 nofill" cx="250" cy="90" r="5"/>
+      <circle class="ln1 nofill" cx="100" cy="135" r="5"/>
+      <circle class="ln1 nofill" cx="200" cy="135" r="5"/>
+      <circle class="ln1 nofill" cx="150" cy="90" r="5"/>
+    </g>
+    <g id="g-front">
+      <rect class="ln1" x="0" y="230" width="300" height="30"/>
+      <path class="ln2" d="M0 254 H300"/>
+      <rect class="ln1" x="0" y="273" width="300" height="30"/>
+      <path class="ln2" d="M0 297 H300"/>
+      <rect class="ln1" x="0" y="316" width="300" height="30"/>
+      <path class="ln2" d="M0 340 H300"/>
+      <rect class="ln1" x="0" y="359" width="300" height="30"/>
+      <path class="ln2" d="M0 383 H300"/>
+      <rect x="0" y="316" width="300" height="30" fill="url(#hatch)"/>
+    </g>
+    <g id="g-side">
+      <rect class="ln1" x="365" y="230" width="120" height="30"/>
+      <path class="ln2" d="M365 254 H485"/>
+      <rect class="ln1" x="365" y="273" width="120" height="30"/>
+      <path class="ln2" d="M365 297 H485"/>
+      <rect class="ln1" x="365" y="316" width="120" height="30"/>
+      <path class="ln2" d="M365 340 H485"/>
+      <rect class="ln1" x="365" y="359" width="120" height="30"/>
+      <path class="ln2" d="M365 383 H485"/>
+    </g>
+    <path class="ln2 dash" d="M0 186 V224 M100 186 V224 M200 186 V224 M300 186 V224 M306 245 H359 M306 288 H359 M306 331 H359 M306 374 H359"/>
+
+    <g id="g-dims">
+      <g class="dim"><path class="ext" d="M0 406 V437 M300 406 V437"/><path class="dimline" marker-start="url(#ar)" marker-end="url(#ar)" d="M0 432 H300"/><text class="micro" x="150.0" y="425" text-anchor="middle"><tspan id="d-w">300</tspan></text></g>
+      <g class="dim"><path class="ext" d="M0 186 V217 M150 186 V217"/><path class="dimline" marker-start="url(#ar)" marker-end="url(#ar)" d="M0 212 H150"/><text class="micro" x="75.0" y="205" text-anchor="middle"><tspan id="d-h">150</tspan></text></g>
+      <g class="dim"><path class="ext" d="M543 230 H517 M543 359 H517"/><path class="dimline" marker-start="url(#ar)" marker-end="url(#ar)" d="M517 230 V359"/><text class="micro" x="510" y="294.5" text-anchor="middle" transform="rotate(-90 510 294.5)"><tspan id="d-s">129</tspan></text></g>
+    </g>
+
+    <text class="vlabel" x="0" y="-14">PLAN — A</text>
+    <text class="vlabel" x="0" y="222">ELEV — B</text>
+    <text class="vlabel" x="365" y="222">SECT — C</text>
+
+    <g id="g-redline">
+      <path class="rl-cloud" d="M122.0 62.0 A13 13 0 0 1 145.3 62.0 A13 13 0 0 1 168.7 62.0 A13 13 0 0 1 192.0 62.0 A13 13 0 0 1 215.3 62.0 A13 13 0 0 1 238.7 62.0 A13 13 0 0 1 262.0 62.0 A13 13 0 0 1 262.0 86.0 A13 13 0 0 1 262.0 110.0 A13 13 0 0 1 262.0 134.0 A13 13 0 0 1 262.0 158.0 A13 13 0 0 1 238.7 158.0 A13 13 0 0 1 215.3 158.0 A13 13 0 0 1 192.0 158.0 A13 13 0 0 1 168.7 158.0 A13 13 0 0 1 145.3 158.0 A13 13 0 0 1 122.0 158.0 A13 13 0 0 1 122.0 134.0 A13 13 0 0 1 122.0 110.0 A13 13 0 0 1 122.0 86.0 A13 13 0 0 1 122.0 62.0"/>
+      <path class="rl-cloud" d="M-12.0 306.0 A13 13 0 0 1 9.6 306.0 A13 13 0 0 1 31.2 306.0 A13 13 0 0 1 52.8 306.0 A13 13 0 0 1 74.4 306.0 A13 13 0 0 1 96.0 306.0 A13 13 0 0 1 117.6 306.0 A13 13 0 0 1 139.2 306.0 A13 13 0 0 1 160.8 306.0 A13 13 0 0 1 182.4 306.0 A13 13 0 0 1 204.0 306.0 A13 13 0 0 1 225.6 306.0 A13 13 0 0 1 247.2 306.0 A13 13 0 0 1 268.8 306.0 A13 13 0 0 1 290.4 306.0 A13 13 0 0 1 312.0 306.0 A13 13 0 0 1 312.0 331.0 A13 13 0 0 1 312.0 356.0 A13 13 0 0 1 290.4 356.0 A13 13 0 0 1 268.8 356.0 A13 13 0 0 1 247.2 356.0 A13 13 0 0 1 225.6 356.0 A13 13 0 0 1 204.0 356.0 A13 13 0 0 1 182.4 356.0 A13 13 0 0 1 160.8 356.0 A13 13 0 0 1 139.2 356.0 A13 13 0 0 1 117.6 356.0 A13 13 0 0 1 96.0 356.0 A13 13 0 0 1 74.4 356.0 A13 13 0 0 1 52.8 356.0 A13 13 0 0 1 31.2 356.0 A13 13 0 0 1 9.6 356.0 A13 13 0 0 1 -12.0 356.0 A13 13 0 0 1 -12.0 331.0 A13 13 0 0 1 -12.0 306.0"/>
+      <path class="rl" marker-end="url(#arR)" d="M300 42 L268 74"/>
+      <path class="rl" marker-end="url(#arR)" d="M348 456 L348 400 L322 350"/>
+      <path class="rl" d="M124 421 L176 421"/>
+      <text class="rlt" x="308" y="34">rev 2 — node added</text>
+      <text class="rlt" x="316" y="472">was solid — opened on site</text>
+      <text class="rlt" x="188" y="452">as built 06 AUG</text>
+    </g>
+  </svg>
+
+  <dl class="tb">
+    <div><dt>Project</dt><dd>Portfolio / As-Built</dd></div>
+    <div><dt>Drawn by</dt><dd>T. Mahmoodi</dd></div>
+    <div><dt>Scale</dt><dd>1:1</dd></div>
+    <div><dt>Sheet</dt><dd>01 of 06</dd></div>
+    <div class="rev"><dt>Rev</dt><dd id="tb-rev">02 · 2026-08-06</dd></div>
+  </dl>
+</div>
+
+<!-- stroke-exposure test strip, ?strip=1 -->
+<div id="strip">
+  <p class="lbl">per group: STROKE left, FILL right — 0.5 0.75 1 1.5 2 px — band1 ln2 AA / band2 ln1 AA / band3 ln2 crispEdges</p>
+  <svg width="420" height="320" id="stripsvg"></svg>
+</div>
+
+<div id="fps">FPS —</div>
+
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var state = q.get('state') || 'full';
+  var mode  = q.get('mode');
+  var load  = parseFloat(q.get('load') || '0');
+  var root  = document.documentElement;
+
+  if (mode) root.setAttribute('data-mode', mode);
+  if (q.get('strip')) root.setAttribute('data-strip','');
+  root.setAttribute('data-state', state);
+
+  /* ── test strip: stroke vs fill at sub-pixel widths ───────────────── */
+  if (q.get('strip')) {
+    var w = [0.5,0.75,1,1.5,2], s = document.getElementById('stripsvg'), h='';
+    /* band 0: ln2 antialiased · band 1: ln1 antialiased · band 2: ln2 crispEdges */
+    [['ln2',''],['ln1',''],['ln2','shape-rendering:crispEdges;']].forEach(function(cfg,ci){
+      var c = cfg[0], sr = cfg[1];
+      w.forEach(function(v,i){
+        var x = 20 + i*80, y0 = 20 + ci*100;
+        h += '<line x1="'+x+'" y1="'+y0+'" x2="'+x+'" y2="'+(y0+40)+'" style="'+sr+'stroke:var(--'+c+');stroke-width:'+v+'"/>';
+        h += '<rect x="'+(x+16)+'" y="'+y0+'" width="'+v+'" height="40" style="'+sr+'fill:var(--'+c+')"/>';
+        h += '<text x="'+(x-6)+'" y="'+(y0+56)+'" style="fill:var(--'+c+');font-size:11px">'+v+'</text>';
+      });
+    });
+    s.innerHTML = h;
+  }
+
+  /* ── (d) RUNTIME GENERATION LAYER ─────────────────────────────────────
+     The ONE thing in-browser generation buys that author-time markup cannot:
+     the dimension callouts print the TRUE rendered span at this viewport.
+     A hand-authored "300" is a lie at any width but the design width, and the
+     whole concept rests on the field being measured rather than decorative.
+     Everything else on this sheet is static markup and paints with no JS.
+     Skipped entirely in state=nogpu.                                      */
+  function trueDims(){
+    if (state === 'nogpu') return;
+    var obj = document.querySelector('.obj');
+    var k = obj.getBoundingClientRect().width / 700;   /* viewBox units -> CSS px */
+    var set = function(id, units){
+      var el = document.getElementById(id);
+      if (el) el.textContent = Math.round(units * k);
+    };
+    set('d-w', 300); set('d-h', 150); set('d-s', 129);
+  }
+  trueDims();
+  addEventListener('resize', trueDims);
+
+  /* ── fps sampler ──────────────────────────────────────────────────────
+     Heaviest load this surface ever sees = a full-bleed vector field being
+     re-composited every frame while the page scrolls. We drive that with a
+     sub-pixel translate on the sheet each frame + ?load=N ms of synthetic
+     main-thread work. NOTE: ?load is main-thread CONTENTION, NOT a CPU
+     throttle. See report.                                                 */
+  var sheet = document.getElementById('sheet');
+  var readout = document.getElementById('fps');
+  var times = [], t0 = performance.now(), last = t0, frame = 0;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function burn(ms){ var e = performance.now()+ms, x=0; while(performance.now()<e){ x+=Math.sqrt(x+1); } return x; }
+
+  function med(a){ if(!a.length) return 0; var b=a.slice().sort(function(p,q){return p-q}); return b[b.length>>1]; }
+
+  function tick(now){
+    var dt = now - last; last = now;
+    if (frame++ > 2) times.push(dt);
+    if (load > 0) burn(load);
+    /* force the vector field to re-raster, like a scroll would */
+    sheet.style.transform = 'translateZ(0) translateY(' + ((frame % 2) ? 0.5 : 0) + 'px)';
+
+    var recent = times.filter(function(_,i){ return i > times.length - 180; });
+    var fpsNow = recent.length ? 1000/med(recent) : 0;
+    readout.textContent = 'FPS ' + fpsNow.toFixed(1) + '  ' + innerWidth + '\u00d7' + innerHeight
+                        + ' @' + devicePixelRatio + 'x  LOAD ' + load;
+
+    if (now - t0 > 10000 && !window.__fps) {
+      var sorted = times.slice().sort(function(a,b){return a-b});
+      var p99 = sorted[Math.floor(sorted.length*0.99)] || sorted[sorted.length-1];
+      window.__fps = {
+        median: +(1000/med(times)).toFixed(1),
+        p1low:  +(1000/p99).toFixed(1),
+        samples: times.length,
+        load: load, state: state,
+        vw: innerWidth, vh: innerHeight, dpr: devicePixelRatio
+      };
+      readout.textContent = 'MED ' + window.__fps.median + '  1% LOW ' + window.__fps.p1low
+                          + '\n' + innerWidth + '×' + innerHeight + ' @' + devicePixelRatio
+                          + 'x  LOAD ' + load + '  ' + state.toUpperCase();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  /* state=reduced: this technique carries NO motion. The reduced frame is
+     deliberately, honestly IDENTICAL to the full frame. Nothing is faked. */
+})();
+</script>

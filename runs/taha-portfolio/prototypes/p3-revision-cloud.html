@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p3-revision-cloud — as-built</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ── palette, both art directions ─────────────────────────────────── */
+:root{
+  --sheet:#fbf8f1; --line1:#0e2e2c; --line2:#14403d;
+  --w1:1px; --w2:.75px;
+  --redline:#c63f28;          /* text-legal 4.78:1 on #fbf8f1        */
+  --cloud:#e9503a;            /* GRAPHIC ONLY 3.49:1 — never text    */
+  --cloud-w:1.5px;
+  --focus:#c63f28;
+  /* border-image tile, light: 60x60, chord 20 (matches the JS generator), r 12.4 */
+  --cloud-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M10 10A12.4 12.4 0 0 1 30 10A12.4 12.4 0 0 1 50 10A12.4 12.4 0 0 1 50 30A12.4 12.4 0 0 1 50 50A12.4 12.4 0 0 1 30 50A12.4 12.4 0 0 1 10 50A12.4 12.4 0 0 1 10 30A12.4 12.4 0 0 1 10 10Z' fill='none' stroke='%23e9503a' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+html[data-mode="dark"]{
+  --sheet:#0e2e2c; --line1:#efe7d6; --line2:#7fb5ad;
+  --w1:1.5px; --w2:1px;
+  --redline:#f26a52;          /* text-legal 4.81:1 on #0e2e2c        */
+  --cloud:#f26a52;
+  --cloud-w:2px;
+  --focus:#f26a52;
+  --cloud-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M10 10A12.4 12.4 0 0 1 30 10A12.4 12.4 0 0 1 50 10A12.4 12.4 0 0 1 50 30A12.4 12.4 0 0 1 50 50A12.4 12.4 0 0 1 30 50A12.4 12.4 0 0 1 10 50A12.4 12.4 0 0 1 10 30A12.4 12.4 0 0 1 10 10Z' fill='none' stroke='%23f26a52' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--sheet)}
+body{
+  background:var(--sheet); color:var(--line1);
+  font-family:'Cabinet Grotesk',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; /* proof note: measured with scrollWidth, not hidden by this — see readout */
+}
+body{overflow-x:visible}
+
+/* ── type scale, single family ────────────────────────────────────── */
+.h2{font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;text-transform:uppercase}
+.tb{font-size:13px;font-weight:600;line-height:1.3;letter-spacing:.08em;text-transform:uppercase}
+.dim{font-size:12px;font-weight:400;line-height:1.1;letter-spacing:.1em;text-transform:uppercase;
+     font-variant-numeric:tabular-nums;color:var(--line2)}
+.body{font-size:17px;font-weight:400;line-height:1.65;max-width:60ch}
+.redline{font-size:16px;font-weight:500;font-style:italic;line-height:1.4;letter-spacing:.01em;
+         color:var(--redline)}
+
+/* ── sheet ────────────────────────────────────────────────────────── */
+.sheet{max-width:1512px;margin:0 auto;padding:48px;position:relative}
+.sheet::before{content:"";position:absolute;inset:32px;border:var(--w1) solid var(--line1);pointer-events:none}
+.grid{display:grid;grid-template-columns:repeat(16,1fr);gap:24px}
+
+.titleblock{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:var(--w1) solid var(--line1);padding-bottom:12px;margin-bottom:48px}
+
+section{margin-bottom:72px}
+.sechead{display:flex;gap:16px;align-items:baseline;margin-bottom:8px}
+.rule{border-top:var(--w2) solid var(--line2);margin:8px 0 32px}
+
+/* ── cloud carriers ───────────────────────────────────────────────── */
+/* A. runtime SVG generator (JS) */
+.cw{position:relative}
+.cw > svg.cloud{position:absolute;overflow:visible;pointer-events:none;z-index:0}
+.cw > svg.cloud path{fill:none;stroke:var(--cloud);stroke-width:var(--cloud-w);
+  stroke-linecap:round;stroke-linejoin:round}
+.cw > *:not(svg){position:relative;z-index:1}
+
+/* B. pure-CSS cloud — zero JS, survives state=nogpu */
+.cloud-css{
+  border:20px solid transparent;
+  border-image-source:var(--cloud-img);
+  border-image-slice:20;
+  border-image-repeat:round;
+}
+
+/* specimen boxes for the aspect-ratio test */
+.spec{border:var(--w2) dashed var(--line2);display:flex;align-items:center;justify-content:center}
+.spec .dim{color:var(--line2)}
+.boxrow{display:flex;gap:56px;align-items:flex-start;flex-wrap:wrap}
+
+/* ── Surface 3: off-grid editorial cloud at 4deg ──────────────────── */
+.s3{grid-column:3 / 12;transform:rotate(4deg);transform-origin:50% 50%;margin:40px 0 0}
+.s3 .body{max-width:none}
+.s3-body{grid-column:3 / 9;margin-top:56px}
+.leader{position:absolute;overflow:visible;pointer-events:none;z-index:2}
+.leader path{fill:none;stroke:var(--cloud);stroke-width:var(--cloud-w)}
+.leader polygon{fill:var(--cloud)}
+.s3-note{grid-column:12 / 17;align-self:center}
+.span{grid-column:1 / 17}   /* NOT an inline style: the 390 query must be able to win */
+
+/* ── Surface: failed submission ───────────────────────────────────── */
+.field{max-width:366px}  /* 320 input + 2x20 cloud border + 2x3 padding */
+.field label{display:block;margin-bottom:8px}
+.field input{
+  font:inherit;font-size:17px;font-weight:400;line-height:1.65;
+  width:100%;height:44px;padding:0 12px;
+  background:transparent;color:var(--line1);
+  border:0;border-bottom:var(--w1) solid var(--line1);
+}
+.field input:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.fieldwrap{padding:3px;display:block;width:100%}
+.errnote{margin-top:16px;max-width:38ch}
+.errnote::before{content:"REV 02 · ";font-style:normal;font-weight:600;letter-spacing:.08em;font-size:13px}
+
+/* ── readout ──────────────────────────────────────────────────────── */
+#ro{position:fixed;right:12px;bottom:12px;z-index:99;background:var(--sheet);
+  border:var(--w1) solid var(--line1);padding:10px 12px;font-size:12px;line-height:1.45;
+  letter-spacing:.06em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+  white-space:pre;color:var(--line1);max-width:44ch}
+
+/* ── motion ───────────────────────────────────────────────────────── */
+html[data-state="full"] .s3 svg.cloud path,
+html[data-state="full"] .leader path{
+  stroke-dasharray:var(--len);stroke-dashoffset:var(--len);
+  animation:draw .9s cubic-bezier(.22,.61,.36,1) forwards;
+}
+@keyframes draw{to{stroke-dashoffset:0}}
+/* reduced: full opacity from first paint, squared ends. No draw-on, ever. */
+html[data-state="reduced"] svg.cloud path{stroke-linecap:butt;stroke-linejoin:miter}
+@media (prefers-reduced-motion:reduce){
+  html:not([data-state="full"]) .s3 svg.cloud path{animation:none;stroke-dashoffset:0}
+}
+
+/* ── 390 ──────────────────────────────────────────────────────────── */
+@media (max-width:600px){
+  .sheet{padding:20px}
+  .sheet::before{inset:12px}
+  .grid{grid-template-columns:repeat(4,1fr);gap:16px}
+  .s3,.s3-body,.s3-note,.span{grid-column:1 / 5}
+  .s3{transform:none;margin:24px 0 0}   /* rotation collapses to 0 on a phone */
+  .s3 > div{padding:24px 20px}
+  .s3-note{margin-top:44px}             /* clears the cloud's -14px overhang */
+  .leader{display:none}                  /* leader crosses no gutter at 4 cols */
+  /* the specimen regions are FIXED-SIZE by dispatch (900x160, 240x520).
+     They cannot reflow, so the row pans, exactly as a plan view on a
+     drawing sheet does. This keeps the page-level overflow measurement
+     a measurement of the 4deg ROTATION and nothing else. */
+  .boxrow{gap:40px;flex-wrap:nowrap;overflow-x:auto;padding:20px;margin:0 -20px}
+  .titleblock{flex-direction:column;gap:8px}
+  #ro{left:12px;right:12px;max-width:none}
+  .body,.h2{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="titleblock">
+    <div>
+      <div class="tb">Taha Mahmoodi · Design Lead, Brand &amp; Product UX</div>
+      <div class="dim" style="margin-top:6px">Drawing 03 of 06 — Revision cloud</div>
+    </div>
+    <div style="text-align:right">
+      <div class="tb" id="modelbl">Sheet A-03 · REV 02</div>
+      <div class="dim" style="margin-top:6px" id="statelbl">STATE —</div>
+    </div>
+  </div>
+
+  <!-- ══ TEST A — arbitrary bounding boxes ═════════════════════════ -->
+  <section>
+    <div class="sechead"><h2 class="h2">A — Arbitrary boxes</h2><span class="dim">Three aspect ratios, one generator</span></div>
+    <div class="rule"></div>
+    <div class="boxrow">
+      <div>
+        <div class="dim" style="margin-bottom:14px">900 × 160 — wide region</div>
+        <div class="cw" data-cloud><svg class="cloud"><path/></svg>
+          <div class="spec" style="width:900px;height:160px"><span class="dim">Region 1 — plan view, sheet A-03</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="dim" style="margin-bottom:14px">240 × 520 — tall region</div>
+        <div class="cw" data-cloud><svg class="cloud"><path/></svg>
+          <div class="spec" style="width:240px;height:520px"><span class="dim">Region 2 — elevation</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="dim" style="margin-bottom:14px">320 × 44 — single field</div>
+        <div class="cw" data-cloud><svg class="cloud"><path/></svg>
+          <div class="spec" style="width:320px;height:44px"><span class="dim">Region 3 — field</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="dim" style="margin-top:24px" id="chordreport">CHORD REPORT —</div>
+  </section>
+
+  <!-- ══ TEST B — Surface 3, off-grid at 4° with a callout leader ══ -->
+  <section class="grid" style="position:relative">
+    <div class="span sechead"><h2 class="h2">B — Where the plan was wrong</h2><span class="dim">Cols 3–11, rotated 4°</span></div>
+    <div class="span rule"></div>
+
+    <div class="s3 cw" data-cloud data-chord="26"><svg class="cloud"><path/></svg>
+      <div style="padding:36px 40px">
+        <div class="dim" style="margin-bottom:12px">Region 4 — as issued, 2024</div>
+        <p class="body">The first build of this site opened with a hero that moved. It read as
+        confident. It was measured at 34fps on the phone most visitors arrived on, and the
+        thing it framed, the work, loaded second.</p>
+      </div>
+    </div>
+
+    <svg class="leader" id="leader"><path/><polygon/></svg>
+
+    <div class="s3-note">
+      <p class="redline">Hero cut. The work loads first now. The motion was doing the arguing
+      that the work should have been doing.</p>
+      <div class="dim" style="margin-top:12px">REV 02 · 2026-08-06 · TM</div>
+    </div>
+
+    <p class="body s3-body">The correction is the drawing. An as-built sheet is not the plan that
+    was approved; it is the plan plus every place the site engineer found the plan wrong, drawn
+    over it in red and initialled. Nothing is erased.</p>
+  </section>
+
+  <!-- ══ TEST C — failed submission, real form field ═══════════════ -->
+  <section>
+    <div class="sechead"><h2 class="h2">C — Failed submission</h2><span class="dim">Pure CSS cloud · zero JS · never animates</span></div>
+    <div class="rule"></div>
+
+    <form class="field" novalidate onsubmit="return false">
+      <label class="tb" for="email">Email — where a reply goes</label>
+      <div class="fieldwrap cloud-css">
+        <input id="email" type="email" name="email"
+               value="taha@madeintaha"
+               aria-invalid="true"
+               aria-describedby="email-err"
+               autocomplete="email">
+      </div>
+      <p class="redline errnote" id="email-err">This address has no domain after the dot.
+      Your entry is kept exactly as typed. Add the rest and send again.</p>
+    </form>
+
+    <div class="dim" style="margin-top:40px;margin-bottom:14px">Same CSS cloud, three aspect ratios — the no-JS path</div>
+    <div class="boxrow">
+      <div class="cloud-css"><div class="spec" style="width:900px;height:160px"><span class="dim">Region 1 — 900 × 160</span></div></div>
+      <div class="cloud-css"><div class="spec" style="width:240px;height:520px"><span class="dim">Region 2 — 240 × 520</span></div></div>
+      <div class="cloud-css"><div class="spec" style="width:320px;height:44px"><span class="dim">Region 3 — 320 × 44</span></div></div>
+    </div>
+  </section>
+
+</div>
+
+<div id="ro">READOUT —</div>
+
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var STATE = q.get('state') || 'full';
+  var MODE  = q.get('mode');
+  var LOAD  = parseFloat(q.get('load') || '0');
+  var root  = document.documentElement;
+  root.dataset.state = STATE;
+  if (MODE) root.dataset.mode = MODE;
+  else root.dataset.mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+  var ro = document.getElementById('ro');
+  document.getElementById('statelbl').textContent =
+    'STATE ' + STATE.toUpperCase() + ' · MODE ' + root.dataset.mode.toUpperCase() + ' · LOAD ' + LOAD + 'MS';
+
+  // ─── state=nogpu is the JS-OFF path. Nothing below this line runs. ───
+  // The CSS clouds (.cloud-css) are already painted by the stylesheet.
+  if (STATE === 'nogpu'){
+    ro.textContent = 'JS OFF (state=nogpu)\nno generator, no sampler\nclouds = css border-image';
+    document.getElementById('chordreport').textContent =
+      'CHORD REPORT — n/a, generator not run. Section C clouds are the fallback.';
+    // strip the empty generated SVGs so nothing half-drawn is on screen
+    [].forEach.call(document.querySelectorAll('svg.cloud'), function(s){ s.remove(); });
+    [].forEach.call(document.querySelectorAll('.cw'), function(d){ d.classList.add('cloud-css'); });
+    document.getElementById('leader').remove();
+    return;
+  }
+
+  /* ═══ the generator ═══════════════════════════════════════════════
+     A draftsman's revision cloud: walk the perimeter, place an arc per
+     chord, bulge outward. The one thing that makes or breaks it is that
+     every edge gets an INTEGER number of arcs — round(len/chord) — with
+     the chord then re-derived as len/n. Divide a fixed chord into the
+     edge instead and the last arc on the long edge is a flat run.       */
+  var chordLog = [];
+  function cloudPath(ox, oy, w, h, chord){
+    var p = [[ox,oy],[ox+w,oy],[ox+w,oy+h],[ox,oy+h]], d = '', cs = [];
+    for (var i=0;i<4;i++){
+      var a = p[i], b = p[(i+1)%4];
+      var len = Math.hypot(b[0]-a[0], b[1]-a[1]);
+      var n = Math.max(2, Math.round(len/chord));
+      var c = len/n, r = c*0.62;             // r > c/2 so the arc bulges
+      cs.push(c);
+      if (i===0) d += 'M'+a[0]+' '+a[1];
+      for (var k=1;k<=n;k++){
+        var t = k/n;
+        d += 'A'+r.toFixed(2)+' '+r.toFixed(2)+' 0 0 1 '+
+             (a[0]+(b[0]-a[0])*t).toFixed(2)+' '+(a[1]+(b[1]-a[1])*t).toFixed(2);
+      }
+    }
+    return {d:d+'Z', chords:cs};
+  }
+
+  var PAD = 14, INSET = 6;
+  function draw(cw){
+    var svg = cw.querySelector('svg.cloud'); if (!svg) return;
+    // offsetWidth/Height = the UNTRANSFORMED layout box. getBoundingClientRect()
+    // returns the axis-aligned bbox, which on the 4deg block is bigger than the
+    // element and produces a cloud that does not fit what it is wrapping.
+    var w = cw.offsetWidth + PAD*2, h = cw.offsetHeight + PAD*2;
+    var chord = parseFloat(cw.dataset.chord || '20');
+    svg.setAttribute('viewBox','0 0 '+w+' '+h);
+    svg.setAttribute('width',w); svg.setAttribute('height',h);
+    svg.style.left = -PAD+'px'; svg.style.top = -PAD+'px';
+    var r = cloudPath(INSET, INSET, w-INSET*2, h-INSET*2, chord);
+    var path = svg.querySelector('path');
+    path.setAttribute('d', r.d);
+    path.style.setProperty('--len', path.getTotalLength().toFixed(0));
+    return r.chords;
+  }
+
+  var targets = [].slice.call(document.querySelectorAll('[data-cloud]'));
+  function drawAll(){
+    chordLog = [];
+    targets.forEach(function(t){
+      var c = draw(t);
+      if (c) chordLog.push(c.map(function(v){return v.toFixed(1);}).join('/'));
+    });
+    drawLeader();
+    var spread = chordLog.map(function(s,i){
+      var v = s.split('/').map(Number);
+      var mn = Math.min.apply(null,v), mx = Math.max.apply(null,v);
+      return 'R'+(i+1)+' '+s+' Δ'+(((mx-mn)/mx*100).toFixed(1))+'%';
+    }).join('   ');
+    document.getElementById('chordreport').textContent = 'CHORD PER EDGE (T/R/B/L) — ' + spread;
+  }
+
+  // callout leader: from the rotated cloud's edge, across the gutter, to the note
+  function drawLeader(){
+    var svg = document.getElementById('leader');
+    var s3 = document.querySelector('.s3'), note = document.querySelector('.s3-note');
+    var host = svg.parentElement.getBoundingClientRect();
+    if (getComputedStyle(svg).display === 'none') return;
+    var a = s3.getBoundingClientRect(), b = note.getBoundingClientRect();
+    svg.style.left='0'; svg.style.top='0';
+    svg.setAttribute('width', host.width); svg.setAttribute('height', host.height);
+    svg.setAttribute('viewBox','0 0 '+host.width+' '+host.height);
+    var x0 = a.right-host.left-14, y0 = a.top-host.top + a.height*0.42;
+    var x1 = b.left-host.left-10, y1 = b.top-host.top + 14;
+    var mx = x0 + 26;
+    var p = svg.querySelector('path');
+    p.setAttribute('d','M'+x0.toFixed(1)+' '+y0.toFixed(1)+'L'+mx.toFixed(1)+' '+y1.toFixed(1)+'L'+x1.toFixed(1)+' '+y1.toFixed(1));
+    p.style.setProperty('--len', p.getTotalLength().toFixed(0));
+    svg.querySelector('polygon').setAttribute('points',
+      (x0).toFixed(1)+','+(y0).toFixed(1)+' '+(x0-9).toFixed(1)+','+(y0-4).toFixed(1)+' '+(x0-9).toFixed(1)+','+(y0+4).toFixed(1));
+  }
+
+  drawAll();
+  document.fonts.ready.then(drawAll);
+  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(drawAll,120); });
+
+  /* ═══ contrast, measured on what actually rendered ════════════════ */
+  function lum(c){
+    var m = c.match(/[\d.]+/g).slice(0,3).map(function(v){
+      v = v/255; return v<=0.03928 ? v/12.92 : Math.pow((v+0.055)/1.055,2.4);
+    });
+    return 0.2126*m[0]+0.7152*m[1]+0.0722*m[2];
+  }
+  function ratio(a,b){ var x=lum(a),y=lum(b); return ((Math.max(x,y)+0.05)/(Math.min(x,y)+0.05)); }
+  var sheetBg = getComputedStyle(document.body).backgroundColor;
+  var noteCol = getComputedStyle(document.getElementById('email-err')).color;
+  var cloudCol = getComputedStyle(document.querySelector('svg.cloud path')).stroke;
+  var C = {
+    noteText: {fg:noteCol,  bg:sheetBg, r:+ratio(noteCol,sheetBg).toFixed(2)},
+    cloudLine:{fg:cloudCol, bg:sheetBg, r:+ratio(cloudCol,sheetBg).toFixed(2)}
+  };
+
+  /* ═══ font reality check ══════════════════════════════════════════ */
+  var faces = [];
+  document.fonts.forEach(function(f){ faces.push(f.family.replace(/"/g,'')+' '+f.weight+' '+f.style); });
+  var hasItalic = faces.some(function(s){ return /Cabinet/.test(s) && /italic|oblique/.test(s); });
+  var w400 = faces.some(function(s){ return /Cabinet/.test(s) && /\b400\b/.test(s); });
+
+  /* ═══ fps sampler ═════════════════════════════════════════════════ */
+  var fps=[], last=performance.now(), t0=last, done=false;
+  function stat(){
+    if(!fps.length) return {median:0,p1low:0,samples:0};
+    var s = fps.slice().sort(function(a,b){return a-b;});
+    return {median:+s[s.length>>1].toFixed(1),
+            p1low:+s[Math.floor(s.length*0.01)].toFixed(1),
+            samples:s.length};
+  }
+  function frame(now){
+    if (LOAD>0){ var e=performance.now()+LOAD; while(performance.now()<e){} }
+    var dt = now-last; last = now;
+    if (dt>0 && dt<250) fps.push(1000/dt);
+    if (now-t0 > 10000 && !done){ done = true; window.__fps = stat(); }
+    if (now-t0 > 20000) return;             // stop; never an always-on loop
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  function paint(){
+    var s = stat();
+    var ovf = document.documentElement.scrollWidth - innerWidth;
+    ro.textContent =
+      'STATE '+STATE+' · MODE '+root.dataset.mode+' · LOAD '+LOAD+'ms\n'+
+      'FPS med '+s.median+'  p1low '+s.p1low+'  n='+s.samples+(done?' [SETTLED]':'')+'\n'+
+      'VIEWPORT '+innerWidth+'×'+innerHeight+'  DPR '+devicePixelRatio+'\n'+
+      'H-OVERFLOW '+(ovf>0? ovf+'px  ** FAIL **' : 'none  (scrollW '+document.documentElement.scrollWidth+')')+'\n'+
+      'NOTE TEXT '+C.noteText.r+':1   CLOUD LINE '+C.cloudLine.r+':1\n'+
+      'CABINET italic:'+(hasItalic?'yes':'NO → synth oblique')+'  w400:'+(w400?'yes':'NO → 500');
+  }
+  window.__contrast = C; window.__fonts = {faces:faces, hasItalic:hasItalic, w400:w400};
+  paint(); setInterval(paint, 250);
+})();
+</script>
+</body>
+</html>

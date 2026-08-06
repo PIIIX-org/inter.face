@@ -1,0 +1,260 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>p4-schedule-density - as-built sheet index</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<script>
+/* Query-string -> classes. The ONLY layout-affecting JS on the page.
+   With JS disabled the page falls back to: state=full, mode=prefers-color-scheme, fig=spec.
+   Nothing here creates content; the schedule is static HTML. */
+(function(){
+  var q = new URLSearchParams(location.search);
+  var c = document.documentElement.classList;
+  c.add('state-' + (q.get('state') || 'full'));
+  var m = q.get('mode'); if (m) c.add('mode-' + m);
+  c.add('fig-' + (q.get('fig') || 'spec'));
+  c.add('rules-' + (q.get('rules') || 'gap'));
+  window.__load = parseInt(q.get('load') || '0', 10) || 0;
+})();
+</script>
+<style>
+/* ---------- palette: two art directions, measured ---------- */
+:root{
+  --field:#fbf8f1; --primary:#0e2e2c; --secondary:#14403d;
+  --redline:#c63f28; --tint:#e9503a; --focus:#c63f28;
+  --w-primary:1px; --w-secondary:0.75px; --w-redline:1.5px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --field:#0e2e2c; --primary:#efe7d6; --secondary:#7fb5ad;
+    --redline:#f26a52; --tint:#f26a52; --focus:#f26a52;
+    --w-primary:1.5px; --w-secondary:1px; --w-redline:2px;
+  }
+}
+html.mode-light{
+  --field:#fbf8f1; --primary:#0e2e2c; --secondary:#14403d;
+  --redline:#c63f28; --tint:#e9503a; --focus:#c63f28;
+  --w-primary:1px; --w-secondary:0.75px; --w-redline:1.5px;
+}
+html.mode-dark{
+  --field:#0e2e2c; --primary:#efe7d6; --secondary:#7fb5ad;
+  --redline:#f26a52; --tint:#f26a52; --focus:#f26a52;
+  --w-primary:1.5px; --w-secondary:1px; --w-redline:2px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--field);color:var(--primary)}
+body{
+  font-family:'Cabinet Grotesk',system-ui,sans-serif;
+  background:var(--field); color:var(--primary);
+  -webkit-font-smoothing:antialiased;
+  padding:48px;                      /* 48px sheet margin */
+}
+.sheet{
+  max-width:1512px; margin:0 auto;
+  border:var(--w-primary) solid var(--primary);
+  padding:32px;                      /* 32px drawn sheet border */
+}
+
+/* ---------- type ---------- */
+.micro{font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+       font-variant-numeric:tabular-nums;color:var(--secondary)}
+.note-body{font-size:17px;font-weight:400;line-height:1.65;max-width:60ch;margin-top:16px}
+
+/* ---------- title block ---------- */
+.title{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
+       padding-bottom:12px;border-bottom:var(--w-primary) solid var(--primary);margin-bottom:24px}
+.title h1{font-size:17px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.dimline{display:flex;justify-content:space-between;margin:16px 0 8px}
+
+/* ---------- THE TECHNIQUE: grid determinism for hairlines ----------
+   container background = the rule colour; children carry the field colour;
+   the gap IS the rule. Internal rules cannot double, because there are no edges. */
+.schedule{
+  display:grid;
+  grid-template-columns:156px 516px 156px 156px 1fr;  /* 16 cols @66px + 24px gutter, gutter carried as padding */
+  gap:var(--w-secondary);
+  background:var(--secondary);
+  border:var(--w-primary) solid var(--primary);
+}
+.r{display:contents}
+.c{
+  background:var(--field);
+  display:flex;align-items:center;
+  height:40px;                        /* 40px rows, on the 4px rhythm */
+  padding:0 12px;                     /* 12+12 = the 24px gutter */
+  font-size:13px;font-weight:400;line-height:1.3;
+  overflow:hidden
+}
+.v{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.c.desc{font-size:15px}
+.head .c{
+  font-size:13px;font-weight:600;line-height:1.3;
+  letter-spacing:.08em;text-transform:uppercase;
+  box-shadow:inset 0 calc(-1 * var(--w-primary)) 0 var(--primary);
+}
+
+/* tabular figures - spec as written. Cabinet Grotesk has NO tnum table;
+   this declaration is a no-op on this face. Measured, not assumed. */
+.num,.revn{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+b{font-weight:inherit;font-style:inherit}
+
+/* ?rules=border - the naive version, for comparison only. Every cell draws its own
+   four edges, so every INTERNAL rule is two edges thick and every OUTER rule is one.
+   Kept in the file so the doubling can be photographed, never shipped. */
+html.rules-border .schedule{gap:0;background:transparent;border:0}
+html.rules-border .c{border:var(--w-secondary) solid var(--secondary)}
+html.rules-border .head .c{box-shadow:none}
+
+/* fig variants, so the alternatives can be measured rather than argued */
+html.fig-right .num{justify-content:flex-end}
+html.fig-span .num b{display:inline-block;width:.64em;text-align:center}
+html.fig-span .num{justify-content:flex-end}
+html.fig-right .c.rev,html.fig-span .c.rev{justify-content:flex-end}
+
+/* ---------- the redline, confined to the REV column ---------- */
+.c.rev{color:var(--redline);gap:8px;justify-content:space-between}
+/* tally bar: GRAPHIC ONLY. light #e9503a on #fbf8f1 = 3.49:1, clears 1.4.11's 3:1;
+   never carries text. dark reuses #f26a52. */
+.c.rev i{
+  display:block;height:var(--w-redline);flex:0 0 auto;
+  width:calc(var(--n) * 4px);          /* 4px rhythm, one tick per revision */
+  background:var(--tint)
+}
+.head .c.rev{color:var(--primary)}
+
+/* ---------- focus ---------- */
+a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ---------- 390px collapse: five stacked labelled lines, same order ---------- */
+@media (max-width:720px){
+  body{padding:16px}
+  .sheet{padding:16px}
+  .title{flex-wrap:wrap;gap:4px}
+  .title h1{font-size:15px}
+  .dimline{flex-wrap:wrap;gap:4px}
+  .micro{letter-spacing:.06em}
+  .note-body{font-size:15px}
+  .schedule{grid-template-columns:minmax(0,1fr)}
+  .head{display:none}
+  /* five stacked labelled lines, DOM order preserved: MARK / DESCRIPTION / SCALE / REV / NOTES */
+  .c{display:grid;grid-template-columns:76px minmax(0,1fr);column-gap:8px;align-items:baseline;
+     height:auto;min-height:28px;padding:5px 10px;overflow:visible}
+  .v{white-space:normal;overflow:visible;text-overflow:clip}
+  .c::before{
+    content:attr(data-l);
+    font-size:12px;font-weight:600;line-height:1.3;letter-spacing:.06em;
+    color:var(--secondary);
+  }
+  .c.desc{font-size:15px}
+  .c.rev{grid-template-columns:76px auto minmax(0,1fr)}
+  .c.rev i{align-self:center;margin-left:8px}
+  .c.note{padding-bottom:11px;box-shadow:inset 0 calc(-1 * var(--w-primary)) 0 var(--primary)}
+}
+
+/* ---------- fps readout ---------- */
+#fps{
+  position:fixed;right:8px;bottom:8px;z-index:9;
+  background:var(--field);border:var(--w-primary) solid var(--primary);
+  padding:6px 8px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-variant-numeric:tabular-nums;color:var(--primary);white-space:pre
+}
+</style>
+
+<div class="sheet">
+  <div class="title">
+    <h1>Sheet index &mdash; the work</h1>
+    <span class="micro">Taha Mahmoodi &middot; as-built &middot; drawing 04 of 06</span>
+  </div>
+
+  <div class="dimline">
+    <span class="micro">40 rows &middot; 5 columns &middot; rules are grid gaps, not borders</span>
+    <span class="micro" id="dim">&mdash;</span>
+  </div>
+
+  <div class="schedule" role="table" aria-label="Sheet index">
+    <div class="r head" role="row">
+      <div class="c" data-l="MARK">Mark</div>
+      <div class="c desc" data-l="DESCRIPTION">Description</div>
+      <div class="c" data-l="SCALE">Scale</div>
+      <div class="c rev" data-l="REV">Rev</div>
+      <div class="c" data-l="NOTES">Notes</div>
+    </div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">atlas-erp - manufacturing ERP, full stack</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>4</b></span></span><i style="--n:14"></i></div><div class="c note" data-l="NOTES"><span class="v">as-built; slice 15.8 open</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">chapters - OSS second-brain platform</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>1</b></span></span><i style="--n:11"></i></div><div class="c note" data-l="NOTES"><span class="v">backend closed; UI slices 4-7</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">vectory - vector search console</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>7</b></span></span><i style="--n:7"></i></div><div class="c note" data-l="NOTES"><span class="v">rev 3 rescoped the index</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Metal ERP - shop-floor scheduling</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>9</b></span></span><i style="--n:9"></i></div><div class="c note" data-l="NOTES"><span class="v">revised after first install</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>5</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Vivid Tents - commerce + configurator</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>4</b></span></span><i style="--n:4"></i></div><div class="c note" data-l="NOTES"><span class="v">configurator redrawn twice</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>6</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Safa Tyour - poultry supply operations</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>6</b></span></span><i style="--n:6"></i></div><div class="c note" data-l="NOTES"><span class="v">cold-chain module added at rev 4</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>7</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Squad Mojo - team ops product</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>5</b></span></span><i style="--n:5"></i></div><div class="c note" data-l="NOTES"><span class="v">brand redraw at rev 2</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>8</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Canin DCMP - document control</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>8</b></span></span><i style="--n:8"></i></div><div class="c note" data-l="NOTES"><span class="v">approval chain reworked</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>0</b><b>9</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Maher - service marketplace</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>3</b></span></span><i style="--n:3"></i></div><div class="c note" data-l="NOTES"><span class="v">issued for construction</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>1</b><b>0</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">TrueTale - long-form publishing</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>2</b></span></span><i style="--n:2"></i></div><div class="c note" data-l="NOTES"><span class="v">editor rebuilt at rev 1</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>1</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Avaye Zaryab - media and broadcast site</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b></span></span><i style="--n:1"></i></div><div class="c note" data-l="NOTES"><span class="v">single revision, issued</span></div></div>
+<div class="r" role="row"><div class="c num mark" data-l="MARK"><span class="v">A-<b>1</b><b>1</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Herat Dental Union - member registry</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>2</b></span></span><i style="--n:12"></i></div><div class="c note" data-l="NOTES"><span class="v">registry schema redrawn 4x</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - component library, phase 1</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>0</b></span></span><i style="--n:10"></i></div><div class="c note" data-l="NOTES"><span class="v">typographic scale re-cut</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - component library, phase 2</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>6</b></span></span><i style="--n:6"></i></div><div class="c note" data-l="NOTES"><span class="v">token names frozen at rev 4</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - form controls</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>9</b></span></span><i style="--n:9"></i></div><div class="c note" data-l="NOTES"><span class="v">focus ring reworked 3x</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - data table primitive</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>3</b></span></span><i style="--n:13"></i></div><div class="c note" data-l="NOTES"><span class="v">hairline model changed at rev 7</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>5</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - navigation shell</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>2</b></span></span><i style="--n:2"></i></div><div class="c note" data-l="NOTES"><span class="v">issued for review</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">S-<b>2</b><b>0</b><b>6</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Structural - modal and overlay stack</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>5</b></span></span><i style="--n:5"></i></div><div class="c note" data-l="NOTES"><span class="v">z-order corrected</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - build pipeline</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>7</b></span></span><i style="--n:7"></i></div><div class="c note" data-l="NOTES"><span class="v">cache layer added at rev 5</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - deploy and rollback</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>4</b></span></span><i style="--n:4"></i></div><div class="c note" data-l="NOTES"><span class="v">canary gate added</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - image transcode service</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b></span></span><i style="--n:1"></i></div><div class="c note" data-l="NOTES"><span class="v">as-built</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - queue and retry</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>8</b></span></span><i style="--n:8"></i></div><div class="c note" data-l="NOTES"><span class="v">backoff curve redrawn</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>5</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - observability wiring</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>0</b></span></span><i style="--n:0"></i></div><div class="c note" data-l="NOTES"><span class="v">issued, never revised</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">M-<b>3</b><b>0</b><b>6</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Mechanical - feature flag store</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>3</b></span></span><i style="--n:3"></i></div><div class="c note" data-l="NOTES"><span class="v">flag lifecycle documented</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - auth and session</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>1</b></span></span><i style="--n:11"></i></div><div class="c note" data-l="NOTES"><span class="v">magic-link path replaced OTP</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - permissions matrix</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>9</b></span></span><i style="--n:9"></i></div><div class="c note" data-l="NOTES"><span class="v">role split at rev 6</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - audit trail</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>2</b></span></span><i style="--n:2"></i></div><div class="c note" data-l="NOTES"><span class="v">append-only, as-built</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - key rotation</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>6</b></span></span><i style="--n:6"></i></div><div class="c note" data-l="NOTES"><span class="v">rotation window halved</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>5</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - rate limiting</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>4</b></span></span><i style="--n:4"></i></div><div class="c note" data-l="NOTES"><span class="v">per-account buckets</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">E-<b>4</b><b>0</b><b>6</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Electrical - secrets handling</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b></span></span><i style="--n:1"></i></div><div class="c note" data-l="NOTES"><span class="v">issued for construction</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - content model</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>8</b></span></span><i style="--n:8"></i></div><div class="c note" data-l="NOTES"><span class="v">wikilink resolution reworked</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - search index</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>0</b></span></span><i style="--n:10"></i></div><div class="c note" data-l="NOTES"><span class="v">ranking re-cut at rev 5 and 9</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - import and migration</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>7</b></span></span><i style="--n:7"></i></div><div class="c note" data-l="NOTES"><span class="v">legacy shape absorbed</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - export and archive</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>3</b></span></span><i style="--n:3"></i></div><div class="c note" data-l="NOTES"><span class="v">format frozen</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>5</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - localisation frame</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>5</b></span></span><i style="--n:5"></i></div><div class="c note" data-l="NOTES"><span class="v">RTL mirror added at rev 3</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">C-<b>5</b><b>0</b><b>6</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Civil - print stylesheet</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>0</b></span></span><i style="--n:0"></i></div><div class="c note" data-l="NOTES"><span class="v">issued, never revised</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">D-<b>6</b><b>0</b><b>1</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Detail - motion and reduced-motion pairs</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>6</b></span></span><i style="--n:6"></i></div><div class="c note" data-l="NOTES"><span class="v">designed still added at rev 2</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">D-<b>6</b><b>0</b><b>2</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Detail - colour modes, both directed</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>2</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>1</b><b>2</b></span></span><i style="--n:12"></i></div><div class="c note" data-l="NOTES"><span class="v">light mode re-graded 5x</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">D-<b>6</b><b>0</b><b>3</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Detail - empty, error, absence states</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>5</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>4</b></span></span><i style="--n:4"></i></div><div class="c note" data-l="NOTES"><span class="v">404 redrawn after migration</span></div></div>
+<div class="r" data-pad="1" role="row"><div class="c num mark" data-l="MARK"><span class="v">D-<b>6</b><b>0</b><b>4</b></span></div><div class="c desc" data-l="DESCRIPTION"><span class="v">Detail - accessibility conformance pass</span></div><div class="c num scale" data-l="SCALE"><span class="v"><b>1</b>:<b>1</b><b>0</b></span></div><div class="c num rev" data-l="REV"><span class="v"><span class="revn"><b>9</b></span></span><i style="--n:9"></i></div><div class="c note" data-l="NOTES"><span class="v">contrast corrected at rev 8</span></div></div>
+  </div>
+
+  <p class="note-body">Every row carries the number of times it was redrawn. The REV column is not
+  metadata about the work; at forty rows it is the argument. Rows 13&ndash;40 are placeholder sheet
+  entries &mdash; rows 1&ndash;12 are the real register.</p>
+</div>
+
+<div id="fps">fps &mdash;</div>
+
+<script>
+/* rAF sampler + synthetic main-thread load. NOT a CPU throttle: ?load=N burns N ms of
+   real work per frame on the main thread. Main-thread-contention approximation only. */
+(function(){
+  var el=document.getElementById('fps'), load=window.__load||0;
+  var t0=performance.now(), last=t0, d=[], done=false;
+  function burn(ms){var e=performance.now()+ms,x=0;while(performance.now()<e){x+=Math.sqrt(x+1)}return x}
+  function tick(now){
+    if(load)burn(load);
+    var dt=now-last; last=now;
+    if(dt>0&&dt<2000)d.push(dt);
+    if(d.length>4){
+      var s=d.slice().sort(function(a,b){return a-b});
+      var med=s[s.length>>1], p1=s[Math.max(0,Math.ceil(s.length*0.99)-1)];
+      el.textContent='fps med '+(1000/med).toFixed(1)+'\n1% low '+(1000/p1).toFixed(1)
+        +'\nn '+d.length+'  load '+load+'ms\ndpr '+window.devicePixelRatio;
+      if(!done&&now-t0>10000){
+        done=true;
+        window.__fps={median:+(1000/med).toFixed(2),p1low:+(1000/p1).toFixed(2),samples:d.length,load:load,dpr:window.devicePixelRatio};
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  var g=document.querySelector('.schedule');
+  if(g){document.getElementById('dim').textContent=
+    'gap '+getComputedStyle(g).columnGap+' \u00b7 dpr '+window.devicePixelRatio
+    +' \u00b7 vw '+window.innerWidth;}
+})();
+</script>

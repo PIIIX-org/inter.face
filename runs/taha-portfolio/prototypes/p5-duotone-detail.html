@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>as-built — Surface 5/6 — Detail at 1:5 — p5-duotone-detail</title>
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* ------------------------------------------------------------------
+   p5-duotone-detail — in-browser duotone, exactly two palette values.
+   Zero JS in the treatment itself: SVG feColorMatrix + feComponentTransfer.
+   JS exists only for (1) tier-2 deferral, (2) the fps sampler, (3) measurement.
+   ------------------------------------------------------------------ */
+
+:root{
+  /* dark = cyanotype */
+  --d-field:#0e2e2c; --d-primary:#efe7d6; --d-secondary:#7fb5ad;
+  --d-redline:#f26a52; --d-w-primary:1.5px; --d-w-secondary:1px; --d-w-redline:2px;
+  /* light = diazo / whiteprint */
+  --l-field:#fbf8f1; --l-primary:#0e2e2c; --l-secondary:#14403d;
+  --l-redline:#c63f28; --l-tint:#e9503a; --l-w-primary:1px; --l-w-secondary:0.75px; --l-w-redline:1.5px;
+
+  --gut:24px; --rhythm:4px; --sheet-max:1512px; --sheet-margin:48px; --sheet-border:32px;
+  --fade:600ms;
+}
+html[data-mode="dark"]{
+  --field:var(--d-field); --primary:var(--d-primary); --secondary:var(--d-secondary);
+  --redline:var(--d-redline); --w-primary:var(--d-w-primary); --w-secondary:var(--d-w-secondary);
+  --w-redline:var(--d-w-redline); --tint:var(--d-redline); --filter:url(#dt-cyanotype);
+}
+html[data-mode="light"]{
+  --field:var(--l-field); --primary:var(--l-primary); --secondary:var(--l-secondary);
+  --redline:var(--l-redline); --w-primary:var(--l-w-primary); --w-secondary:var(--l-w-secondary);
+  --w-redline:var(--l-w-redline); --tint:var(--l-tint); --filter:url(#dt-diazo);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;border-radius:0}
+html{background:var(--field);}
+body{
+  background:var(--field); color:var(--primary);
+  font-family:'Cabinet Grotesk',system-ui,sans-serif;
+  /* spec says 400 for body; only 500/700/800 are vendored — this resolves to 500 */
+  font-weight:400; font-size:17px; line-height:1.65;
+  padding:var(--sheet-margin); -webkit-font-smoothing:antialiased;
+}
+
+/* ---- the sheet ------------------------------------------------- */
+.sheet{
+  max-width:var(--sheet-max); margin:0 auto; position:relative;
+  border:var(--w-primary) solid var(--primary); padding:var(--sheet-border);
+}
+.sheet::before{ /* the inner drawn border of an issued sheet */
+  content:""; position:absolute; inset:8px; border:var(--w-secondary) solid var(--secondary);
+  pointer-events:none;
+}
+
+/* ---- lettering -------------------------------------------------- */
+h2,.h2{font-size:18px;font-weight:500;line-height:1.2;letter-spacing:.16em;text-transform:uppercase;}
+.dim{
+  font-size:12px;font-weight:400;letter-spacing:.1em;text-transform:uppercase;
+  font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+  color:var(--secondary);line-height:1.2;
+}
+.acct{max-width:60ch;font-size:17px;line-height:1.65;}
+.acct p+p{margin-top:calc(var(--rhythm)*5);}
+.redline{
+  color:var(--redline);font-size:16px;font-weight:500;font-style:italic;line-height:1.4;
+}
+a{color:inherit;}
+:focus-visible{outline:2px solid var(--redline);outline-offset:2px;}
+
+/* ---- title block ------------------------------------------------ */
+.titleblock{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:var(--gut);
+  padding-bottom:calc(var(--rhythm)*4);
+  border-bottom:var(--w-primary) solid var(--primary);
+}
+.titleblock .rev{text-align:right}
+
+/* ---- split field 60/40 ------------------------------------------ */
+.split{
+  display:grid;grid-template-columns:repeat(16,1fr);column-gap:var(--gut);
+  padding-top:calc(var(--rhythm)*8);
+}
+.field-detail{grid-column:1/11;position:relative;}
+.field-account{
+  grid-column:11/17;position:relative;
+  margin-left:calc(var(--gut)/-2);padding-left:calc(var(--gut)/2 + 12px);
+  border-left:var(--w-primary) solid var(--primary);   /* THE hard vertical rule */
+}
+
+/* ---- the plate -------------------------------------------------- */
+.plate{
+  position:relative;border:var(--w-secondary) solid var(--secondary);
+  background:var(--field);
+  aspect-ratio:844/864;overflow:hidden;
+}
+.plate .corner{position:absolute;width:12px;height:12px;border:var(--w-primary) solid var(--primary);}
+.plate .corner.tl{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.plate .corner.tr{top:-1px;right:-1px;border-left:0;border-bottom:0}
+.plate .corner.bl{bottom:-1px;left:-1px;border-right:0;border-top:0}
+.plate .corner.br{bottom:-1px;right:-1px;border-left:0;border-top:0}
+
+/* the static poster: a treated still, 40px wide, inline. Present at first paint. */
+.poster{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:var(--filter);image-rendering:auto;
+}
+/* the tier-2 raster: no src until it intersects */
+.plate-img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  filter:var(--filter);
+  opacity:0;transition:opacity var(--fade) linear;
+}
+.plate-img.is-ready{opacity:1}
+html[data-state="reduced"] .plate-img,
+html[data-state="nogpu"] .plate-img{transition:none}
+@media (prefers-reduced-motion:reduce){ .plate-img{transition:none} }
+
+/* ---- fallback-first: no `filter` support -> a drawn schematic ----- */
+.schematic{position:absolute;inset:0;width:100%;height:100%;display:block}
+.schematic [stroke]{vector-effect:non-scaling-stroke}
+@supports (filter:url(#dt-diazo)){
+  html:not([data-filter="off"]) .schematic{display:none}
+}
+html[data-filter="off"] .poster,
+html[data-filter="off"] .plate-img{display:none}
+
+/* ---- dimension callouts around the plate ------------------------ */
+.callout-w{display:flex;align-items:center;gap:8px;margin-top:calc(var(--rhythm)*2)}
+.callout-w .line{flex:1;height:0;border-top:var(--w-secondary) solid var(--secondary);position:relative}
+.callout-w .line::before,.callout-w .line::after{
+  content:"";position:absolute;top:-4px;width:0;height:8px;border-left:var(--w-secondary) solid var(--secondary);
+}
+.callout-w .line::before{left:0}.callout-w .line::after{right:0}
+.plate-head{display:flex;justify-content:space-between;align-items:baseline;gap:var(--gut);
+  margin-bottom:calc(var(--rhythm)*2)}
+
+/* ---- the redline, over the plate --------------------------------- */
+.redline-layer{position:absolute;inset:0;pointer-events:none}
+.redline-note{
+  position:absolute;left:52%;top:8%;width:44%;
+  padding-left:12px;border-left:var(--w-redline) solid var(--redline);
+}
+.redline-leader{position:absolute;left:22%;top:14%;width:30%;height:0;
+  border-top:var(--w-redline) solid var(--redline);transform:rotate(-9deg);transform-origin:left center}
+.redline-ring{position:absolute;left:14%;top:52%;width:44%;height:9%;
+  border:var(--w-redline) solid var(--redline)}
+.redline-tag{position:absolute;left:14%;top:62.5%;color:var(--redline);}
+
+/* ---- provenance / fps readout ------------------------------------ */
+.provenance{margin-top:calc(var(--rhythm)*4);color:var(--secondary)}
+.fps{
+  position:fixed;right:12px;bottom:12px;z-index:9;
+  padding:6px 10px;border:var(--w-secondary) solid var(--secondary);
+  background:var(--field);color:var(--primary);
+  font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-variant-numeric:tabular-nums;
+}
+
+/* ---- 390 ---------------------------------------------------------- */
+@media (max-width:820px){
+  body{padding:16px;font-size:17px}
+  .sheet{padding:16px}
+  .sheet::before{inset:5px}
+  .split{grid-template-columns:1fr;row-gap:calc(var(--rhythm)*6)}
+  .field-detail,.field-account{grid-column:1/-1}
+  .field-account{ /* the hard rule turns horizontal, it does not disappear */
+    margin-left:0;padding-left:0;border-left:0;
+    border-top:var(--w-primary) solid var(--primary);padding-top:calc(var(--rhythm)*5);
+  }
+  .titleblock{flex-direction:column;align-items:flex-start;gap:calc(var(--rhythm)*2)}
+  .titleblock .rev{text-align:left}
+  .redline-note{left:44%;width:52%;top:4%}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= the two treatments =================
+     Both map to EXACTLY two palette values. They are not one inversion:
+       cyanotype  = photographic register. stochastic emulsion grain, ink cut at L<0.46.
+       diazo      = line-reproduction register. no grain, lines eroded 1px so hairlines
+                    survive, ink cut at L<0.86 so every border and rule prints.
+     ==================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- DARK / cyanotype: #0e2e2c field, #efe7d6 line -->
+    <filter id="dt-cyanotype" color-interpolation-filters="sRGB"
+            x="0%" y="0%" width="100%" height="100%">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="lum"
+        values="0.2126 0.7152 0.0722 0 0
+                0.2126 0.7152 0.0722 0 0
+                0.2126 0.7152 0.0722 0 0
+                0      0      0      1 0"/>
+      <!-- emulsion grain: stochastic, one octave, static -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="7" result="n"/>
+      <feColorMatrix in="n" result="grain"
+        values="0.33 0.33 0.33 0 -0.115
+                0.33 0.33 0.33 0 -0.115
+                0.33 0.33 0.33 0 -0.115
+                0    0    0    0  1"/>
+      <feComposite in="lum" in2="grain" operator="arithmetic" k1="0" k2="1" k3="0.23" k4="0" result="screened"/>
+      <!-- move the cut to L=0.46 (slope 1, intercept 0.5-t) -->
+      <feComponentTransfer result="cut">
+        <feFuncR type="linear" slope="1" intercept="0.04"/>
+        <feFuncG type="linear" slope="1" intercept="0.04"/>
+        <feFuncB type="linear" slope="1" intercept="0.04"/>
+      </feComponentTransfer>
+      <!-- two values, nothing between: ink -> #efe7d6, paper -> #0e2e2c.
+           +0.5/255 on every value: the transfer pipeline floors, so the bare
+           ratio lands one integer low and emits #0d2d2c instead of #0e2e2c. -->
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0.939216 0.056863"/>
+        <feFuncG type="discrete" tableValues="0.907843 0.182353"/>
+        <feFuncB type="discrete" tableValues="0.841176 0.174510"/>
+        <feFuncA type="discrete" tableValues="0 1"/>
+      </feComponentTransfer>
+    </filter>
+
+    <!-- LIGHT / diazo: #fbf8f1 field, #0e2e2c line -->
+    <filter id="dt-diazo" color-interpolation-filters="sRGB"
+            x="0%" y="0%" width="100%" height="100%">
+      <feColorMatrix type="matrix" in="SourceGraphic" result="lum"
+        values="0.2126 0.7152 0.0722 0 0
+                0.2126 0.7152 0.0722 0 0
+                0.2126 0.7152 0.0722 0 0
+                0      0      0      1 0"/>
+      <!-- erode = min: thickens the dark, so 1px UI hairlines survive the cut -->
+      <feMorphology operator="erode" radius="1" in="lum" result="drawn"/>
+      <!-- cut at L=0.86: borders, rules and field edges all print -->
+      <feComponentTransfer result="cut">
+        <feFuncR type="linear" slope="1" intercept="-0.36"/>
+        <feFuncG type="linear" slope="1" intercept="-0.36"/>
+        <feFuncB type="linear" slope="1" intercept="-0.36"/>
+      </feComponentTransfer>
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0.056863 0.986275"/>
+        <feFuncG type="discrete" tableValues="0.182353 0.974510"/>
+        <feFuncB type="discrete" tableValues="0.174510 0.947059"/>
+        <feFuncA type="discrete" tableValues="0 1"/>
+      </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>
+
+<main class="sheet">
+
+  <div class="titleblock">
+    <div>
+      <h2>Detail at 1:5 — sign-in, Atlas ERP</h2>
+      <p class="dim" style="margin-top:8px">Sheet 5 of 6 · as-built · Taha Mahmoodi</p>
+    </div>
+    <div class="rev">
+      <p class="dim">Drawing no. TM-05 · Scale 1:5</p>
+      <p class="dim" style="margin-top:4px">Rev. B — issued for construction</p>
+    </div>
+  </div>
+
+  <div class="split">
+
+    <!-- ---------------- detail, cols 1-10 ---------------- -->
+    <section class="field-detail">
+      <div class="plate-head">
+        <p class="dim">Plate 05.1 — enlarged detail</p>
+        <p class="dim">844 × 864 px @ 2×</p>
+      </div>
+
+      <figure class="plate">
+        <img class="poster" alt=""
+             src="data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAADQAwCdASooACkAPpFEnkolo6IhMAgAsBIJZQAAWFXFf/n7v2WGwSuu0AD+9//dJP//8xdX//OXP//3G3//4XN//+cxf//nOn//+GGrPAAgt+m8vD//9/wr//OF//9x1//9x9wAAA=="
+             width="844" height="864" decoding="sync">
+
+        <img class="plate-img" id="plate" alt="The Atlas ERP sign-in screen, treated as a two-value duotone print: company, email and password fields above a sign-in button."
+             data-src="detail-atlas-login.webp" width="844" height="864" decoding="async">
+
+        <noscript>
+          <img class="plate-img is-ready" src="detail-atlas-login.webp"
+               alt="The Atlas ERP sign-in screen, treated as a two-value duotone print."
+               width="844" height="864">
+        </noscript>
+
+        <!-- fallback-first: shown unless @supports upgrades it -->
+        <svg class="schematic" viewBox="0 0 844 864" preserveAspectRatio="xMidYMid meet" role="img"
+             aria-label="Schematic of the sign-in detail: a card containing three labelled fields and a button.">
+          <g fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="40" y="42" width="764" height="780"/>
+            <rect x="104" y="298" width="636" height="72"/>
+            <rect x="104" y="438" width="636" height="72"/>
+            <rect x="104" y="578" width="636" height="72"/>
+            <rect x="104" y="698" width="156" height="60" fill="currentColor"/>
+            <line x1="104" y1="140" x2="290" y2="140" stroke-width="6"/>
+            <line x1="104" y1="196" x2="360" y2="196"/>
+            <line x1="104" y1="272" x2="230" y2="272"/>
+            <line x1="104" y1="412" x2="182" y2="412"/>
+            <line x1="104" y1="552" x2="222" y2="552"/>
+          </g>
+          <text x="40" y="856" font-size="18" letter-spacing="1.8" fill="currentColor"
+                font-family="Cabinet Grotesk, sans-serif">SCHEMATIC — PLATE NOT REPRODUCED</text>
+        </svg>
+
+        <div class="redline-layer">
+          <div class="redline-leader"></div>
+          <p class="redline-note redline">the first screen a stranger sees is the whole product to them, so it gets drawn at 1:5, not shrunk into a thumbnail</p>
+          <div class="redline-ring"></div>
+          <p class="redline-tag dim" style="color:var(--redline)">R5.2 — three fields, no more</p>
+        </div>
+      </figure>
+
+      <div class="callout-w">
+        <span class="dim">844</span><span class="line"></span><span class="dim">px</span>
+      </div>
+      <p class="provenance dim">
+        Source: live render of atlas-erp/frontend/dist at 127.0.0.1, 1440×900 @2×, 2026-08-06.
+        Unmodified screen. Two-value treatment applied in the browser.
+      </p>
+    </section>
+
+    <!-- ---------------- account, cols 11-16 ---------------- -->
+    <section class="field-account">
+      <p class="dim">Written account · 05.2</p>
+      <div class="acct" style="margin-top:12px">
+        <p>Atlas ERP is a multi-tenant system I build and ship. The plate opposite is its
+          sign-in screen, photographed off the running build rather than drawn from memory,
+          then printed to the sheet in the sheet's own two values.</p>
+        <p>Three fields. A company slug, an address, a secret. Everything else that a system
+          this size wants to say on its first screen was cut, and cutting it is the part of
+          the work that survives contact with a real tenant.</p>
+        <p>Nothing here is a mock. If the screen changes, the plate changes with it.</p>
+      </div>
+      <p class="dim" style="margin-top:20px">Ref. 05.2 · account · 60ch measure</p>
+    </section>
+
+  </div>
+</main>
+
+<div class="fps" id="fps" aria-hidden="true">FPS — SAMPLING</div>
+
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var state = q.get('state') || 'full';
+  var mode  = q.get('mode');
+  var load  = parseFloat(q.get('load') || '0');
+  var doScroll = q.get('fps') === '1';
+  var dur = parseFloat(q.get('dur') || '10000');
+  var root = document.documentElement;
+
+  if(!mode) mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  root.dataset.mode = mode;
+  root.dataset.state = state;
+  if(q.get('filter') === 'off') root.dataset.filter = 'off';
+
+  var img = document.getElementById('plate');
+
+  // ---- tier 2: deferral -------------------------------------------------
+  // The raster never sits in the LCP path. Poster paints in the shell; the raster
+  // is requested only on intersection, and swapped only when it has actually decoded.
+  function reveal(){
+    img.src = img.dataset.src;
+    img.decode ? img.decode().then(ready, function(){/* poster stays */}) : img.onload = ready;
+    function ready(){ img.classList.add('is-ready'); window.__plateReady = performance.now(); }
+  }
+  if(state === 'nogpu' || !('IntersectionObserver' in window)){
+    reveal();                                  // no gate available: load it plainly
+  } else {
+    var io = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){ io.disconnect(); reveal(); }
+    }, {rootMargin: '100% 0px'});               // ~one viewport of lead
+    io.observe(img);
+  }
+
+  // ---- frame-rate sampler ----------------------------------------------
+  var t = [], last = performance.now(), t0 = last, el = document.getElementById('fps');
+  var dir = 1;
+  function frame(){
+    if(load > 0){ var s = performance.now(); while(performance.now() - s < load){} }
+    // wall clock, not the rAF timestamp: headless Chrome hands out a synthetic
+    // 60Hz rAF timestamp that advances 16.67ms whatever the frame actually cost.
+    var now = performance.now();
+    var dt = now - last; last = now;
+    if(dt > 0 && dt < 1000) t.push(dt);
+    if(doScroll){ // the only thing that recomposites a static filtered layer: scroll
+      scrollBy(0, dir * 12);
+      if(scrollY <= 0) dir = 1;
+      if(scrollY + innerHeight >= document.body.scrollHeight - 1) dir = -1;
+    }
+    if(t.length > 8){
+      var s2 = t.slice().sort(function(a,b){return a-b;});
+      var med = s2[s2.length >> 1];
+      var p1  = s2[Math.max(0, Math.floor(s2.length * 0.99) - 1)];
+      el.textContent = 'FPS ' + (1000/med).toFixed(1) + ' MED · ' +
+                       (1000/p1).toFixed(1) + ' 1%LOW · LOAD ' + load + 'MS · ' +
+                       (doScroll ? 'SCROLL' : 'IDLE');
+      if(now - t0 > dur && !window.__fps){
+        window.__fps = {median: +(1000/med).toFixed(1), p1low: +(1000/p1).toFixed(1),
+                        samples: t.length, load: load, scroll: doScroll,
+                        vw: innerWidth, vh: innerHeight, dpr: devicePixelRatio};
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // ---- measurement: count the distinct colours the filter actually emits --
+  // Canvas 2D applies the same SVG filter by reference, so this reads the real
+  // chain output, not a re-implementation of it.
+  window.__measure = function(id){
+    return new Promise(function(res, rej){
+      var im = new Image();
+      im.onload = function(){
+        var c = document.createElement('canvas');
+        c.width = im.naturalWidth; c.height = im.naturalHeight;
+        var x = c.getContext('2d', {willReadFrequently:true});
+        if(id){ x.filter = 'url(#' + id + ')'; }
+        if(id && x.filter !== 'url(#' + id + ')'){ return rej('canvas filter url() not applied: ' + x.filter); }
+        x.drawImage(im, 0, 0);
+        var d;
+        try { d = x.getImageData(0,0,c.width,c.height).data; }
+        catch(e){ return rej('canvas tainted: ' + e); }
+        var m = new Map(), n = d.length/4;
+        for(var i=0;i<d.length;i+=4){
+          var k = (d[i]<<16)|(d[i+1]<<8)|d[i+2];
+          m.set(k,(m.get(k)||0)+1);
+        }
+        var top = [].concat.apply([], [Array.from(m.entries())])
+          .sort(function(a,b){return b[1]-a[1];})
+          .map(function(e){return ['#'+e[0].toString(16).padStart(6,'0'), e[1], +(100*e[1]/n).toFixed(4)];});
+        res({filter:id||'none', w:c.width, h:c.height, px:n, distinct:m.size, top:top.slice(0,8),
+             tail:top.slice(8).reduce(function(a,e){return a+e[1];},0)});
+      };
+      im.onerror = function(){ rej('image load failed'); };
+      im.src = 'detail-atlas-login.webp';
+    });
+  };
+})();
+</script>
+</body>
+</html>
