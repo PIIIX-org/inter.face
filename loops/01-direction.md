@@ -6,8 +6,11 @@ looks like — and get a human to agree before anything expensive exists.
 **Input:** [`TRANSLATE.md`](../TRANSLATE.md), all six rows filled. Row 1 blank means this
 loop cannot start; it does not start generic.
 
-**Output:** the direction half of `DIRECTION.md`, one rendered image per surface per
-concept, and a signed Gate A.
+**Output:** the direction half of `DIRECTION.md`, one comp per surface per concept — coded
+by default, rendered image when the run opts in (§8 below) — and a signed Gate A.
+
+**Timing:** run `date` at each phase boundary and record it in the run ledger — six calls
+for the whole loop, and the only clock a subagent has.
 
 ```text
 0 branch        1 class        2 platform      3 access        4 derive
@@ -160,8 +163,9 @@ deliberate choice defended by one sentence of physical scene, then reconciled ag
 `TRANSLATE.md` row 3.
 
 Then build out **once per direction**: an accent, a substrate, a neutral ramp, and the full
-state set — and tool-shaped, the status vocabulary from `TOOLS.md`, which needs shape or label
-as well as color because `§10` forbids color alone. The same sampled hex sits at a different
+state set — dimmed and disabled included, for every direction brought to the gate, not only
+the ones that feel complete — and tool-shaped, the status vocabulary from `TOOLS.md`, which
+needs shape or label as well as color because `§10` forbids color alone. The same sampled hex sits at a different
 chroma, against a different substrate, in a different ramp in each of the two or three
 directions; that divergence is a large part of what Gate A is choosing between.
 
@@ -183,6 +187,16 @@ art directions and both get built.
 **Per direction, like §5 above.** Two families at most, one if the direction earns it. Variable where the design drives an
 axis, self-hosted and subset per `§7`, and checked against the actual script per `§13` — a
 Persian, Arabic, or Devanagari subject needs a face that draws it, not one that falls back.
+
+**Row 6's owned faces are the default pair** — `STYLES.md`'s fifth picking input makes owned
+elements constraints, not suggestions, and that holds for type. A direction that replaces or
+drops an owned face states its reason on the same line, like every other font decision here.
+
+**`§6`'s sample-from-reality rule extends to type.** Before writing a scale, enumerate the
+owned files' actual `@font-face` declarations — a scale written against weights the files do
+not contain silently renders from the nearest face. Verify weights by advance-width
+comparison, never `document.fonts.check()`, which matches the nearest available face and
+returns true for weights that do not exist.
 
 **Every font decision carries its reason on the same line**: what this face does for this
 direction that the obvious one would not. `STYLES.md`'s ban is on convergence, not on the
@@ -216,7 +230,9 @@ Each concept states:
   submission, in this concept rather than the framework's default. Tool-shaped, `TOOLS.md`'s
   nine data states, with empty, permission denied, and conflict named specifically: the first
   is what every new user sees, the last is the one that destroys work
-- **The surface list and its order**, derived from row 2's viewer and their task
+- **The surface list and its order**, derived from row 2's viewer and their task. When row 2
+  carries no task or funnel — the identity portfolio — derive it from the archetype's own arc
+  instead: the problem, the attempts, the shipped work, the parked work, the person, the way in
 
 ### The two distinctness tests
 
@@ -247,26 +263,38 @@ Note one concept you rejected and why, so the human sees the range rather than t
 **This is where a real bug lived.** "One horizontal image per surface" was inherited from a
 parent whose surfaces were all web page sections. A phone screen is roughly 9:19.5; rendering
 it on a 16:9 canvas spends about three quarters of the model's fidelity budget on empty
-background. State the ratio per class:
+background. State the ratio per class — and its coded translation, because the ratio column
+evaporates in a coded comp:
 
-| Surface | Canvas | What is in it |
-|---|---|---|
-| Page-shaped web section | 16:9, hero 21:9 | One section |
-| Tool-shaped desktop screen | 16:10 | One screen, full chrome, real row counts |
-| Phone screen | 4:5 for one screen, or 16:9 holding 2–3 phone-portrait screens at identical scale | One step of the flow |
-| Tablet screen | 4:3 or 16:10 | One screen, at a stated width |
+| Surface | Canvas | Coded comp | What is in it |
+|---|---|---|---|
+| Page-shaped web section | 16:9, hero 21:9 | Section at flow height in the container; hero `min(88vh, 900px)` full-bleed | One section |
+| Tool-shaped desktop screen | 16:10 | Fixed 1440×900 viewport spec | One screen, full chrome, real row counts |
+| Phone screen | 4:5 for one screen, or 16:9 holding 2–3 phone-portrait screens at identical scale | One 390px-wide frame, or 2–3 side by side at identical scale | One step of the flow |
+| Tablet screen | 4:3 or 16:10 | One 1024px- or 1280px-wide frame at the stated width | One screen, at a stated width |
+
+**Two comp modes, one default — settled by the first real run.** Coded comps — real hexes,
+real faces, real spacing — are the default deliverable when a human reviews on a rendered
+board; image generation is the opt-in mode, for when the reviewer wants imagery or the
+build target needs it. Either mode fills the same table: the canvas
+column for images, the coded column for comps.
 
 Two to three phones on one canvas is the **only** exception to never compressing a board,
 and it holds because they are the same surface across a flow at readable scale rather than
 different surfaces stacked. The moment type stops being legible, drop to one phone per canvas.
 
-**Announce N before generating.** **N is the surface count, not the image count** — and every
+**N is set once, before §7 above develops the concepts, and it is identical across concepts
+so the sets are comparable — a concept proposes content for N slots, never its own N.**
+**N is the surface count, not the image count** — every
 concept is rendered across all N, so three concepts and nine surfaces is twenty-seven images.
 Write both numbers in text before generating — *"three concepts, nine surfaces, twenty-seven
 images"* — and label every image **"\<concept label>: Surface X of N — \<name\>"**, with the
 label from the family pass in §7 above, so the three renders of the same surface never collide.
 
-That 3× is the real cost of `§4` and it is paid deliberately. **If it is not affordable, cut to
+That 3× is the real cost of `§4` in image mode and it is paid deliberately — in coded-comp
+mode it is nearly flat, which is part of why that mode is the default. The per-direction
+palette and type build-out of §5 and §6 above stands in both modes: the first real run's
+Gate A produced a clean one-round decision from three full concepts. **If it is not affordable, cut to
 two concepts rather than to a partial set** — a concept rendered at three surfaces cannot be
 compared against one rendered at nine, and the set-level check in §10 below has nothing to run
 on. Two complete concepts is a choice. Three partial ones is a preference dressed as one.
@@ -294,6 +322,11 @@ redesign and not a variant: same design system, cleaner render.
 
 Run by the conductor, on what comes back, **once per concept** — the set is one concept's N
 surfaces, since that is the set a human reads as one thing. No worker can run it.
+
+Its validity rests on the tokens being logged by workers who could not see their neighbors.
+When no independent workers ran and the conductor assigned the tokens itself, the check
+still runs — and its result carries a mandatory disclosure line in the gate package:
+*"self-graded — tokens were assigned by the checker with knowledge of the rule."*
 
 Reject the set and regenerate the offending surfaces if:
 

@@ -389,6 +389,10 @@ at build with the images already signed off.
 | **Textural** | Texture at row scale reads as noise and eats the smallest type on the screen. Paper, ink, and toner belong to the substrate around the table; inside it, hairlines only |
 | **Reductive** | Usually the honest answer is no — see the second worked answer below. Monochrome-plus-accent is the one that survives, because a tonal ramp *is* a hierarchy mechanism and forty rows need exactly that |
 
+**A collision inherits the stricter parent's density answer.** The table indexes single
+families and every derived direction is a collision of two — when the parents' rows
+disagree, the stricter one wins, so no run invents its own arbitration.
+
 **Worked answer one — bimodal density.** `industrial-brutalist-ui` is the only skill in the
 audited corpus that answers this question at all, and its answer is good:
 
