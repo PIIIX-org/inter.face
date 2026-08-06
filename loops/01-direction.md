@@ -304,7 +304,7 @@ silent one, and silent under-generation is the failure this costs one line to pr
 
 ## 9. Dispatch `surface-designer`
 
-**One agent per surface per concept, one image each.** Never compress multiple surfaces into
+**One agent per surface per concept, one comp each — an image in image mode, a spec block in coded mode.** Never compress multiple surfaces into
 one board, and never compress two concepts into one either: a
 compressed board hides exactly the detail the human needs to judge, and what it hides first is
 the smallest type and the primary action.

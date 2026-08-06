@@ -270,7 +270,7 @@ your neighbors, which is the entire reason it belongs to the conductor.
 ## When this file is run inline instead of dispatched
 
 The `tools:` list above is enforced by the harness on Claude Code and absent on most others.
-A conductor that cannot dispatch workers reads this file and generates each image itself, one
+A conductor that cannot dispatch workers reads this file and produces each comp itself — spec block in coded mode (the default), image in image mode — one
 surface at a time, in the same order — **and still generates one image per surface per
 concept.** The temptation inline is to save a round trip by putting three surfaces on one
 canvas, and that is the exact failure this file opens with. One image, one surface, one
