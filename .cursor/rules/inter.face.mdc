@@ -1,0 +1,19 @@
+---
+description: inter.face — art direction for any interface (six-row brief → direction → Gate A → craft → Gate B, stops before code)
+alwaysApply: false
+---
+
+This repository is the **inter.face** design pipeline. When asked to design or
+redesign an interface — web, mobile, tablet, or desktop — run it:
+
+1. Read `AGENTS.md` (the resident router) and `PRINCIPLES.md` (sixteen rules,
+   three of them hard: accessibility, keyboard completeness on tool-shaped
+   surfaces, human gates).
+2. Settle the surface class first — page-shaped or tool-shaped, `TRANSLATE.md`
+   row 1, no safe default.
+3. Run `loops/01-direction.md` to **Gate A** (the human picks the concept), then
+   `loops/02-craft.md` to **Gate B** (the human approves or cuts the technique
+   set).
+4. Deliver `DIRECTION.md`, `tokens.json`, one design image per surface, and one
+   measured prototype per technique. It stops before code.
+5. Never publish past a gate without a human decision.

@@ -1,0 +1,11 @@
+# inter.face
+
+This repo is the inter.face design pipeline: art direction for any interface —
+web, mobile, tablet, or desktop, page-shaped or tool-shaped. To run it, read
+AGENTS.md and PRINCIPLES.md, settle the surface class first (TRANSLATE.md row 1,
+no safe default), then run loops/01-direction.md to Gate A and loops/02-craft.md
+to Gate B, stopping at both gates for the human. Three rules are hard and never
+skip: accessible by default, keyboard completeness on tool-shaped surfaces, and
+human gates as real stops. The deliverable is DIRECTION.md, tokens.json, one
+design image per surface, and one measured prototype per technique — the
+pipeline stops before code. Never publish past a gate without a human decision.
