@@ -673,6 +673,20 @@ starts at the top of the browser chrome and a screen reader announces nothing at
 interface where every navigation silently resets a keyboard user to zero has failed `§15`
 completely, and no automated checker will report it, because nothing is technically wrong.
 
+**The four destinations that actually get used**, and what each costs. This is practitioner
+consensus, not specification — it is offered as an option space to choose from, and none of it
+should be cited as a standard:
+
+| Destination | What the user gets | What it costs |
+|---|---|---|
+| The new page's `<h1>`, made programmatically focusable | The title is announced; Tab continues into content | A focus ring lands on a heading, which has to be **designed** rather than suppressed |
+| The `<main>` landmark or a wrapper | The region is announced; Tab starts at the top of content | Some screen readers announce little more than "main" |
+| A visually hidden live region announcing the route | Nothing visual changes | Inherits every reliability problem in `§7` — and leaves the Tab position wrong anyway |
+| Nothing — the router's default | Focus falls to `<body>` | The failure described above, in full |
+
+The first two are the real choice. The third is the weakest and should only be picked knowing
+that. The fourth is not a choice, it is the absence of one.
+
 Whatever you choose, choose it once and apply it to every route. And verify it the way `§12`
 demands — navigate, then Tab, and watch where the ring appears.
 
@@ -753,11 +767,32 @@ The politeness values are **"a strong suggestion"**, per the spec: "The value ma
 user agents, assistive technologies, or the user." So the behaviour above is what you are asking
 for, not what will happen.
 
-Two things you may have read that this file does **not** assert, because neither could be
-confirmed against a primary source in this pass: that a live region must exist in the DOM before
-content is injected into it (widely repeated, not in the WAI-ARIA 1.2 text), and any specific
-account of how NVDA, JAWS and VoiceOver differ (no support table was verified). Both are marked
-*not established in this pass — verify before relying on either.* They are also both reasons the
+**And there is now observed data for how far apart those two things are.** The support table this
+file previously lacked is `a11ysupport.io`'s — **practitioner test results, not a specification**,
+carrying the site's own caution that its results for this feature "range from 4 years ago to 6
+years ago" and may be out of date. Read it as evidence with a date on it, not as a rule:
+
+| Expectation | JAWS (Cr/Ed/FF) | Narrator | NVDA (Cr/Ed/FF) | Orca | TalkBack | VO iOS | VO macOS |
+|---|---|---|---|---|---|---|---|
+| Announce changes at all | ✓ ✓ ✓ | ✓ | ✓ ✓ ✓ | ✓ | ✓ | ✓ | ✓ |
+| `off` stays silent | ✓ ✓ ✓ | ✓ | ✓ ✓ ✓ | ✓ | ✓ | ✓ | ✓ |
+| `polite` does not interrupt | ✓ ✓ ✓ | ✓ | ✓ ✓ ✓ | ✓ | ✓ | ✓ | **none** |
+| **`assertive` interrupts** | **none ×3** | ✓ | ✓ ✓ ✓ | **none** | **none** | ✓ | ✓ |
+
+The bottom row is the design finding. **`assertive` does not interrupt in JAWS, Orca, or
+TalkBack** — the region announces, but the interruption, which is the entire reason a designer
+reaches for `assertive`, does not happen. And `polite` is not uniformly gentle either: VoiceOver
+on macOS is recorded as not honouring it.
+
+So: **urgency that exists only in an `aria-live` value is urgency that may never be delivered.**
+If something must be noticed, it needs a second channel — focus moved to it, or a modal that
+takes focus by contract (`§4`). Choosing `assertive` and stopping there is choosing a behaviour a
+large share of users will not get.
+
+One thing you may have read that this file still does **not** assert: that a live region must
+exist in the DOM before content is injected into it. Widely repeated; searched again in WAI-ARIA
+1.2 on **2026-08-08**, at every occurrence of "live region" in the rendered spec, and not found.
+It stays marked *not established — verify before relying on it*, which is also the reason the
 same rule applies as everywhere: `§12`, test it with an actual screen reader.
 
 ---
@@ -1224,6 +1259,37 @@ chain is EAA → harmonised standard → WCAG, and the WCAG version is a propert
 edition, not of the law. **Any sentence of the form "the EAA requires WCAG 2.1 AA" is a two-step
 inference presented as a citation.**
 
+### EN 301 549 — the harmonised standard, and where the chain actually stops
+
+The missing link above is now read, from ETSI's own published PDFs. It does not lead where the
+two-step inference assumes.
+
+| Edition | Status on its cover page | WCAG | Directive it maps to |
+|---|---|---|---|
+| **V3.2.1 (2021-03)** | "HARMONISED EUROPEAN STANDARD" — **published** | **2.1** | **2016/2102** (Web Accessibility Directive, public-sector bodies), via Annex A |
+| **V4.1.0 (2026-06)** | "**Final draft** EN 301 549 V4.1.0" — not published | **2.2** | 2016/2102 via Annex ZA **and 2019/882 (the EAA) via Annex ZB** |
+
+V3.2.1: *"The present document reflects the content of the W3C WCAG 2.1 Recommendation."* Its
+foreword names only Directive 2016/2102. **It contains no EAA annex.**
+
+V4.1.0 is the first edition prepared for the EAA — under standardisation request M 587 / C(2022)
+6456 final — and it says what publication would unlock:
+
+> **Once the present document is cited in the Official Journal of the European Union** under that
+> Directive, compliance with the normative clauses … confers … a **presumption of conformity**
+> with the corresponding essential requirements of that Directive.
+
+So, as of **2026-08-08**: the EAA has applied since 28 June 2025, and **there is no published
+harmonised standard that maps to it.** The standard people reach for instead — V3.2.1 — carries
+WCAG 2.1 and addresses a different directive. WCAG 2.2 enters the EAA chain only when V4.1.0 is
+published and cited.
+
+**What this settles for the plugin.** `§1`'s target of **WCAG 2.2 AA is stricter than the current
+EU legal floor and forward-compatible with the draft that is coming.** That was previously an
+accident and is now a position. It also sharpens the standing rule below: this is the most
+volatile material here, and the citation status of V4.1.0 is exactly the kind of thing that
+changes between a run and the next one.
+
 ### ADA Title II, United States
 
 From DOJ's own guidance page, one sentence carrying three dates:
@@ -1259,10 +1325,9 @@ Navigation, or 3.2.4 Consistent Identification.
 
 Named explicitly so silence is not read as agreement.
 
-- **EN 301 549's current version and which WCAG edition it carries.** ETSI was not fetched.
-  Anything about v3.2.1, v4.1.1, or an Official Journal citation date is **not established in this
-  pass — verify before relying on it.** This is the load-bearing link between the EAA and WCAG and
-  it is precisely the link this file does not have.
+- **Whether EN 301 549 V4.1.0 has been cited in the Official Journal** since the June 2026 final
+  draft. EUR-Lex was not read. The editions and the WCAG versions they carry are now established
+  above; the citation status is not, and it is the switch that turns the EAA chain on.
 - **Whether any member state's transposition names a WCAG version directly.** Transposition is
   national and 27-way. None was read.
 - **Whether the EAA reaches non-EU companies selling into the EU.** Territorial scope was not
@@ -1339,12 +1404,14 @@ Named so a later run does not read silence as agreement, and so nobody builds on
   verified.
 - **"A live region must exist in the DOM before content is injected"** is widely repeated and is
   not in the WAI-ARIA 1.2 text read for this file. Not established in this pass.
-- **Cross-screen-reader behaviour** — how NVDA, JAWS and VoiceOver differ on live regions,
-  `aria-atomic`, and `aria-relevant` — was not verified. The spec's own "strong suggestion… may be
-  overridden" clause is the only confirmed statement about variability.
+- **Cross-screen-reader behaviour for `aria-atomic` and `aria-relevant`** was not verified. The
+  `aria-live` half now has observed data in `§7` — practitioner test results, 4–6 years old,
+  labeled as such — but the two companion attributes have no table here.
 - **The disclosure/accordion boundary** is contested at W3C with an open issue and no editor
   resolution. §4 above asks for a reason, not a rule.
-- **EN 301 549's version and WCAG edition**, and everything downstream of it. See §12 above.
+- **Whether EN 301 549 V4.1.0 has been cited in the Official Journal.** The editions and their
+  WCAG versions are established in `§12` above; the citation that would turn the EAA chain on is
+  not, and neither is any national transposition.
 - **Any measured figure for the cost of icon-only controls.** W3C states the requirement; no
   comprehension study, error rate, or task-time measurement was located. Material's "use caution if
   icons are displayed without labels" is guidance and must not be dressed up as a finding.
