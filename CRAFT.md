@@ -161,7 +161,7 @@ unambiguously right on both surface classes.
 
 | Technique | What it is | Where it earns its place |
 |---|---|---|
-| OKLCH color and gradients | Perceptual color space interpolation | Gradients with no gray dead zone in the middle. Free by default in CSS Color 4, which interpolates in Oklab **unless** an endpoint uses legacy sRGB syntax — `hex`, `rgb()`, `hsl()`. Write at least one endpoint as `oklch()` or `color(srgb …)` or the browser silently falls back to muddy sRGB mixing |
+| OKLCH color and gradients | Perceptual color space interpolation | Gradients with no gray dead zone in the middle. **Declare the space — `linear-gradient(in oklab, …)`.** CSS Images 4 makes Oklab the default with no exception, but measured in Chromium 145 a gradient whose stops are all legacy sRGB syntax (`hex`, `rgb()`, `hsl()`) interpolates in sRGB, pixel-identical to `in srgb`; one `oklch()` stop flips the whole thing to Oklab. That trigger is browser web-compat behavior, not spec, so do not build on it — name the space and the notation stops mattering |
 | `@property` | Typed, animatable custom properties | Gradients, angles, and colors that actually interpolate. Unlocks CSS-only effects that used to need JS |
 | `animation-timeline` | Native scroll-driven animation | Scroll effects off the main thread with no library. Check support, then fall back |
 | View Transitions API | Native cross-document and same-document morphs. Cross-document needs `@view-transition { navigation: auto; }` on both pages, same-origin only; browsers without support ignore the unknown at-rule, so it ships with zero fallback code | Continuity between screens. A thumbnail that becomes the hero, a pricing tier that becomes the form. The browser keeps the new state live rather than snapshotting it, so anything still running keeps running through the transition |
@@ -310,8 +310,8 @@ after the real copy is in place.
 | Ligatures | Contextual and discretionary glyph substitution | Editorial and serif registers. Check `dlig` and `swsh` on the chosen face and use them deliberately |
 | Optical sizing | `opsz` axis matched to rendered size | Display cuts at display sizes, text cuts at text sizes. One property, visible difference |
 | Hanging punctuation | Quotes and hyphens set outside the measure | Pull quotes and lists with a clean left edge |
-| Baseline grid | A shared vertical rhythm across all type | Sections that feel composed rather than stacked. Enforced with a spacing scale, verified with an overlay |
-| Fluid type with `clamp()` | Type scaling continuously between bounds | One scale that works from 320px to 2560px. Set a real ratio, not arbitrary numbers |
+| Baseline grid | A vertical unit that **every line box is a whole multiple of** | Sections that feel composed rather than stacked. It is arithmetic, not an aspiration: `font-size × line-height` must be an integer multiple of the spacing unit, and the browser will not round it for you. Measured, 17px × 1.65 computes to 28.05px and three lines occupy 84.1406px against a declared 4px rhythm; 16px × 1.5 computes to 24px and three lines occupy exactly 72px. A declared grid the line-height does not divide into is decoration — fix the ratio, set line-height in the unit, or drop the claim |
+| Fluid type with `clamp()` | Type scaling continuously between bounds | One scale that works from 320px to 2560px. **Both bounds in `rem`**, and a `rem` intercept in the middle term — `slope = (maxSize − minSize) ÷ (maxVW − minVW)`, `intercept = minSize − slope × minVW`. Measured, `clamp(1rem, 2.5vw, 2rem)` at 1280px is pinned to its max, so a user who doubles their default text size gets **no change at all**; the intercept form still under-responds (1.33×) where plain `rem` steps give exactly 2× |
 | Tabular figures | `font-variant-numeric: tabular-nums` | Any column of numbers that updates. Proportional figures make a live counter jitter and a table's decimals wander. Tool-shaped, this is not optional |
 | Hyphenation and justification | `hyphens`, `hyphenate-limit-chars`, language attributes | Justified text without rivers. Requires `lang` set correctly, which `§13` requires anyway |
 
@@ -361,6 +361,86 @@ trigger layout shift, by definition.** Animating `top`, `left`, `width`, `height
 does, every time, on every frame. The fix is never "animate it more carefully"; it is animating a
 different property. A hover lift moves on `transform: translateY()`, never on `top`. A glow grows
 on a pseudo-element's `opacity`, never on `box-shadow` spread.
+
+---
+
+## Elevation is a distance; a shadow is one way of drawing it
+
+The mistake this section exists to stop is writing shadows and calling it an elevation system.
+Material's tokens are the clearest statement of the separation: **"Tokens have no shadows or
+color; each platform determines the specific shadows and values to use at each elevation
+level."** Decide the levels first, then decide how each one is rendered.
+
+**Six levels, and only four of them are places a thing can rest** (Material 3, in dp):
+
+| Level | dp | Rests here |
+|---|---|---|
+| 0 | 0 | Everything flush with the substrate — bars at rest, filled and outlined cards, lists, tabs, chips, rails |
+| +1 | 1 | The first lift: elevated cards and buttons, banners, modal sheets and drawers |
+| +2 | 3 | Things that float over scrolled content — a scrolled app bar, menus, toolbars, tooltips |
+| +3 | 6 | Things that take over — modal dialogs, pickers, the FAB, search |
+| +4 | 8 | **Interaction only.** Not a resting level |
+| +5 | 12 | **Interaction only.** Not a resting level |
+
+Hover or focus "usually raises elevation by one level," which is why +4 and +5 are held back:
+if a resting element already sits at the top of the scale, its own hover has nowhere to go.
+
+**Three ways to depict it, and shadow is not the default.** Material's own default is *tonal
+difference* between surface roles; shadow and scrim are the alternatives. Whichever is chosen,
+the surface has to show three things — its edges, its overlap with what it covers, and its
+distance. A scrim is the scrim color at **32% opacity**.
+
+**A shadow scale varies two things together.** Size and softness both encode distance: small and
+sharp reads as close, larger and more diffuse reads as far. A ramp that changes blur while the
+offset stays put is one variable pretending to be a system. Give every level its offset, blur,
+spread, and color, per mode, or state that the direction has no shadow language at all — that is
+a complete answer and it is the one the drafting-sheet run gave.
+
+**Edges are a contrast requirement, not a style choice.** "For interactive components, edges must
+create sufficient contrast between surfaces (by meeting or exceeding accessible contrast ratios)
+for them to be seen as separate from one another." That is `§10`'s 3:1 non-text floor arriving
+through the elevation door, and it is the thing tonal-difference systems fail first.
+
+**The fork.** Page-shaped: elevation is usually two or three levels doing rhetorical work — the
+thing that floats is the thing that matters, and more than three levels stops meaning anything.
+Tool-shaped: elevation is a *reading* of z-order that the operator relies on all day — a menu
+must always sit above the toolbar that opened it, a modal above both — so the levels are a
+contract between components rather than emphasis, and Material's own restraint applies hardest:
+"Avoid changing the default elevation of components", "when it comes to applying shadows, less is
+more."
+
+## The layout grid: margins stop growing, panes take over
+
+The reflex is that margins climb with the viewport — 16, 24, 48, 96 — and it is not what the one
+major system with a published ladder does. Material's margins **cap at 24dp and stay there** from
+Medium all the way through Extra-large; everything above Medium adapts by changing pane structure
+instead.
+
+| Breakpoint | Width | Margins | Spacer | Panes | Navigation |
+|---|---|---|---|---|---|
+| Compact | < 600dp | **16dp** | — | Single | Bar, or modal expanded rail |
+| Medium | 600–839dp | **24dp** | 24dp | Single recommended; two only for low-density content, at **50/50**, no custom widths | Rail single-pane, bar two-pane |
+| Expanded | 840–1199dp | **24dp** | 24dp | Two often best; fixed pane **360dp** | Rail, collapsed or expanded |
+| Large | 1200–1599dp | **24dp** | 24dp | Two; fixed pane **412dp** | Rail, collapsed or expanded |
+| Extra-large | ≥ 1600dp | **24dp** | 24dp | Two; fixed pane **412dp** | Expanded rail |
+
+Note the rename — **"window size class" is now "breakpoint"** in current Material; the old URLs
+redirect. A ladder that does widen its margins at desktop is a legitimate choice and an invented
+one: say so in `DIRECTION.md` rather than implying a system published it.
+
+**Column count is genuinely author-chosen.** Material's grids page now states only that column
+count, width, and spacing change across breakpoints and publishes **no column table**; what it
+publishes instead is the ruler set — bar and safety rulers reserving space for status bar and
+gesture navigation, a title ruler, and content rulers for where major blocks begin. So a grid
+table has to defend its own number. The derivation that works, and it is craft rather than
+citation: **pick the count that lands the primary content at its measure at the widest
+breakpoint**, then check the same count divides cleanly at the narrow one. Twelve is a
+convention. A drawing sheet that needs sixteen should have sixteen and say why.
+
+**The fork.** Page-shaped: the grid serves one column of primary content, and the number that
+matters is the measure — columns exist to position everything around it. Tool-shaped: the grid
+serves panes, and the numbers that matter are the fixed pane's width and what the flexible pane
+collapses to; `SURFACES.md`'s collapse order applies here, tertiary column first.
 
 ---
 

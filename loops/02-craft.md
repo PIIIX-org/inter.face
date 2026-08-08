@@ -163,14 +163,14 @@ value a builder would otherwise have to measure off an image gets written down a
 | **Style-under-density line** | *At forty rows this does X* | Absent |
 | **Palette** | Every token a **pair** — swatch plus legal foreground — in `oklch()` **and** hex, with the sampled source and the measured ratio, **per mode** | Color names. A lone hex. A swatch with no foreground |
 | **Modes** | "One design in two palettes" or "two art directions", declared | Implied |
-| **Type** | Families with the reason on the same line; scale as a ratio **and** the computed value per step in rem; weights and variable axes; line-height per step; measure in ch | "A modern sans." A ratio with no computed steps |
-| **Spacing** | Base unit and every step, in px or rem | "Generous." "Tight" |
+| **Type** | Families with the reason on the same line; **which kind of scale this is** — a ratio, stated and defended, or role-indexed with the roles named — and the computed value per step in rem either way; weights and variable axes; line-height per step; measure in ch | "A modern sans." A ratio with no computed steps. A ratio asserted over what are really roles |
+| **Spacing** | Base unit, the token naming scheme, and every step that has a job — in px or rem. Absent steps are information, not omissions | "Generous." "Tight." An unbroken 4px ladder to 128 |
 | **Radius** | Every step in px, plus the concentric rule in use — inner = outer − gap | "Rounded" |
 | **Stroke and divider** | Weight per mode in px, and where hairlines come from grid gap rather than borders | "Subtle borders" |
-| **Elevation** | Offset, blur, spread, and color per level — or the statement that this direction has no shadow language | "Soft shadow" |
-| **Background and surface treatment** | Gradient stops in `oklch()` with the angle or shape; scrim and overlay opacity as a number; grain or noise as amount, scale, and blend mode; the treatment applied in-browser to every generated image (`§8`) and every supplied photograph (`§14`) — duotone stops, halftone pitch, dither, crop, mask | "Atmospheric." A gradient with no stops. A generated image placed raw. "Subtle texture" |
+| **Elevation** | The levels first, then how each is drawn — tonal, shadow, or scrim — with offset, blur, spread, and color per level per mode; which levels are resting and which are interaction-only. Or the statement that this direction has no shadow language | "Soft shadow." A shadow ramp that varies blur while the offset stays put |
+| **Background and surface treatment** | Gradient stops in `oklch()` with the interpolation space declared — `in oklab` — and the angle or shape; scrim and overlay opacity as a number; grain or noise as amount, scale, and blend mode; the treatment applied in-browser to every generated image (`§8`) and every supplied photograph (`§14`) — duotone stops, halftone pitch, dither, crop, mask | "Atmospheric." A gradient with no stops. A generated image placed raw. "Subtle texture" |
 | **Icons** | Source and licence, grid size, stroke weight, grade per mode, and the icon-size / target-size **pair** per input method | "Clean line icons" |
-| **Grid and layout** | Columns, gutters, and margins per breakpoint, with the collapse order named | "Responsive" |
+| **Grid and layout** | Columns, gutters, and margins per breakpoint, with the collapse order named — and the column count defended, since no system publishes one. Margins that keep growing past desktop are an invention; say so rather than implying a system | "Responsive" |
 | **Navigation model** | The pattern, its keyboard contract, and its state at every breakpoint | "Standard nav" |
 | **Content presentation** | Card, list, table, or the invented one — with the per-item attribute positions fixed | "Card grid" |
 | **Buttons and controls** | Shape, hierarchy, padding, and a token per state: default, hover, focus-visible, active, disabled, error, loading | Three of the seven states |
