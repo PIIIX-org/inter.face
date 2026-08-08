@@ -64,6 +64,58 @@ if [ -f SURFACES.md ]; then
   else fail "SURFACES.md must carry 44pt default AND 28pt minimum, never 44 alone"; fi
 else fail "SURFACES.md missing"; fi
 
+echo "== routing-table line counts are current =="
+# These went stale three phases running. The router's budget argument is only
+# worth making if its numbers are true.
+LC_BAD=0; LC_N=0
+while read -r f n; do
+  [ -f "$f" ] || { fail "routing table names a missing file: $f"; LC_BAD=1; continue; }
+  ACT=$(wc -l < "$f" | tr -d ' '); LC_N=$((LC_N + 1))
+  [ "$ACT" = "$n" ] || { fail "AGENTS.md says $f is $n lines; it is $ACT"; LC_BAD=1; }
+done < <(grep -oE '\]\(\./[^)]+\) [0-9]+' AGENTS.md | sed -E 's/\]\(\.\/([^)]+)\) ([0-9]+)/\1 \2/' | sort -u)
+SELF=$(grep -oE 'This file [0-9]+' AGENTS.md | grep -oE '[0-9]+' | head -1)
+if [ -n "$SELF" ]; then
+  ACT=$(wc -l < AGENTS.md | tr -d ' ')
+  [ "$ACT" = "$SELF" ] || { fail "AGENTS.md's worked example says 'This file $SELF'; it is $ACT"; LC_BAD=1; }
+fi
+[ "$LC_BAD" -eq 0 ] && ok "all ${LC_N} routing-table counts match wc -l"
+
+echo "== cross-file section pointers exist =="
+# The router sends a phase to "ACCESS.md §13" and an agent to "SURFACES.md §1-§3".
+# A pointer at a section that was renumbered sends the reader nowhere.
+PTR_BAD=0; PTR_N=0
+while read -r target n; do
+  [ -f "$target" ] || { fail "pointer to missing file: $target §$n"; PTR_BAD=1; continue; }
+  PTR_N=$((PTR_N + 1))
+  grep -qE "^## ${n}\." "$target" || { fail "$target has no §${n}"; PTR_BAD=1; }
+done < <(
+  grep -rhoE '[A-Z][A-Za-z]+\.md`?\*{0,2} §[0-9]+(–§[0-9]+)?' \
+    AGENTS.md loops/*.md agents/*.md skills/inter.face/SKILL.md 2>/dev/null \
+  | sed -e 's/[`*]//g' \
+  | awk '{ f=$1; s=$2; gsub(/§/,"",s);
+           if (split(s,r,"–") == 2) { for (i=r[1]; i<=r[2]; i++) print f, i }
+           else print f, s }' \
+  | sort -u
+)
+[ "$PTR_BAD" -eq 0 ] && ok "all ${PTR_N} cross-file section pointers resolve"
+
+echo "== loop and conductor do not restate each other =="
+# v1 shipped one rule in both loops/01 §10 and direction-conductor step 9. They
+# drifted, and the run followed the stale copy. One sentence, one home.
+DRIFT=0
+for pair in "loops/01-direction.md agents/direction-conductor.md" \
+            "loops/02-craft.md agents/craft-conductor.md"; do
+  set -- $pair
+  [ -f "$1" ] && [ -f "$2" ] || continue
+  norm() { tr '\n' ' ' < "$1" | sed -e 's/[`*_>|]//g' -e 's/  */ /g' -e 's/\. /.\n/g' \
+           | sed -e 's/^ *//' -e 's/ *$//' | awk 'length($0) >= 60'; }
+  DUP=$(comm -12 <(norm "$1" | sort -u) <(norm "$2" | sort -u))
+  if [ -n "$DUP" ]; then
+    fail "$1 and $2 share verbatim sentences:"; echo "$DUP" | sed 's/^/    /'; DRIFT=1
+  fi
+done
+[ "$DRIFT" -eq 0 ] && ok "no loop/conductor sentence is written twice"
+
 echo
 [ "$FAIL" -eq 0 ] && echo "ALL CHECKS PASS" || echo "CHECKS FAILED"
 exit "$FAIL"

@@ -26,15 +26,15 @@ Nothing else until §3 sends you there.
 
 ## 3. The phase routing table
 
-The corpus is **5,435 lines** across eleven reference files. An agent that reads it before
+The corpus is **5,983 lines** across eleven reference files. An agent that reads it before
 deciding anything has spent the context the decisions needed. Read by phase.
 
 | Phase | Core — always | Conditional — read only if the condition holds |
 |---|---|---|
-| **Scout** (brownfield only) | [`REDESIGN.md`](./REDESIGN.md) 326 · `TRANSLATE.md` rows 1 and 6 · `STYLES.md`'s family sections, for positioning only · **`SURFACES.md` §2**, to adjudicate the target sweep | `TOOLS.md` §4 **if tool-shaped** — what the nine data states owe, so the absence sweep knows what it is looking for |
-| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 172 · [`TRANSLATE.md`](./TRANSLATE.md) 247 · [`STYLES.md`](./STYLES.md) 687 · [`loops/01-direction.md`](./loops/01-direction.md) 409 · **`ACCESS.md` §13 only** — 45 of 1,357 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 249 of 558 **if this surface runs on a phone or a tablet** — platform mode has three branches and `cross-platform-neutral` is one of them, so a responsive mobile web surface owes §1 too · `CURRENT.md` **if reposition** |
+| **Scout** (brownfield only) | [`REDESIGN.md`](./REDESIGN.md) 331 · `TRANSLATE.md` rows 1 and 6 · `STYLES.md`'s family sections, for positioning only · **`SURFACES.md` §2**, to adjudicate the target sweep | `TOOLS.md` §4 **if tool-shaped** — what the nine data states owe, so the absence sweep knows what it is looking for |
+| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 172 · [`TRANSLATE.md`](./TRANSLATE.md) 266 · [`STYLES.md`](./STYLES.md) 800 · [`loops/01-direction.md`](./loops/01-direction.md) 488 · **`ACCESS.md` §13 only** — 50 of 1,429 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 250 of 727 **if this surface runs on a phone or a tablet** — platform mode has three branches and `cross-platform-neutral` is one of them, so a responsive mobile web surface owes §1 too · `CURRENT.md` **if reposition** |
 | **Gate A** | the returned package. Nothing new is read at a gate | — |
-| **Loop 2 · craft** | [`CRAFT.md`](./CRAFT.md) 704 · [`loops/02-craft.md`](./loops/02-craft.md) 363 | [`TOOLS.md`](./TOOLS.md) **if tool-shaped** · [`BREAKING.md`](./BREAKING.md) 339 **only when a rule is actually being broken** |
+| **Loop 2 · craft** | [`CRAFT.md`](./CRAFT.md) 786 · [`loops/02-craft.md`](./loops/02-craft.md) 372 | [`TOOLS.md`](./TOOLS.md) **if tool-shaped** · [`BREAKING.md`](./BREAKING.md) 339 **only when a rule is actually being broken** |
 | **Gate B** | the returned package | — |
 
 **Do not read across phases.** Loop 1 does not open `CRAFT.md` — Loop 2 assigns techniques.
@@ -58,9 +58,9 @@ from, not all nine.
 lines, which is why the corpus is eleven files and not forty.
 
 **Worked example — page-shaped, web, Loop 1.** This file 194 + `PRINCIPLES.md` 172 +
-`TRANSLATE.md` 247 + `STYLES.md` 687 + `loops/01-direction.md` 409 + `ACCESS.md` §13 45 =
-**~1,750 lines**, not 5,435. `TOOLS.md`, `SURFACES.md`, `REDESIGN.md`, `BREAKING.md`, and 1,312
-lines of `ACCESS.md` never load. The same run's Loop 2 is 194 + 704 + 363 = **~1,260**.
+`TRANSLATE.md` 266 + `STYLES.md` 800 + `loops/01-direction.md` 488 + `ACCESS.md` §13 50 =
+**~1,970 lines**, not 5,983. `TOOLS.md`, `SURFACES.md`, `REDESIGN.md`, `BREAKING.md`, and 1,379
+lines of `ACCESS.md` never load. The same run's Loop 2 is 194 + 786 + 372 = **~1,350**.
 
 **The honest ceiling.** Nothing in markdown can stop an agent reading everything. What this
 protocol does is make the right path cheap and the wrong path visibly wasteful. An agent that

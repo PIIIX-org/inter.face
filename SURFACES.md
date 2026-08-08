@@ -82,8 +82,9 @@ discovering the fork during the build is a rewrite.
 - **No Liquid Glass and no SF Symbols.** Both are Apple-platform assets with their own rules,
   and in SF Symbols' case with licence terms that a cross-platform product will breach.
 - **Type: no platform's default is authoritative here.** The number that still binds is the
-  scaling obligation — at least 200% (140% in watchOS apps) — because that one is a layout
-  decision and layout is the thing all three branches share.
+  scaling target — Apple's word is *ideally*, at least 200% (140% in watchOS apps), and §3 below
+  carries the correction — because that one is a layout decision and layout is the thing all
+  three branches share. Design to it; do not cite it as a mandate Apple did not write.
 - **Material's five breakpoints are the usable breakpoint system**, because Apple's size
   classes do not vary on the device where they would matter most (§5 below).
 

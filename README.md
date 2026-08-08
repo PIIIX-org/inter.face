@@ -69,15 +69,15 @@ agents, no Node app, no runtime, no git preconditions.
 
 ## How an agent reads it
 
-The corpus is 5,435 lines across eleven reference files. No agent should read it all.
+The corpus is 5,983 lines across eleven reference files. No agent should read it all.
 
 - **One resident router.** [`AGENTS.md`](./AGENTS.md) is the only always-loaded file, budgeted
   at 200 lines and enforced by [`scripts/check.sh`](./scripts/check.sh).
 - **Phase-scoped reading.** The router's routing table names what each phase reads. A typical
-  page-shaped Loop 1 loads ~1,750 of the 5,435 lines; its Loop 2 loads ~1,260. Loop 1 never
+  page-shaped Loop 1 loads ~1,970 of the 5,983 lines; its Loop 2 loads ~1,350. Loop 1 never
   opens `CRAFT.md`; Loop 2 never re-opens `STYLES.md`.
 - **Section-level entry for exactly two files.** `ACCESS.md` is entered at its §13 decision
-  list (45 of 1,357 lines) and `SURFACES.md` at §1–§3, each with follow-the-pointer escapes
+  list (50 of 1,429 lines) and `SURFACES.md` at §1–§3, each with follow-the-pointer escapes
   into the body. Every other file is entered whole — one extra file-read hop costs more than
   500 resident lines, which is why the corpus is eleven files and not forty.
 

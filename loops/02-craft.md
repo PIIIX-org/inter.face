@@ -330,6 +330,12 @@ transition that uses it.
 > | Motion spec left as prose | Motion gets rebuilt three times, differently each time |
 > | Reduced-motion still not art-directed | `animation: none` on a layout that assumed motion — elements at `opacity: 0`, sequences that never complete |
 > | Dark mode left as an inversion | A settings toggle shipped as a design. Half a tool-shaped audience will only ever see it |
+>
+> **Then append to the ledger, before the gate closes.** Every deferral, skip, and cut technique
+> goes to `runs/<slug>/SKIPS.md` with its cost and the date — appended below Gate A's rows, never
+> rewritten. This is the last gate, so this file is what the build inherits as the honest list of
+> what the design does not cover. **A gate that closed without appending has recorded silence,
+> and `§16` says silence is not a skip.**
 
 ---
 

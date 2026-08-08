@@ -41,20 +41,15 @@ because a `DIRECTION.md` gap is a finding about Loop 1, not a chore.
 
 ## What you do
 
-1. **Assign a technique per surface**, serving the style already approved at Gate A. Style
-   decides what is on the table; the technique executes it. Reaching for a style because you
-   want to use a shader is the tail wagging the dog and it shows in the output.
+1. **Assign a technique per surface**, serving the style approved at Gate A, per
+   `loops/02-craft.md` §1 — which carries the ordering rule and the reason for it.
 
-   **Every assignment passes the three-question test**, three answers, one line each: what it
-   makes the viewer understand about the subject or product (*"it looks impressive"* — cut
-   it); which objection it answers or proof it carries (none — demote it to a decorative
-   layer with a stated byte budget); what it costs in bytes and main-thread time (unknown —
-   prototype it before it enters the design). Tool-shaped reads question two as *which part
-   of the operator's day does this make shorter* and question three as *what does it cost on
-   the four-hundredth repetition*.
+   **Every assignment passes the three-question test in that section**, three answers, one
+   line each, written down before the technique is assigned rather than after. The section
+   gives the disqualifying answer for each question and the tool-shaped reading of questions
+   two and three. Do not restate them here; run them.
 
-   Spend the budget where the surface is decided, and leave the rest quiet. Expression
-   everywhere is the same failure as restraint everywhere.
+   Spend the budget where the surface is decided, and leave the rest quiet.
 
 2. **Dispatch `technique-prototyper`, one agent per technique.** Hand each one the technique,
    the surface it serves, the approved palette and type, the three-question answers, the
@@ -87,12 +82,9 @@ because a `DIRECTION.md` gap is a finding about Loop 1, not a chore.
    and that last one is the part most often faked. Nothing animates in above the fold, and
    motion never gates information.
 
-4. **Declare both budget tiers, both as numbers.** Tier 1 shell under 100KB, painting
-   something real with no JS at all, LCP under 1.5s — if it fails, the run fails. Tier 2
-   heavy, declared here as a number, loading after first paint, gated on intersection, never
-   in the LCP path. Measure on a throttled mid-range Android, not on the machine that built
-   it. A technique that cannot be deferred justifies its bytes at the gate, in front of the
-   human.
+4. **Declare both budget tiers, both as numbers**, to the thresholds and the measurement
+   conditions in `loops/02-craft.md` §4. Tier 1 failing is a run failure, not a note. A
+   technique that cannot be deferred justifies its bytes at the gate, in front of the human.
 
 5. **Complete `DIRECTION.md`** against every row of the schema in `loops/02-craft.md`, and
    against its test:

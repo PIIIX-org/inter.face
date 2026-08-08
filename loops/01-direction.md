@@ -247,7 +247,13 @@ Each concept states:
   is what every new user sees, the last is the one that destroys work
 - **The surface list and its order**, derived from row 2's viewer and their task. When row 2
   carries no task or funnel — the identity portfolio — derive it from the archetype's own arc
-  instead: the problem, the attempts, the shipped work, the parked work, the person, the way in
+  instead: the problem, the attempts, the shipped work, the parked work, the person, the way in.
+  **The list is a path, not an inventory.** Page-shaped, the order is the scroll order and the
+  question is what the previous surface makes the reader want next. Tool-shaped, the order is a
+  **screen flow** — the operator's actual traversal of the primary workflow, entry through
+  outcome, with the failure branch on it rather than beside it. A list whose surfaces could be
+  reordered without anyone noticing was assembled rather than derived, and it is the tell that
+  §4's derivation stopped at the visual
 
 ### The two distinctness tests
 
@@ -268,6 +274,12 @@ artifact**, not asserted about the process. Both tests run before anything reach
 > cockpit, playbill, field-manual*. If two share a label, or a label applies equally well to
 > another concept, rework. Do not use a fixed vocabulary for the labels; a fixed vocabulary is
 > the catalog problem again, one level up.
+>
+> **This one is self-judged, which makes it the weakest of the three**, so it gets a fresh
+> judge at no cost: **Gate A presents the labels before the concepts and asks the human to
+> match them.** If they cannot, or one label fits two concepts, the set failed distinctness —
+> and knowing that at the gate is far cheaper than discovering it after a build. The author of
+> a set is the worst possible person to ask whether it is varied.
 
 Then the **category-reflex check**, from `STYLES.md`'s cliché fence: if a concept is guessable
 from "surface for a \<category\>" alone, or from category-plus-obvious-twist, throw it out.
@@ -297,6 +309,14 @@ column for images, the coded column for comps.
 Two to three phones on one canvas is the **only** exception to never compressing a board,
 and it holds because they are the same surface across a flow at readable scale rather than
 different surfaces stacked. The moment type stops being legible, drop to one phone per canvas.
+
+**Why 4:5 and not the phone's own ratio.** A phone is roughly 9:19.5 and no generator produces
+that well; 4:5 is the closest common canvas that does not spend most of its budget on
+background. It is a compromise with the tool, stated as one. **The first real run produced no
+phone surfaces, so there is no run data on this and the number stands on its reasoning rather
+than on evidence** — a later run that ships phone comps should record whether 4:5 held. In
+coded-comp mode the question does not arise at all: the frame is 390px wide and the canvas is
+whatever the board is.
 
 **N is set once, before §7 above develops the concepts, and it is identical across concepts
 so the sets are comparable — a concept proposes content for N slots, never its own N.**
@@ -381,6 +401,10 @@ what Gate A is choosing between.
 >
 > **Presented:**
 >
+> - **The family-pass labels first, before the concepts** — one concrete noun each, and the
+>   human matches label to concept. This is the fresh-judge half of §7's family pass: a label
+>   nobody can place, or one that fits two concepts, is a distinctness failure caught here
+>   rather than after a build
 > - **The rendered images**, per concept, all N surfaces of each, labeled
 > - **The palette per concept**, as pairs, each with its measured ratio, and the one sampled
 >   source they all reconcile against
@@ -417,6 +441,13 @@ what Gate A is choosing between.
 >
 > State the cost once, accept the answer, carry it into the run's confidence, and do not
 > raise it again.
+>
+> **Then write the ledger, before the gate closes.** The conductor appends every row the human
+> deferred, skipped, or marked N/A to `runs/<slug>/SKIPS.md`, with its cost and the date —
+> append-only, never rewritten, and never summarised. `DIRECTION.md` carries the rows for this
+> phase; `SKIPS.md` is the run's single running list across both gates, which is the only place
+> anyone can see the accumulation. **A gate that closed without appending has recorded silence,
+> and `§16` says silence is not a skip.**
 
 ---
 
