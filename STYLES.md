@@ -606,6 +606,58 @@ styles whose entire idea fights contrast. This section is the **prevention**. Co
 resolved at definition time never reaches the repair table, and a run that arrives at the
 repair table with ordinary colors in it did this section badly.
 
+## Building the ramp
+
+Pairs say what a token must contain. This says how the numbers are arrived at, because "sample
+the accent, build a neutral ramp" is an instruction with a whole method hiding inside it.
+
+**Work in OKLCH, and know the coordinate space.** L runs 0–1 and is clamped at parse time; 0
+renders black and 1 renders white. C has a reference of `100% = 0.4` and in practice never
+exceeds 0.5. Hue angles are anchored: **0° purplish red, 90° mustard yellow, 180° greenish
+cyan, 270° sky blue.** Below `C = 0.000004` the hue is powerless — that is the definition of a
+true neutral rather than a nearly-neutral.
+
+**The priority order when a color will not fit is hold hue, hold lightness, cut chroma.** That
+is not a preference; it is what all three CSS gamut-mapping algorithms do, because "changes in
+Hue are particularly objectionable; changes in Chroma are more tolerable." Reason the same way
+by hand and the ramp agrees with the display instead of fighting it. One just-noticeable
+difference in OkLCh is **0.02** — two steps closer than that are one step.
+
+**A ramp cannot hold chroma constant, and this is the mistake that produces muddy light ends.**
+The chroma ceiling collapses at both ends of the lightness axis and peaks near each hue's own
+cusp, at a different lightness per hue. Measured maximum in-gamut chroma, sRGB / Display-P3:
+
+| L | red 29° | yellow 110° | green 145° | cyan 195° | blue 264° | magenta 328° |
+|---|---|---|---|---|---|---|
+| 0.35 | 0.144 / 0.161 | 0.076 / 0.089 | 0.110 / 0.149 | 0.060 / 0.080 | 0.203 / 0.241 | 0.161 / 0.176 |
+| 0.50 | 0.205 / 0.231 | 0.109 / 0.127 | 0.157 / 0.213 | 0.085 / 0.115 | 0.281 / 0.300 | 0.230 / 0.251 |
+| 0.65 | 0.236 / 0.298 | 0.142 / 0.165 | 0.204 / 0.277 | 0.111 / 0.149 | 0.186 / 0.201 | 0.299 / 0.327 |
+| 0.80 | 0.115 / 0.147 | 0.175 / 0.203 | 0.252 / 0.341 | 0.136 / 0.183 | 0.100 / 0.109 | 0.196 / 0.226 |
+| 0.90 | 0.052 / 0.068 | 0.196 / 0.228 | 0.195 / 0.218 | 0.154 / 0.172 | 0.048 / 0.053 | 0.089 / 0.109 |
+
+Read it as a shape, not a lookup. Red at L 0.90 carries a fifth of the chroma it carries at
+0.65. A blue-accented ramp and a yellow-accented ramp are different objects. **P3 buys 10–35%
+more chroma at the same L and H — headroom, never a different palette**, so a direction that
+only works in P3 does not work.
+
+Check any single value in three lines rather than guessing, using the browser's own unclamped
+conversion:
+
+```js
+el.style.color = `color(from oklch(${L} ${C} ${H}) srgb r g b)`;
+const rgb = getComputedStyle(el).color.match(/[-\d.]+/g).slice(-3).map(Number);
+const inGamut = rgb.every(v => v >= 0 && v <= 1);   // false → reduce C, hold L and H
+```
+
+**The tinted neutral** is the accent's hue held constant with chroma at a small fraction —
+roughly 0.005–0.03, which is practice rather than spec — and lightness carrying the ramp. It is
+what makes a neutral belong to a palette rather than sit beside it. Tool-shaped surfaces feel
+this hardest: an operator reads that ramp for eight hours, and a neutral that carries no hue at
+all reads as a different product from the accent it surrounds.
+
+**Gradients: declare the interpolation space.** `linear-gradient(in oklab, …)`, not "write one
+endpoint in `oklch()` and hope." `CRAFT.md` carries the measurement behind that instruction.
+
 ## Fonts: the ban is on convergence, not the typeface
 
 Two lists, kept separate, because they are not the same kind of rule:
@@ -632,6 +684,63 @@ section, inside the same file. Nobody can maintain a list they cannot derive. So
 font decision in `DIRECTION.md` carries its reason on the same line** — what this face does
 for this direction that the obvious one would not. A rule with its reason attached survives
 a fashion cycle; a bare blacklist goes stale in eighteen months.
+
+## The type scale: ratio-derived or role-indexed
+
+**Deciding which of the two a scale is comes before writing any number**, and a run that skips
+the decision defaults to inventing sizes that have no job.
+
+- **Ratio-derived** when the sizes are a continuum and the surface is content-led — editorial,
+  marketing, long-form. A ratio gets chosen and defended in one line. Which ratio is craft, not
+  citation; no primary source names one.
+- **Role-indexed** when the sizes are named jobs with fixed relationships — product UI, tools,
+  anything whose type inventory is a component list rather than a document outline. Material 3
+  publishes exactly this: 15 baseline styles as Display / Headline / Title / Body / Label × L /
+  M / S, plus 15 emphasized, with adjacent steps at no constant ratio, and the explicit note
+  that "no single product will use all the styles."
+
+Forcing a ratio onto a role-indexed inventory is how a scale acquires a 20px step that nothing
+uses. Stating "there is no ratio here, the sizes are roles" is a finished answer, not a gap.
+
+**The measure has a sourced ceiling and a craft working range.** WCAG 2.2 SC 1.4.8 puts the
+ceiling at **80 characters (40 CJK)**; the familiar 45–75ch is practitioner narrowing and gets
+labeled as such. A measure written in `rem` is not a measure — `ch` is the unit that tracks the
+face. DTCG has no `ch`, so a tokenized measure records the `ch` intent in `$description` and
+carries a `rem` value **computed from that face's measured advance width**, never a number that
+happens to share the digits.
+
+**Line-height is a floor question before it is a taste question.** SC 1.4.12 (AA) requires that
+nothing breaks when the user sets line height to **1.5× font size**, paragraph spacing to **2×**,
+letter-spacing to **0.12em**, and word-spacing to **0.16em**. Authoring below those values is
+legal; a layout that collapses at them is not. Longer measures want more leading — craft, and
+true. And per `CRAFT.md`, if the direction claims a baseline grid, `font-size × line-height` has
+to be an integer multiple of the spacing unit or the claim is decoration.
+
+**Fluid type gets both `clamp()` bounds in `rem`.** A pure-`vw` middle term stops responding to
+the user's own font-size setting entirely once it pins to its max — measured in `CRAFT.md`.
+
+## The spacing scale: name it by ratio, and leave the gaps
+
+**Pick one base unit and make every token a multiple of it.** Material's system is an 8dp scale
+where `space100 = 8dp` and the token number states the multiple — `space300` is 24dp, three times
+the base. Sub-base values (2, 4, 6, 10, 14dp) exist as *nested units* only where components
+actually use them.
+
+Two rules follow, and both are worth taking:
+
+- **Only the values with a job get a token.** Material defines "the most recommended spacing unit
+  values" rather than every step on the scale. A spacing scale with unbroken 4px increments up to
+  128 is a list, not a system, and the absent steps are information — they say the design has no
+  job at that size.
+- **Ratio naming survives a base change.** `space100 = 8dp` tells the reader the relationship
+  without knowing the base; `space.24 = 96px` requires remembering that the base is 4. Both are
+  defensible and the first is cheaper to read.
+
+**Density is a user setting, not a breakpoint consequence.** Material is explicit: density
+"shouldn't automatically change across breakpoints or orientation unless a person changes it."
+Compression steps by **4dp** of vertical padding per level, and stops before any target falls
+below **48×48 CSS px**. Tool-shaped surfaces are where this earns its keep — density is a control
+the operator owns, and `TRANSLATE.md` row 2's answer decides the default, not the window width.
 
 ## Style and accessibility
 

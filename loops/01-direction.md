@@ -169,8 +169,15 @@ needs shape or label as well as color because `§10` forbids color alone. The sa
 chroma, against a different substrate, in a different ramp in each of the two or three
 directions; that divergence is a large part of what Gate A is choosing between.
 
-Work in **OKLCH**, and write gradient endpoints in `oklch()`, because a single hex or `rgb()`
-endpoint silently drops the whole interpolation back to muddy sRGB.
+Work in **OKLCH**, and build the ramp by the method in `STYLES.md`, [Building the
+ramp](../STYLES.md#building-the-ramp), rather than by eye: the chroma ceiling collapses at both
+ends of the lightness axis and peaks at a different lightness per hue, so **a ramp written at one
+chroma is a ramp whose light end gets silently gamut-mapped into something else.** When a value
+does not fit, hold hue, hold lightness, cut chroma — the order the browser itself uses. That
+section carries the measured ceilings and a three-line in-gamut check.
+
+Declare the interpolation space on every gradient — `linear-gradient(in oklab, …)`. Relying on an
+`oklch()` endpoint to trigger it works today and is browser behavior rather than spec.
 
 **Every color ships as a pair** — the swatch and the foreground that is legal on it, with its
 measured ratio at the size it is actually used (`STYLES.md`, paired color tokens). A swatch
@@ -191,6 +198,14 @@ Persian, Arabic, or Devanagari subject needs a face that draws it, not one that 
 **Row 6's owned faces are the default pair** — `STYLES.md`'s fifth picking input makes owned
 elements constraints, not suggestions, and that holds for type. A direction that replaces or
 drops an owned face states its reason on the same line, like every other font decision here.
+
+**Decide what kind of scale this is before writing a size** — ratio-derived or role-indexed, per
+`STYLES.md`, [The type scale](../STYLES.md#the-type-scale-ratio-derived-or-role-indexed). A
+content-led surface takes a ratio and defends it in one line; a surface whose type inventory is a
+component list takes named roles whose adjacent steps are at no constant ratio. **"There is no
+ratio here, the sizes are roles" is a finished answer**, and forcing a ratio onto roles is how a
+scale acquires a step nothing uses. Write the measure in `ch` (ceiling 80, working range 45–75),
+and set line-height knowing the layout must survive the user forcing 1.5.
 
 **`§6`'s sample-from-reality rule extends to type.** Before writing a scale, enumerate the
 owned files' actual `@font-face` declarations — a scale written against weights the files do
