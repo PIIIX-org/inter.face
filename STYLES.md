@@ -723,8 +723,8 @@ the user's own font-size setting entirely once it pins to its max — measured i
 
 **Pick one base unit and make every token a multiple of it.** Material's system is an 8dp scale
 where `space100 = 8dp` and the token number states the multiple — `space300` is 24dp, three times
-the base. Sub-base values (2, 4, 6, 10, 14dp) exist as *nested units* only where components
-actually use them.
+the base. Values that are not multiples of the base (2, 4, 6, 10, 12, 14, 20, 36dp in the
+published set) exist as *nested units* only where components actually use them.
 
 Two rules follow, and both are worth taking:
 

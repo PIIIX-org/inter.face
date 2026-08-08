@@ -246,8 +246,10 @@ Values are a multiplier of that base, and the token number is `100 × (value ÷ 
 Two rules come out of the page and both are worth taking:
 
 - **Only the values with a job get defined.** "Rather than defining every value, Material only
-  defines the most recommended spacing unit values on the scale." The sub-8 values (2, 4, 6,
-  10, 14) are called *nested units* and exist only because components actually use them. The
+  defines the most recommended spacing unit values on the scale." The values that are not
+  multiples of 8 — 2, 4, 6, 10, 12, 14, 20, 36 in the published set; the page's own examples
+  are "2dp, 4dp, 6dp, and 10dp" — are called *nested units* and exist only because components
+  actually use them. The
   dogfood run arrived at the identical rule independently — "a step that has no job does not
   get a token" — which is now sourced rather than asserted.
 - **Ratio naming beats ordinal naming.** `space100 = 8dp` means every other token's number
