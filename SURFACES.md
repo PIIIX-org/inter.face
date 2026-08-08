@@ -525,6 +525,163 @@ Design obligations with no web equivalent at all:
 
 ---
 
+## 6. Canonical layouts — three shapes, and a test for which one this is
+
+Material publishes three, each configured for compact, medium, and expanded. They are worth
+knowing not as templates but because **each one answers "what happens when the window narrows"
+differently**, and that answer is a Loop 1 decision the concept has to state.
+
+*(The source for this was recorded as unreachable in an earlier pass. It had been renamed —
+`canonical-layouts` now redirects to `canonical-examples` — the same rename pattern as
+window size class → breakpoint.)*
+
+**Feed.** Equivalent elements in a configurable grid. "Size and position establish relationships
+among the content elements. Content groups are created by making elements the same size and
+positioning them together. Attention is drawn to elements by making them larger than nearby
+elements." Adapts from one scrolling column to a multi-column feed, so it survives any width.
+
+**List-detail.** Two side-by-side panes, list and detail. The state rules are the part that
+matters, and most designs never make them explicit:
+
+- Expanded showing both, narrowing to medium or compact → **the detail stays, the list hides.**
+- Compact showing only detail, widening to expanded → both appear, **and the list shows that
+  item as selected.**
+- Compact showing only the list, widening → the list plus a **placeholder detail pane.**
+- Compact showing only the detail → **back returns to the list**, and that back handler is not
+  part of app navigation, because it exists only as a function of window size and selection.
+
+**Supporting pane.** Primary area is "typically about two thirds"; the supporting pane takes the
+rest, and on medium or compact it can retreat into a bottom or side sheet behind a control.
+
+**The test that separates the last two** — quoted, because it is a real decision rule rather
+than a picture:
+
+> Secondary pane content is **meaningful only in relation to the primary content**; for example,
+> a supporting pane tool window is irrelevant by itself. The supplementary content in the detail
+> pane of a list-detail layout, however, **is meaningful even without the primary content**, for
+> example, the description of a product from a product listing.
+
+Ask it of the concept's own content. A product description survives alone — list-detail. A
+palette, a comment thread, a related-videos rail does not — supporting pane. Getting this
+backwards produces a two-pane layout whose narrow state strands the user in a fragment.
+
+## 7. Navigation, and the two platforms disagree about whether the count is a rule
+
+**Material states a count. Apple refuses one.** A cross-platform design that picks one number
+and ships it to both has followed neither.
+
+| | Material navigation bar | Apple tab bar |
+|---|---|---|
+| Count | **"three to five destinations"**, stated as a rule | **No maximum stated.** The only number is "if you let people **select their own tabs**, aim for a default list of five or fewer" — an aim, for customizable bars |
+| Overflow | Not applicable at three to five | The trailing tab becomes a **More** tab in iOS and iPadOS when space runs out; Apple says to "limit scenarios in your app where this can happen" |
+| Where | Bottom, **mobile and tablet only**; rail from Medium up | Adapts to a **sidebar** for complex information structures |
+| Item layout | **Vertical items in compact, horizontal items in medium** | Label beneath or beside the icon; single words where possible |
+
+"iOS allows a maximum of five tabs" is not on the page. It is the same shape of error as
+"Apple's minimum target is 44×44 pt" (§2 above) — a real number remembered with the wrong scope.
+The genuine constraint is that **device and orientation decide how many tabs are visible**, and
+the design owns what happens when they do not all fit.
+
+Two rules that are stated absolutely and are routinely broken:
+
+- **A tab bar is navigation, not actions.** "If you need to provide controls that act on
+  elements in the current view, use a toolbar instead."
+- **Never disable or hide tab bar buttons**, even when their content is unavailable — it "makes
+  your app's interface appear unstable and unpredictable. If a section is empty, explain why its
+  content is unavailable." That is an empty-state obligation arriving through the navigation
+  door, and it belongs with the concept's absence states rather than being discovered at build.
+
+Keep the bar visible as people navigate; the one exception is a modal covering it, "because a
+modal is temporary and self-contained."
+
+**Sheets.** Modality is platform-determined: "In macOS, tvOS, visionOS, and watchOS, a sheet is
+always modal"; iOS and iPadOS allow nonmodal, which lets people affect the parent view without
+dismissing. Three buttons carry fixed meanings — Cancel/Close dismisses without saving, Done
+dismisses after saving, and **Back moves within the flow and "isn't intended to dismiss a
+sheet."** A sheet is for a scoped task: "for complex or prolonged user flows, consider
+alternatives" — full-screen modal on iOS/iPadOS, a separate window or full screen on macOS.
+
+**Predictive back changes what back *is* on Android.** For apps targeting Android 16, the
+predictive back animations are on by default and "`onBackPressed` is not called and
+`KeyEvent.KEYCODE_BACK` is not dispatched anymore." The design consequence outlives the API
+detail: **the system needs to know where back goes before the gesture completes, because it
+animates the destination during the gesture.** A back destination computed at press time cannot
+be previewed, so a concept whose back behavior is conditional has to resolve that condition
+earlier than it used to.
+
+## 8. Safe areas, edge-to-edge, and system gestures
+
+### Edge-to-edge is no longer a choice on Android
+
+Android 15 made it the default for apps targeting API 35 — Google's own word for it is "a
+breaking change" — and **Android 16 removed the opt-out entirely**:
+`windowOptOutEdgeToEdgeEnforcement` is "deprecated and disabled, and your app can't opt-out of
+going edge-to-edge."
+
+What that means at design time, not build time:
+
+| Area | What happens |
+|---|---|
+| Gesture handle nav bar | Transparent; content draws behind it unless insets are applied. `setNavigationBarColor` has no effect |
+| 3-button navigation | 80% opacity by default; content draws behind; contrast enforcement adds an 80% opaque background |
+| Status bar | Transparent; content draws behind it unless insets are applied |
+| Display cutout | `SHORT_EDGES`, `NEVER`, and `DEFAULT` are all interpreted as `ALWAYS` |
+
+So **every Android surface is drawn under the system bars and the design owns the insets.** A
+bottom action sitting at the window edge has a system gesture handle through it.
+
+### Apple names safe areas and publishes no numbers
+
+The Layout guidance says to respect "system-defined safe areas, margins, and guides (where
+available)" and lists what varies — screen size, orientation, "system features like Dynamic
+Island and camera controls", external displays, Display Zoom, resizable windows on iPad, Dynamic
+Type, locale. There is **no published inset table**, consistent with Apple publishing no spacing
+scale or grid module at all. Insets are read from the system at runtime, and **any fixed number
+attributed to an Apple safe area is invention.**
+
+### The web has the same concept, plus the variable most designs are missing
+
+`env(safe-area-inset-top / -right / -bottom / -left)` define the rectangle inside which all
+content is visible. Two things about them decide whether a layout works:
+
+- **"For rectangular displays, these must all be zero."** So `padding: env(safe-area-inset-bottom)`
+  collapses to nothing on a desktop, and the pattern that actually works is
+  `max(<spacing token>, env(safe-area-inset-bottom))`.
+- **`safe-area-max-inset-*`** is the static counterpart: the maximum value of each dynamic inset
+  "when dynamic UA interfaces are retracted." The dynamic insets change as mobile browser chrome
+  hides on scroll. **A layout that jumps when the toolbar retracts is a layout using the dynamic
+  value where it wanted the static one.**
+
+The insets are only non-zero with `viewport-fit=cover`, which sets the layout and visual viewport
+to "the circumscribed rectangle of the physical screen of the device." `viewport-segment-*`
+exists for foldables.
+
+### Gesture conflicts: one edge is negotiable, the other is not
+
+**Back is negotiable, within a ceiling.** System back is "an inward swipe from **either the left
+or the right edge**." An app claims regions back with `View.setSystemGestureExclusionRects()`
+(`DrawerLayout` and `SeekBar` do it automatically) — but "the system will put a limit of **200dp
+on the vertical extent** of the exclusions it takes into account." And it is for precision only:
+"not necessary ... for broadly spanning regions such as the entirety of a `ScrollView` or for
+simple press and release click targets such as `Button`. Mark an exclusion rect when interacting
+with a view requires a **precision touch gesture in a small area**."
+
+**Home and quick switch are not negotiable.** "Apps can't opt out of these gestures as they can
+with the back gesture." The only mitigation is reading
+`WindowInsets.getMandatorySystemGestureInsets()` for the touch thresholds; games can request
+immersive mode, "only when necessary, such as during gameplay."
+
+**The design rule.** A horizontal swipe near a screen edge is competing with system back and can
+win only inside a 200dp-tall band the design nominates. A vertical swipe at the bottom is
+competing with home and **cannot** win. Carousels, swipe-to-delete rows, sliders, and drawing
+canvases are the four that keep colliding, and the resolution belongs in `DIRECTION.md` beside
+the navigation model — discovering it during the build means redrawing the interaction.
+
+*(Verified on Android. Apple's equivalent — the `preferredScreenEdgesDeferringSystemGestures`
+family — was not read, so no cross-platform claim is made from one side.)*
+
+---
+
 ## The scope limit, stated out loud
 
 **`CRAFT.md`'s arsenal is web technique.** Shaders, `backdrop-filter`, scroll-linked timelines,
@@ -549,10 +706,21 @@ the DTCG `dimension` unit set has no `pt`, no `dp`, no `sp`, so native numbers l
 `DIRECTION.md` prose rather than in the token file. Say the limit rather than letting the
 four-surface claim imply that one arsenal covers all of them.
 
-**And the honest gaps**, named so silence is not read as agreement: navigation-model choice
-across platforms (bottom nav, back stack, predictive back, sheets), safe-area and edge-to-edge
-handling including Android 15's mandatory edge-to-edge, gesture conflicts between the system
-back-swipe and author-built horizontal affordances, Windows and Fluent conventions, Electron
-and Tauri specifics, and Material's canonical layouts. Every one of those was asked and none
-survived verification. They are unresearched, not settled — and a run that needs them researches
-them rather than recalling them.
+**And the honest gaps**, named so silence is not read as agreement. Four that used to be listed
+here are now researched and live in §6–§8 above: navigation models, safe areas and edge-to-edge,
+gesture conflicts, and Material's canonical layouts.
+
+What is still unresearched:
+
+- **Windows and Fluent conventions**, and the Windows/macOS keyboard-shortcut divergence in
+  detail. Sources were fetched in an earlier pass; the content was never synthesised.
+- **Electron and Tauri specifics** — the "website in a window" failure and what a native-feel
+  checklist actually contains.
+- **iOS's side of the gesture-conflict question.** §8 above is verified on Android only; Apple's
+  `preferredScreenEdgesDeferringSystemGestures` family was not read, and a cross-platform gesture
+  claim must not be made from one side.
+- **Per-device safe-area inset values from Apple.** Not published on the Layout page; the
+  read-at-runtime rule holds regardless.
+
+These are unresearched, not settled — and a run that needs one researches it rather than
+recalling it.

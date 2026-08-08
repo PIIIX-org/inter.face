@@ -146,8 +146,8 @@ look, and both are stated rather than implied.
   to `px` and `rem`, so Apple's `pt` and Material's `dp`/`sp` are not expressible. Native
   numbers live in `DIRECTION.md` prose or in `$extensions`. A token file that silently rounds
   44pt to 44px has produced a wrong layout with a valid schema.
-- `SURFACES.md` closes with named gaps — cross-platform navigation models, Android 15
-  edge-to-edge, gesture conflicts, Fluent, Material's canonical layouts. They are
+- `SURFACES.md` closes with named gaps — Fluent and Windows conventions, Electron and Tauri,
+  iOS's side of the gesture question, Apple's per-device safe-area values. They are
   **unresearched, not settled.** A run that needs one researches it rather than recalling it.
 
 ## 9. The five agents
