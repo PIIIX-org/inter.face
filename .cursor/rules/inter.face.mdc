@@ -14,6 +14,7 @@ redesign an interface — web, mobile, tablet, or desktop — run it:
 3. Run `loops/01-direction.md` to **Gate A** (the human picks the concept), then
    `loops/02-craft.md` to **Gate B** (the human approves or cuts the technique
    set).
-4. Deliver `DIRECTION.md`, `tokens.json`, one design image per surface, and one
-   measured prototype per technique. It stops before code.
+4. Deliver `DIRECTION.md`, `tokens.json`, one comp per surface — coded by
+   default, a generated image when the run opts in — and one measured prototype
+   per technique. It stops before code.
 5. Never publish past a gate without a human decision.

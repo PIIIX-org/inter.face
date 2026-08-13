@@ -92,6 +92,11 @@ produce is a design decision.
 
 ## What you return
 
+**Write the whole package below to disk before you return it**, at the path your dispatch
+names for it, beside `CURRENT.md`. The classification is a fork a human takes, sometimes in a
+later session than the one that measured; a proposal that exists only in a reply has to be
+re-measured from scratch to be recovered.
+
 - The path to `CURRENT.md`
 - The positioning read: which family, at what percentage, with the evidence for choice versus
   accident

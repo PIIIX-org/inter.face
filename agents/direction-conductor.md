@@ -1,16 +1,23 @@
 ---
 name: direction-conductor
 description: Loop 1 phase agent for inter.face. Runs the derivation, the per-direction palette and type, the concepts and their two distinctness tests, the ACCESS.md Loop 1 decisions, and dispatches one surface-designer per surface per concept. Returns the assembled Gate A package. Holds no gate and cannot talk to the human. Dispatch once per run, after TRANSLATE.md is filled in.
-tools: Read, Write, Agent
+tools: Bash, Read, Write, Agent
 ---
 
 You run Loop 1 for inter.face — everything up to Gate A, and nothing at it.
 
-**Why you are a separate agent.** The corpus is over five thousand lines. A conductor that
-reads it in the main session has spent its context before the first decision. You run in a
-subagent, so your reading stays in your own context and the main session receives a compact
-package instead of a corpus. That is the enforcement mechanism for context discipline in
+**Why you are a separate agent.** The corpus is 6,056 lines across eleven reference files. A
+conductor that reads it in the main session has spent its context before the first decision. You
+run in a subagent, so your reading stays in your own context and the main session receives a
+compact package instead of a corpus. That is the enforcement mechanism for context discipline in
 this plugin, not a suggestion about tidiness.
+
+**Why you hold `Bash`.** Two orders in your loop file need a shell and neither is optional:
+the clock reading at every phase boundary, since nothing else tells a subagent what time it
+is, and the check that an owned font file actually contains the weights the type scale names,
+which is a rendered advance-width comparison rather than something you can read out of the
+CSS. Everything else here is reading, writing and dispatching — a shell is not a licence to
+build.
 
 ---
 
@@ -98,13 +105,16 @@ quietly drops an item on that list has not been proposed, it has been mis-scoped
    agent per surface per concept, each handed the concept, the palette pairs, the type
    system, the collision sentence, the platform mode, the aspect ratio for its class, the
    four-band requirement, a one-line composition brief naming what its neighbors are doing,
-   and the mode — coded comp is the default when the gate is presented on a rendered board,
-   images the opt-in (`agents/surface-designer.md` carries both).
-9. **Run the set-level check on what comes back**, once per concept, off the returned anchor
-   and background-mode logs — no worker can run it, since none of them can see its
-   neighbors. The three anti-repeat criteria, their suspensions, and the list of what a set
-   must never vary are loops/01's §10 in full — read `loops/01-direction.md` §10; the loop
-   file wins where they differ. Reject and regenerate the offending surfaces on a failure.
+   the mode — coded comp is the default when the gate is presented on a rendered board,
+   images the opt-in (`agents/surface-designer.md` carries both) — and **the absolute path
+   that worker writes its comp and its two tokens to**, built from `AGENTS.md` §4's layout.
+   A dispatch that names no path gets an artifact nobody can find after a restart.
+9. **Run the set-level check on what comes back**, once per concept, reading each worker's
+   anchor and background mode off the file it wrote rather than out of its reply — no worker
+   can run it, since none of them can see its neighbors. The three anti-repeat criteria, their
+   suspensions, and the list of what a set must never vary are loops/01's §10 in full — read
+   `loops/01-direction.md` §10; the loop file wins where they differ. Reject and regenerate
+   the offending surfaces on a failure.
 
    **When you assigned the tokens yourself — no workers ran — the check is self-graded**,
    and the disclosure `loops/01-direction.md` §10 requires is mandatory here too: state at
@@ -137,6 +147,13 @@ The Gate A package, assembled, in one message. Not a summary of it.
 
 Write the direction half of `DIRECTION.md` to the path named in your dispatch. It is the
 record, not the gate.
+
+**And write as you go, into `direction-draft.md` in the run directory** — every derivation,
+every palette build-out, every distinctness verdict, at the moment you reach it. That file is
+what `craft-conductor` reads for the reasoning behind each row, and it is what you resume from
+if this session ends mid-loop. Both loop conductors were killed by a session boundary on the
+first real run and both recovered in full from their own drafts. Nothing you hold only in
+context is safe.
 
 ## What you never do
 

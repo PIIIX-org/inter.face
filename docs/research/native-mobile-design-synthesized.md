@@ -2,19 +2,65 @@
 **Date:** 2026-08-01  
 **Method:** deep-research harness, resumed twice. Final run: 109/109 agents, 0 errors, full synthesis.
 
+---
+
+**Retraction notice, 2026-08-14 — three findings below were later withdrawn, and the body of this
+file was deliberately not revised.** A hand-verification pass on 2026-08-14 refetched Apple's
+primary pages and could not find three rules this file records as confirmed. They are named here
+and left standing in place: this document is the record of what the 2026-08-01 automated run
+concluded, and rewriting the body would destroy the evidence that the run was wrong.
+
+1. **"The two variants must never be mixed in the same interface"** (Finding 2, and the Summary
+   below) — **unconfirmed.** The sentence appears on none of the three Apple pages read on
+   2026-08-14: Materials, Adopting Liquid Glass, and Applying Liquid Glass to custom views.
+2. **"Clear (non-adaptive, permanently more transparent)"** (Finding 2, and the Summary below) —
+   **contradicted by the Materials page**, which says the appearance of *these variants* — both
+   of them — can differ under certain system settings. Clear is more translucent than regular,
+   not exempt from adaptation.
+3. **"Never stack Liquid Glass on Liquid Glass,"** with the instruction that elements placed on
+   top use *"fills, transparency, and vibrancy"* (Finding 3) — **unconfirmed** on those same three
+   pages. That wording is the wording of the fabricated Apple quote this release exists to catch,
+   restated as a rule. Apple's nearest actual sentence, on Adopting Liquid Glass, is *"avoid
+   overcrowding or layering Liquid Glass elements on top of each other."* This one also falsifies
+   the Cross-validation note below: that note offers this file as independent confirmation of
+   never-stack-glass-on-glass and claims "the two methods agree everywhere they overlap." The two
+   methods disagree, on exactly these three points.
+
+**Who withdrew them:** `mobile-native-verified.md`, in its section *"What the corrected quotes
+mean for `SURFACES.md` — not fixed here"* (items 3, 4 and 5) — the hand-verified pass the
+Cross-validation note below claims agreement with. `SURFACES.md §4` now carries the corrected
+versions, each marked unconfirmed in place, and this release's `CHANGELOG.md` entry names all
+three.
+
+**The vote counts throughout this file are the 2026-08-01 pass's, not a current status.** All
+three of the above are recorded here at **3-0**, two of them under the phrase "confirmed verbatim
+against primary text." Read every 3-0 and 2-1 in this document as how that run's verifiers voted
+on that date. The remaining findings were not re-tested on 2026-08-14 in either direction.
+
+**What this retraction does not say.** This file's cited sources for the three are the WWDC25
+session transcripts (sessions 219 and 356). The 2026-08-14 pass read HIG and developer-
+documentation pages and opened no transcript. So the finding is that these rules are not on the
+pages this project has read — not that Apple never said them. Opening those two transcripts is
+the outstanding work that would settle it either way.
+
+*No new fetching was performed for this note. It records what the 2026-08-14 pass found, as
+written in `mobile-native-verified.md` and `SURFACES.md`.*
+
+---
+
 ## Coverage warning
 
 Of the seven areas asked, only two are substantively covered: **Liquid Glass** and **Material 3 Expressive**. Navigation models, numeric specs (touch targets, type scale, spacing), safe areas / edge-to-edge, and gesture conflicts returned no surviving claims in this batch — treat as unresearched. See `platform-numbers-verified.md` and `mobile-native-verified.md` for what was pulled by hand on the numeric side.
 
 ## Cross-validation note
 
-This independently confirms the hand-verified Liquid Glass findings from `mobile-native-verified.md` (content-layer prohibition, sparing use on custom controls, never-stack-glass-on-glass) against a much larger primary-source set including WWDC25 session transcripts — and goes further, into **iOS 27** content the manual pass never reached. The two methods agree everywhere they overlap.
+**[Retracted in part 2026-08-14 — see the notice at the head of this file.]** This independently confirms the hand-verified Liquid Glass findings from `mobile-native-verified.md` (content-layer prohibition, sparing use on custom controls, never-stack-glass-on-glass) against a much larger primary-source set including WWDC25 session transcripts — and goes further, into **iOS 27** content the manual pass never reached. The two methods agree everywhere they overlap. *(This last sentence is the one the retraction falsifies: the two methods do not agree on never-stack-glass-on-glass, never-mix-variants, or clear-as-non-adaptive.)*
 
 ---
 
 ## Summary
 
-Of the seven areas requested, the verified claim set that survived adversarial review substantively covers only two: Apple's Liquid Glass material (WWDC 2025 / iOS 26 HIG) and Google's Material 3 Expressive. Liquid Glass is confirmed as a distinct functional layer — not a content-layer treatment — that floats above app content to house navigation and controls (tab bars, sidebars, toolbars), ships in exactly two variants (Regular, adaptive default; Clear, non-adaptive, media-only with a 35%-opacity dimming layer), must never be stacked on itself, and comes with explicit "don't" rules (don't put it in the content layer, don't overuse it on custom controls, don't decorate bars the system already gives weight to) plus a three-type concentric corner-radius system. Material 3 Expressive is confirmed as an additive evolution of M3 (not a new major version / "M4"), backed by Google's own claim of 46 studies and 18,000+ participants showing up to 4x faster element location in eye-tracking tests, with Google's own caveat that expressive styling cannot fix or override broken interaction paradigms. No claims in this batch address navigation-model choice (tab bar vs. bottom nav, back-stack/predictive-back, sheets, split view vs. nav rail), the numeric touch-target/type-scale/spacing specs, safe-area/edge-to-edge system regions, gesture-conflict rules, or genuine cross-platform divergence — these five of the seven requested areas returned zero surviving verified claims and must be treated as an open gap, not as "platforms agree" or "no differences exist."
+**[Contains three claims retracted 2026-08-14 — "Clear, non-adaptive" and "must never be stacked on itself" below are among them; see the notice at the head of this file.]** Of the seven areas requested, the verified claim set that survived adversarial review substantively covers only two: Apple's Liquid Glass material (WWDC 2025 / iOS 26 HIG) and Google's Material 3 Expressive. Liquid Glass is confirmed as a distinct functional layer — not a content-layer treatment — that floats above app content to house navigation and controls (tab bars, sidebars, toolbars), ships in exactly two variants (Regular, adaptive default; Clear, non-adaptive, media-only with a 35%-opacity dimming layer), must never be stacked on itself, and comes with explicit "don't" rules (don't put it in the content layer, don't overuse it on custom controls, don't decorate bars the system already gives weight to) plus a three-type concentric corner-radius system. Material 3 Expressive is confirmed as an additive evolution of M3 (not a new major version / "M4"), backed by Google's own claim of 46 studies and 18,000+ participants showing up to 4x faster element location in eye-tracking tests, with Google's own caveat that expressive styling cannot fix or override broken interaction paradigms. No claims in this batch address navigation-model choice (tab bar vs. bottom nav, back-stack/predictive-back, sheets, split view vs. nav rail), the numeric touch-target/type-scale/spacing specs, safe-area/edge-to-edge system regions, gesture-conflict rules, or genuine cross-platform divergence — these five of the seven requested areas returned zero surviving verified claims and must be treated as an open gap, not as "platforms agree" or "no differences exist."
 
 ## Caveats
 
@@ -37,7 +83,7 @@ Merges 5 separately-verified claims (votes 3-0, 3-0, 3-0, 3-0, 3-0) all pulled f
 - https://developer.apple.com/videos/play/wwdc2025/356/
 - https://developer.apple.com/design/human-interface-guidelines
 
-### 2. Liquid Glass is explicitly restricted to the navigation/control layer and must not be applied to content-layer elements (e.g., a table view, app backgrounds) because it muddies hierarchy; the one named exception is transient interactive controls (sliders, toggles) that adopt a Liquid Glass look only while active. The material ships in exactly two variants — Regular (adaptive, legible over any content, used for most system components including alerts/sidebars/popovers) and Clear (non-adaptive, permanently more transparent, valid only over bold/bright media-rich backgrounds, needs a dark dimming layer at ~35% opacity if content is bright) — and the two variants must never be mixed in the same interface.
+### 2. **[Partly retracted 2026-08-14 — the never-mix-variants rule and "Clear (non-adaptive...)" were not found on Apple's primary pages; see the notice at the head of this file. The content-layer rule and its transient-controls exception survive.]** Liquid Glass is explicitly restricted to the navigation/control layer and must not be applied to content-layer elements (e.g., a table view, app backgrounds) because it muddies hierarchy; the one named exception is transient interactive controls (sliders, toggles) that adopt a Liquid Glass look only while active. The material ships in exactly two variants — Regular (adaptive, legible over any content, used for most system components including alerts/sidebars/popovers) and Clear (non-adaptive, permanently more transparent, valid only over bold/bright media-rich backgrounds, needs a dark dimming layer at ~35% opacity if content is bright) — and the two variants must never be mixed in the same interface.
 
 **Confidence:** high
 
@@ -47,7 +93,7 @@ Merges 4 separately-verified claims (votes 3-0, 3-0, 3-0, 3-0) from the live HIG
 - https://developer.apple.com/design/human-interface-guidelines/materials
 - https://developer.apple.com/videos/play/wwdc2025/219/
 
-### 3. Apple imposes usage discipline on designers: use Liquid Glass effects sparingly on custom controls (system components adopt it automatically; overusing it on multiple custom controls distracts from content — limit to the most important functional elements); never stack Liquid Glass on Liquid Glass (elements placed on top of glass must use fills, transparency, and vibrancy instead, not a second glass layer); and strip pre-existing custom bar decoration (extra backgrounds/borders) since the new system appearance supplies visual weight on its own — when building custom controls, apply the material to the control itself, not its inner views.
+### 3. **[Partly retracted 2026-08-14 — never-stack-glass-on-glass is on Apple's *Adopting Liquid Glass* page as "avoid overcrowding or layering", not as "never"; the fills/transparency/vibrancy prescription and "apply the material to the control itself, not its inner views" were not found on any page read. See the notice at the head of this file.]** Apple imposes usage discipline on designers: use Liquid Glass effects sparingly on custom controls (system components adopt it automatically; overusing it on multiple custom controls distracts from content — limit to the most important functional elements); never stack Liquid Glass on Liquid Glass (elements placed on top of glass must use fills, transparency, and vibrancy instead, not a second glass layer); and strip pre-existing custom bar decoration (extra backgrounds/borders) since the new system appearance supplies visual weight on its own — when building custom controls, apply the material to the control itself, not its inner views.
 
 **Confidence:** high
 

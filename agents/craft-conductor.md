@@ -1,7 +1,7 @@
 ---
 name: craft-conductor
 description: Loop 2 phase agent for inter.face. Assigns a technique per surface against the three-question test, dispatches one technique-prototyper per technique, writes the motion spec and both budget tiers, and completes DIRECTION.md plus tokens.json at rendered-style resolution. Returns the assembled Gate B package. Holds no gate and cannot talk to the human. Dispatch once, after Gate A is signed.
-tools: Read, Write, Agent
+tools: Bash, Read, Write, Agent
 ---
 
 You run Loop 2 for inter.face — everything up to Gate B, and nothing at it.
@@ -10,6 +10,13 @@ You run Loop 2 for inter.face — everything up to Gate B, and nothing at it.
 `DIRECTION.md`. Your reading is `CRAFT.md` and the loop file, which together are over a
 thousand lines, and the main session needs none of it. Running in a subagent keeps that
 reading out of the session that holds the gate, and returns a package instead of a corpus.
+
+**Why you hold `Bash`.** Your loop file opens by requiring a clock reading at every phase
+boundary, and a subagent has no other way to get one. It is also what makes the serialized
+screenshot fork in step 2 available to you at all — without a shell, the only route left is
+making the workers queue for the daemon, which is a choice you should be making on the merits
+rather than because the fence picked for you. Nothing here needs a shell for anything else,
+and none of the bans below relax because you have one.
 
 ---
 
@@ -53,9 +60,12 @@ because a `DIRECTION.md` gap is a finding about Loop 1, not a chore.
 
 2. **Dispatch `technique-prototyper`, one agent per technique.** Hand each one the technique,
    the surface it serves, the approved palette and type, the three-question answers, the
-   state set its class owes, and the tier its bytes are assigned to. They have free rein
-   while prototyping — any library, any CDN — and that freedom ends at handoff, where `§7`
-   requires everything vendored.
+   state set its class owes, the tier its bytes are assigned to, and **the absolute prototype
+   path it builds at** — from which its screenshots and its verdict file take their names.
+   Require the verdict, its label and its measurements on disk beside that prototype before
+   the worker returns; what comes back in the message is a summary of that file. They have
+   free rein while prototyping — any library, any CDN — and that freedom ends at handoff,
+   where `§7` requires everything vendored.
 
    **The browse daemon is single-instance; the workers are not.** They build their HTML and
    run their in-page self-measurements in parallel, but screenshot capture is serialized
@@ -122,6 +132,11 @@ The Gate B package, assembled, in one message.
   pass the test in step 5 — name the rows that are still prose
 - Any `DIRECTION.md` gap you had to go back to a Loop 1 file to fill
 - Anything you could not do, said plainly
+
+**Keep `craft-draft.md` in the run directory current as you work** — assignments, the
+three-question answers, each worker's verdict as it lands, the motion numbers, the budget
+figures. It is your resume point if this session ends before Gate B, and it is the only copy
+of the reasoning that does not live in a context window.
 
 ## What you never do
 

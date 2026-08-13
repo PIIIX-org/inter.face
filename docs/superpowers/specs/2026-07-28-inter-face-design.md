@@ -2,6 +2,12 @@
 
 **Date:** 2026-08-01
 **Revision:** v2 — rewritten after the four competitor audits and the first research run
+
+> **Retraction notice, 2026-08-14.** Left unrevised as a dated record, but two figures below were
+> later recounted. The **"six of seven audited skills"** tally is now four of five — see
+> `docs/audit/competitor-small-skills.md` §6. The **"only 65 of 388 `STYLES.md` lines still
+> match"** overlap figure counted blank lines, 53 of the 65; the non-blank overlap is 12, which is
+> what `README.md` now prints. Both are recorded in README's Corrections section.
 **Status:** architecture settled; content pending five research runs
 
 A cross-agent design plugin: intent in, art direction out. It stops before code.

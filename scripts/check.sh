@@ -80,6 +80,39 @@ if [ -n "$SELF" ]; then
 fi
 [ "$LC_BAD" -eq 0 ] && ok "all ${LC_N} routing-table counts match wc -l"
 
+echo "== prose section-span counts are current =="
+# Two of the routing table's counts are written in prose, not as "](./file) N",
+# so the check above never sees them: ACCESS.md §13 "50 of 1,429" and
+# SURFACES.md §1–§3 "250 of 772". They are the drift-prone pair — a section span
+# moves whenever any section above it is edited, and SURFACES.md §4 was edited
+# three times this release. A span runs from its opening "## N." to the next
+# "## " heading, whatever that heading is called.
+SPAN_BAD=0; SPAN_N=0
+while read -r f a b span total; do
+  [ -f "$f" ] || { fail "prose count names a missing file: $f"; SPAN_BAD=1; continue; }
+  SPAN_N=$((SPAN_N + 1))
+  TOT=$(wc -l < "$f" | tr -d ' ')
+  [ "$TOT" = "$total" ] || { fail "AGENTS.md says $f is $total lines; it is $TOT"; SPAN_BAD=1; }
+  START=$(grep -nE "^## ${a}\." "$f" | head -1 | cut -d: -f1)
+  LAST=$(grep -nE "^## ${b}\." "$f" | head -1 | cut -d: -f1)
+  if [ -z "$START" ] || [ -z "$LAST" ]; then
+    fail "$f has no §${a} or no §${b}"; SPAN_BAD=1; continue
+  fi
+  NEXT=$(awk -v n="$LAST" 'NR > n && /^## / { print NR; exit }' "$f")
+  [ -n "$NEXT" ] || NEXT=$((TOT + 1))
+  ACT=$((NEXT - START))
+  RANGE="§${a}"; [ "$a" = "$b" ] || RANGE="§${a}–§${b}"
+  [ "$ACT" = "$span" ] || {
+    fail "AGENTS.md says $f $RANGE is $span lines; it is $ACT"; SPAN_BAD=1; }
+done < <(
+  grep -oE '`[A-Z][A-Za-z]+\.md`[^§]{0,12}§[0-9]+(–§[0-9]+)?[^0-9]{0,16}[0-9,]+ of [0-9,]+' AGENTS.md \
+  | tr -d ',`' \
+  | sed -nE 's/^([A-Za-z.]+\.md)[^§]*§([0-9]+)(–§([0-9]+))?[^0-9]*([0-9]+) of ([0-9]+)$/\1 \2 \4 \5 \6/p' \
+  | awk 'NF==5 { print $1, $2, $3, $4, $5 } NF==4 { print $1, $2, $2, $3, $4 }'
+)
+[ "$SPAN_N" -ge 2 ] || { fail "expected 2 prose 'N of M' counts in AGENTS.md, found ${SPAN_N}"; SPAN_BAD=1; }
+[ "$SPAN_BAD" -eq 0 ] && ok "both prose section spans and file totals match"
+
 echo "== cross-file section pointers exist =="
 # The router sends a phase to "ACCESS.md §13" and an agent to "SURFACES.md §1-§3".
 # A pointer at a section that was renumbered sends the reader nowhere.
@@ -115,6 +148,27 @@ for pair in "loops/01-direction.md agents/direction-conductor.md" \
   fi
 done
 [ "$DRIFT" -eq 0 ] && ok "no loop/conductor sentence is written twice"
+
+echo "== the corpus total agrees with itself =="
+# It is stated in six files and drifted in three of them during v0.2 — twice into
+# agents/, which no other check scans. The routing-table check above catches a
+# per-file count; this catches the sum.
+# ponytail: four literal phrasings, not a parser. A fifth phrasing escapes it, and
+# the fix is to add the phrasing here rather than to write a general one.
+CORPUS=$(cat PRINCIPLES.md TRANSLATE.md STYLES.md CRAFT.md TOOLS.md SURFACES.md \
+  ACCESS.md REDESIGN.md BREAKING.md loops/01-direction.md loops/02-craft.md 2>/dev/null \
+  | wc -l | tr -d ' ')
+CBAD=0; CN=0
+while IFS= read -r hit; do
+  src=${hit%%:*}; rest=${hit#*:}; lineno=${rest%%:*}
+  # Compare integers, not formatted strings — BSD and GNU sed disagree on \B and \>.
+  n=$(printf '%s' "${rest#*:}" | grep -oE '[0-9],[0-9]{3}' | head -1 | tr -d ',')
+  [ -n "$n" ] || continue
+  CN=$((CN + 1))
+  [ "$n" = "$CORPUS" ] || { fail "$src:$lineno states a corpus total of $n; wc -l says $CORPUS"; CBAD=1; }
+done < <(grep -rnE 'corpus is \**[0-9],[0-9]{3}|[0-9],[0-9]{3} lines across eleven|[0-9],[0-9]{3}-line corpus|reference files total [0-9],[0-9]{3}' \
+  --include='*.md' . 2>/dev/null | grep -v '^\./docs/' | grep -v '^\./\.superpowers/')
+[ "$CBAD" -eq 0 ] && ok "all ${CN} corpus-total statements match wc -l (${CORPUS})"
 
 echo
 [ "$FAIL" -eq 0 ] && echo "ALL CHECKS PASS" || echo "CHECKS FAILED"

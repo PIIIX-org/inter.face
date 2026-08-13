@@ -1,6 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "inter.face",
+  "version": "0.2.0",
   "description": "Art direction for any interface — web, mobile, tablet, desktop, page-shaped or tool-shaped. Direction then craft, with two human gates. Stops before code.",
   "owner": {
     "name": "PIIIX",
@@ -9,7 +10,7 @@
   "plugins": [
     {
       "name": "inter.face",
-      "description": "Skill + five agents (redesign-scout, direction-conductor, surface-designer, craft-conductor, technique-prototyper) that turn a six-row brief into DIRECTION.md, tokens.json, design images, and measured prototypes.",
+      "description": "Skill + five agents (redesign-scout, direction-conductor, surface-designer, craft-conductor, technique-prototyper) that turn a six-row brief into DIRECTION.md, tokens.json, one comp per surface — coded by default, a generated image when the run opts in — and one measured prototype per technique.",
       "source": "./",
       "category": "productivity"
     }

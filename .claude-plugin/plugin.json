@@ -1,7 +1,7 @@
 {
   "name": "inter.face",
-  "version": "0.1.0",
-  "description": "Art direction for any interface — web, mobile, tablet, desktop. A six-row brief in; DIRECTION.md, tokens.json, one design image per surface, and one measured prototype per technique out. Two human gates. Stops before code.",
+  "version": "0.2.0",
+  "description": "Art direction for any interface — web, mobile, tablet, desktop. A six-row brief in; DIRECTION.md, tokens.json, one comp per surface — coded by default, a generated image when the run opts in — and one measured prototype per technique out. Two human gates. Stops before code.",
   "author": {
     "name": "PIIIX",
     "url": "https://github.com/PIIIX-org"

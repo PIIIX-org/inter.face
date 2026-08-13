@@ -1,0 +1,30 @@
+name: check
+
+# GitHub's own starter template (actions/starter-workflows, ci/blank.yml) filters
+# both events to the default branch. A same-repo PR then runs once: its branch
+# pushes are not on main, so only pull_request fires. A fork PR still runs,
+# because its pushes land in the fork and only pull_request reaches this repo.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# The script reads files and runs jq. Nothing writes.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      # v7 verified to resolve on 2026-08-13 (UTC), before this workflow had ever
+      # run. https://api.github.com/repos/actions/checkout/git/ref/tags/v7 returned
+      # 200 with commit 3d3c42e5aac5ba805825da76410c181273ba90b1, and
+      # https://api.github.com/repos/actions/checkout/releases/latest reported
+      # tag_name v7.0.1, published 2026-07-20. The moving v7 tag is what is pinned
+      # here, so it tracks v7.x patches; re-verify before bumping the major.
+      - uses: actions/checkout@v7
+      # jq 1.7.1 ships in the ubuntu-24.04 runner image, which ubuntu-latest
+      # points at. bash and coreutils are the rest of the script's needs.
+      - run: bash scripts/check.sh

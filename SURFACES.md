@@ -295,61 +295,106 @@ Apple platforms have two material types: Liquid Glass, and standard materials. L
 the current one, introduced at WWDC 2025 for iOS 26 and shared across iOS, iPadOS, macOS, tvOS
 and watchOS, and it has exactly one job:
 
-> Liquid Glass forms a distinct functional layer for controls and navigation — like tab bars and
-> sidebars — that floats above the content layer, establishing a clear visual hierarchy between
-> functional elements and content.
+> Liquid Glass forms a distinct functional layer for controls and navigation elements — like tab
+> bars and sidebars — that floats above the content layer, establishing a clear visual hierarchy
+> between functional elements and content.
 
 ### The hard rules, in Apple's words
 
 > **Don't use Liquid Glass in the content layer.** Liquid Glass works best when it provides a
-> clear distinction between the functional layer and the content layer.
+> clear distinction between interactive elements and content, and including it in the content
+> layer can result in unnecessary complexity and a confusing visual hierarchy. Instead, use
+> standard materials for elements in the content layer, such as app backgrounds. An exception to
+> this is for controls in the content layer with a transient interactive element like sliders
+> and toggles; in these cases, the element takes on a Liquid Glass appearance to emphasize its
+> interactivity when a person activates it.
 
-**Never the content layer.** A design that renders content cards in Liquid Glass is violating
-the primary rule of the material. The one named exception is **transient interactive controls**
-— sliders, toggles — which adopt the look only while they are active.
+**Out of the content layer, and the exception is part of the rule.** A design that renders
+content cards in Liquid Glass is violating the primary rule of the material. A slider that
+picks up glass while it is being dragged is following it — Apple names **transient interactive
+controls**, sliders and toggles, as the one exception, and they take the appearance only while
+a person is activating them. State the rule with its exception attached; the exception is the
+part a design decision actually turns on.
 
-> **Use Liquid Glass effects sparingly.** Standard components… pick up the appearance and
-> behavior of this material automatically. If you apply Liquid Glass effects to a custom
-> control, do so sparingly. Liquid Glass seeks to bring attention to the underlying content, and
-> overusing this material can distract from important functional elements.
+> **Use Liquid Glass effects sparingly.** Standard components from system frameworks pick up the
+> appearance and behavior of this material automatically. If you apply Liquid Glass effects to a
+> custom control, do so sparingly. Liquid Glass seeks to bring attention to the underlying
+> content, and overusing this material in multiple custom controls can provide a subpar user
+> experience by distracting from that content. Limit these effects to the most important
+> functional elements in your app. For developer guidance, see Applying Liquid Glass to custom
+> views.
 
 So the material is applied *for* you on standard components. The designer's only decision is
-which custom elements get it, and the instruction on that decision is restraint.
+which custom elements get it, and the instruction on that decision is restraint. Note what
+overuse costs: not the controls, **the content** — the thing the material exists to bring
+attention to.
 
-**Never stack glass on glass.** Elements placed on top of the material use fills, transparency
-and vibrancy — not a second glass layer. When building a custom control, apply the material to
-the control itself, not to its inner views. And strip pre-existing custom bar decoration: extra
-backgrounds and borders fight a system appearance that already supplies its own visual weight.
+**Don't crowd or layer glass onto glass.** Apple's wording, on the Adopting Liquid Glass page
+rather than on Materials: *"Prefer to use standard spacing metrics instead of overriding them,
+and avoid overcrowding or layering Liquid Glass elements on top of each other."* The same page
+tells you to **strip pre-existing custom bar decoration** — *"Reduce your use of custom
+backgrounds in controls and navigation elements… Prefer to remove custom effects and let the
+system determine the background appearance…"* — because extra backgrounds and borders fight a
+system appearance that already supplies its own visual weight. Both quotes were read off the
+rendered page on 2026-08-14 and are recorded, with the URL and the elided text, in
+`docs/research/mobile-native-verified.md`.
+
+*(Unconfirmed, and named because an earlier draft of this file shipped it as a hard rule: the
+prescription that elements placed on top of the material should instead use "fills, transparency
+and vibrancy", and that a custom control takes the material on itself rather than on its inner
+views. Neither appears on Materials, on Adopting Liquid Glass, or on Applying Liquid Glass to
+custom views — all three read on 2026-08-14. The fills/transparency/vibrancy wording is the
+wording of the fabricated quote this release exists to catch, restated as a rule, and it is not
+carried here as one. Apple's vibrancy guidance on the Materials page is about vibrant colors on
+top of **standard** materials, which is a different claim. A WWDC session may state it; none was
+opened.)*
 
 ### Two variants, and the choice between them is a procedure
 
 | Variant | What it does | When |
 |---|---|---|
-| **Regular** | Adaptive. *"blurs and adjusts the luminosity of background content to maintain legibility of text and other foreground elements"* | The default. When background content might create legibility issues, and for anything carrying significant text — alerts, sidebars, popovers |
-| **Clear** | Non-adaptive, permanently more transparent. Lets rich content through for immersion | **Only** over visually rich backgrounds — photos, video |
+| **Regular** | Adapts to what is behind it: *"blurs and adjusts the luminosity of background content to maintain legibility of text and other foreground elements"*. Most system components use it | The default. When background content might create legibility issues, and for anything carrying significant text — alerts, sidebars, popovers |
+| **Clear** | *"highly translucent, which is ideal for prioritizing the visibility of the underlying content and ensuring visually rich background elements remain prominent"* | **Only** over visually rich backgrounds — photos, video |
+
+Neither variant is a fixed look. Apple's sentence is about *these variants*, plural: the
+appearance of **both** can differ under system settings (§ *It is not a static look* below).
+"Clear" means more translucent than regular, not exempt from adaptation.
 
 > **Only use clear Liquid Glass for components that appear over visually rich backgrounds.**
 
 Clear carries a follow-on decision:
 
-> For optimal contrast and legibility, determine whether to add a **dimming layer** behind
-> components with clear Liquid Glass: if the underlying content is bright, consider [adding
-> one]… you don't need to apply a dimming layer [otherwise].
+> For optimal contrast and legibility, determine whether to add a dimming layer behind
+> components with clear Liquid Glass:
+>
+> - If the underlying content is bright, consider adding a dark dimming layer of 35% opacity.
+>   For developer guidance, see clear.
+> - If the underlying content is sufficiently dark, or if you use standard media playback
+>   controls from AVKit that provide their own dimming layer, you don't need to apply a dimming
+>   layer.
 
-That dimming layer is a **dark layer at 35% opacity**, and it is conditional on the underlying
-content being bright — it is not a default.
+So the dimming layer is **dark, 35% opacity**, and conditional on the underlying content being
+bright — it is not a default, and standard AVKit playback controls already supply their own.
 
-**The two variants are never mixed in the same interface.** Picking clear for one bar and
-regular for another is not a stylistic choice; it is a broken material.
+*(Unconfirmed, and demoted from a hard rule on 2026-08-14: earlier drafts of this file stated
+"the two variants are never mixed in the same interface — picking clear for one bar and regular
+for another is not a stylistic choice; it is a broken material." No such rule appears on
+Materials, on Adopting Liquid Glass, or on Applying Liquid Glass to custom views, all three read
+on 2026-08-14; the origin of the sentence in this project is not recoverable. What Apple does say
+cuts the other way on its face — the two variants are "variants… that you can choose when
+building custom components or styling some system components", chosen per component. The
+defensible part is the one Apple states directly and this file already carries: clear is **only**
+for components over visually rich backgrounds, so a clear bar over a plain background is wrong on
+that rule, mixed or not. Treat consistency as taste, not as law, until someone opens a source.)*
 
 **Scroll edge effects** are a separate legibility mechanism, named separately: blurring and
 reducing the opacity of background content where content passes under the functional layer.
 
 ### It is not a static look
 
-> [Liquid Glass responds] to certain system settings, like if people choose a preferred look for
-> Liquid Glass in their device's settings, or turn on accessibility settings that **reduce
-> transparency** or **increase contrast**.
+> The appearance of these variants can differ in response to certain system settings, like if
+> people choose a preferred look for Liquid Glass in their device's settings, or turn on
+> accessibility settings that reduce transparency or increase contrast in the interface.
 
 A design that assumes the glass look is fixed will break under Reduce Transparency and Increase
 Contrast. **Both are design-time states to art-direct**, exactly the way `CRAFT.md` treats
