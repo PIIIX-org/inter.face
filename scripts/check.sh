@@ -16,9 +16,14 @@ if [ -n "$HITS" ]; then fail "placeholder text in shipped files:"; echo "$HITS" 
 else ok "no placeholders"; fi
 
 echo "== resident budget =="
+# 200 through v0.2, when the router routed two loops and five agents. v0.3 added a
+# third loop, a third gate, a sixth agent, the inbox and the close, and the router
+# has that much more to route. Raised to 220 rather than paid for by deleting the
+# routing table's reasons — but raised by 20, not removed: this file is resident in
+# every context and the budget is the only thing that keeps it a skeleton.
 if [ -f AGENTS.md ]; then
   N=$(wc -l < AGENTS.md | tr -d ' ')
-  [ "$N" -le 200 ] && ok "AGENTS.md ${N} lines (<=200)" || fail "AGENTS.md ${N} lines, budget 200"
+  [ "$N" -le 220 ] && ok "AGENTS.md ${N} lines (<=220)" || fail "AGENTS.md ${N} lines, budget 220"
 else fail "AGENTS.md missing"; fi
 
 echo "== json validity =="
@@ -137,7 +142,8 @@ echo "== loop and conductor do not restate each other =="
 # drifted, and the run followed the stale copy. One sentence, one home.
 DRIFT=0
 for pair in "loops/01-direction.md agents/direction-conductor.md" \
-            "loops/02-craft.md agents/craft-conductor.md"; do
+            "loops/02-craft.md agents/craft-conductor.md" \
+            "loops/03-system.md agents/system-builder.md"; do
   set -- $pair
   [ -f "$1" ] && [ -f "$2" ] || continue
   norm() { tr '\n' ' ' < "$1" | sed -e 's/[`*_>|]//g' -e 's/  */ /g' -e 's/\. /.\n/g' \
@@ -156,8 +162,8 @@ echo "== the corpus total agrees with itself =="
 # ponytail: four literal phrasings, not a parser. A fifth phrasing escapes it, and
 # the fix is to add the phrasing here rather than to write a general one.
 CORPUS=$(cat PRINCIPLES.md TRANSLATE.md STYLES.md CRAFT.md TOOLS.md SURFACES.md \
-  ACCESS.md REDESIGN.md BREAKING.md loops/01-direction.md loops/02-craft.md 2>/dev/null \
-  | wc -l | tr -d ' ')
+  ACCESS.md REDESIGN.md BREAKING.md IMPROVE.md loops/01-direction.md loops/02-craft.md \
+  loops/03-system.md 2>/dev/null | wc -l | tr -d ' ')
 CBAD=0; CN=0
 while IFS= read -r hit; do
   src=${hit%%:*}; rest=${hit#*:}; lineno=${rest%%:*}
@@ -166,8 +172,12 @@ while IFS= read -r hit; do
   [ -n "$n" ] || continue
   CN=$((CN + 1))
   [ "$n" = "$CORPUS" ] || { fail "$src:$lineno states a corpus total of $n; wc -l says $CORPUS"; CBAD=1; }
-done < <(grep -rnE 'corpus is \**[0-9],[0-9]{3}|[0-9],[0-9]{3} lines across eleven|[0-9],[0-9]{3}-line corpus|reference files total [0-9],[0-9]{3}' \
-  --include='*.md' . 2>/dev/null | grep -v '^\./docs/' | grep -v '^\./\.superpowers/')
+done < <(grep -rnE 'corpus is \**[0-9],[0-9]{3}|[0-9],[0-9]{3} lines across [a-z]+ reference|[0-9],[0-9]{3}-line corpus|reference files total [0-9],[0-9]{3}' \
+  --include='*.md' . 2>/dev/null | grep -v '^\./docs/' | grep -v '^\./\.superpowers/' \
+  | grep -v '^\./CHANGELOG\.md:')
+# CHANGELOG.md is excluded on purpose. Its entries state what was true at a release —
+# 6,056 across eleven files was true at v0.2 — and a changelog that renumbers itself to
+# match today is no longer a record of anything.
 [ "$CBAD" -eq 0 ] && ok "all ${CN} corpus-total statements match wc -l (${CORPUS})"
 
 echo

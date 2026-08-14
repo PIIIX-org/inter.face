@@ -162,9 +162,9 @@ in `TOOLS.md`.
 
 ## 16. Human gates are real stops. **[HARD]**
 
-Gate A (direction) and Gate B (craft). Neither is a status update: the written
-output is the OUTPUT of the interactive review, not a substitute for it. If there is
-any non-trivial finding, the path to proceeding goes through the human.
+Gate A (direction), Gate B (craft), Gate C (system). None is a status update: the
+written output is the OUTPUT of the interactive review, not a substitute for it. If
+there is any non-trivial finding, the path to proceeding goes through the human.
 
 Skipping is allowed, silent degradation is not. The human may skip any non-**[HARD]**
 step. When they do, record it in `DIRECTION.md` as a decision, not an omission:

@@ -1,6 +1,6 @@
 {
   "name": "inter.face",
-  "version": "0.2.0",
-  "description": "Art direction for any interface — web, mobile, tablet, desktop. A six-row brief in; DIRECTION.md, tokens.json, one comp per surface — coded by default, a generated image when the run opts in — and one measured prototype per technique out. Two human gates. Stops before code.",
+  "version": "0.3.0",
+  "description": "Art direction for any interface — web, mobile, tablet, desktop. An inbox and a six-row brief in; DIRECTION.md, tokens.json, one comp per surface — coded by default, a generated image when the run opts in — the navigable board they are reviewed on, one measured prototype per technique, and a component sheet built from the tokens. Three human gates. Stops before code.",
   "contextFileName": "AGENTS.md"
 }

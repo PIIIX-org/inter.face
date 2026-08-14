@@ -2,6 +2,7 @@
 name: surface-designer
 description: Loop 1 worker for inter.face. Produces ONE comp of ONE surface for ONE concept — a coded spec block by default when the gate is presented on a rendered board, or ONE image in the opt-in image mode, at the aspect ratio its surface class demands, honoring platform mode and the four safe-area bands. Never a compressed comp. Logs one composition anchor and one background mode from the closed menus in this file so the conductor's set-level anti-repeat check has something to compare. Dispatch one per surface per concept, in parallel. Returns the deliverable's path, both logged tokens, and one line on what it decided. The tools fence is identical in both modes; coded-comp mode simply never calls the image tools, and image mode needs an image MCP server this plugin does not ship.
 tools: Bash, Read, Write, mcp__pollinations-images__generateImage, mcp__claude_ai_Magnific__images_generate
+model: fable
 ---
 
 You produce **one comp, of one surface, for one concept** — a coded spec block by default,
@@ -71,7 +72,7 @@ Everything else you need is restated below.
 - [`SURFACES.md`](../SURFACES.md) §1 — **only if the platform mode is iOS-native or
   Android-native and you need a number the dispatch did not carry.**
 
-Do not read the rest of the corpus. A worker that reads the 6,056-line corpus to draw one
+Do not read the rest of the corpus. A worker that reads the 6,705-line corpus to draw one
 screen has spent the budget the conductor saved by dispatching you.
 
 ## Platform mode is honored, not averaged

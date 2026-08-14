@@ -4,6 +4,74 @@ All notable changes to inter.face. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] — 2026-08-14
+
+Four additions, all of them things the first real run had to do by hand or did not do at all:
+the material a subject already has now has somewhere to go, the comps get reviewed on one
+navigable file instead of twenty-seven, the component set gets built and signed off instead of
+described, and a run's findings about the plugin have a route back that the human owns.
+
+The third of those is the one worth reading twice. Loop 3 builds the component sheet from
+`tokens.json` and `DIRECTION.md` and nothing else — which means Loop 2's test question stops
+being rhetorical and starts returning a list.
+
+### Added
+
+- **The inbox.** [`TRANSLATE.md`](./TRANSLATE.md) gains a section ahead of the six rows for the
+  material the subject already has: reference images, links with one line each on what they like
+  about them, brand assets, and the brand book, all into `runs/<slug>/inbox/` on the human's own
+  disk. It is an accelerant for rows 4 to 6, not a seventh row, and nothing about it is uploaded
+  anywhere. It ships with the rule that makes it usable — **a reference is evidence about the
+  subject's taste, never a specification of the output** — plus the read-it-twice procedure, the
+  convergence warning (four similar references are the category default, which is a fence rather
+  than a brief), and the two things it does not do: it does not replace `§6`'s sample from the
+  shipped pixels, and it does not settle row 1. Rows 4, 5 and 6 each gained a shorter derivation
+  path for when it is not empty; the existing paths are unchanged for when it is.
+- **The floor on N, and the board.** [`loops/01-direction.md`](./loops/01-direction.md) §8 now
+  states a per-class floor — page-shaped, the whole scroll order plus the 404 and the failed
+  submission; tool-shaped, the whole primary workflow with its failure branch, plus empty,
+  permission denied and conflict — with one test bounding it in both directions: a non-default
+  state is its own comp exactly when the concept differs there. §11 is new: one standalone
+  `design/board.html` holding every concept and every surface, opening on the family-pass labels
+  with the concepts hidden, switching concept without losing position, and printing each comp's
+  real frame width on screen. Interactive means navigable, not prototyped.
+- **Loop 3 and Gate C.** [`loops/03-system.md`](./loops/03-system.md) and
+  [`agents/system-builder.md`](./agents/system-builder.md) — the component inventory derived from
+  the approved comps rather than from a checklist, the state matrix with every `n/a` carrying its
+  reason, and one sheet built from the token file alone. The builder **may not invent a value**:
+  a missing one gets a visibly wrong stand-in, a line in the gap report, and no further thought,
+  because a reasonable substitute destroys the finding and a reasonable substitute is the easiest
+  thing in the world to reach for. What bounds the matrix is a rule rather than a quota — render
+  what a token cannot express, leave the rest as a row, never drop a state. Gate C is `§16`
+  **[HARD]** like the two before it.
+- **`IMPROVE.md`.** The run record specified rather than assumed, the harvest that turns it into
+  findings about this plugin, and one question asked once at the end with the payload shown in
+  full and the default set to no. No telemetry, no background reporting, no phone-home. The
+  gallery is a **second, separate yes**, because consent to send text findings is not consent to
+  publish a picture of somebody's unreleased interface — and a redaction pass runs first, with
+  everything from `inbox/` excluded outright since it is someone else's property, handed over for
+  one purpose.
+
+### Changed
+
+- **Every agent's frontmatter names `model: fable`** — Fable 5, `claude-fable-5`. This pipeline is
+  derivation and judgment against a long reading list, which is where a weaker model reaches for
+  the category reflex every rule here exists to prevent. Harnesses that read the key apply it; the
+  six that do not get the instruction in `AGENTS.md` §9. It is the plugin's default and not one of
+  its rules: override it and record why.
+- **The resident budget rose from 200 lines to 220**, in [`scripts/check.sh`](./scripts/check.sh)
+  with the reason in the script. The router gained a third loop, a third gate, a sixth agent, the
+  inbox and the close, and it lands at 218. Raised by a stated amount rather than removed, and
+  rather than paid for by deleting the routing table's reasons.
+- **The corpus is 6,705 lines across thirteen reference files, 6,923 with the router.** It was
+  6,056 across eleven and 6,250 with a 194-line router at v0.2. The v0.2 entry below keeps its
+  numbers: a changelog that renumbers itself to match today is no longer a record of anything,
+  and `scripts/check.sh` now excludes this file from the corpus-total check for exactly that
+  reason.
+- **`loops/02-craft.md` hands off rather than ending.** Gate B closes into Loop 3, and
+  `craft-conductor` is told plainly that its §5 test question now returns a list one loop later,
+  with its name on it.
+
 ## [0.2.0] — 2026-08-14
 
 The pipeline had been reviewed roughly twenty times and executed zero times. It was run once,

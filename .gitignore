@@ -3,3 +3,9 @@ runs/*/prototypes/node_modules/
 !runs/_template/
 .gstack/
 .superpowers/
+
+# The inbox holds what the subject handed over — a logo, font files, a brand book,
+# reference images, sometimes a client's. It is read from disk and it is not this
+# repo's to publish. Ignored by default; a run that genuinely wants to commit its
+# own inbox force-adds it deliberately.
+runs/*/inbox/

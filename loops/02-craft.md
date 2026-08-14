@@ -6,8 +6,10 @@ decisions to make.
 
 **Input:** the approved concept from Gate A, and `DIRECTION.md` as far as Loop 1 wrote it.
 
-**Output:** `DIRECTION.md`, complete. `tokens.json` alongside it. One runnable prototype per
-technique, each with a measured verdict. A signed Gate B.
+**Output:** `DIRECTION.md`, written to every row of §5's schema. `tokens.json` alongside it.
+One runnable prototype per technique, each with a measured verdict. A signed Gate B — after
+which [`loops/03-system.md`](./03-system.md) builds the component set those rows describe, and
+finds out which of them were specified and which were only asserted.
 
 **Timekeeping:** run `date` at each phase boundary and write it into the run ledger — a
 subagent has no clock of its own.
@@ -319,7 +321,8 @@ transition that uses it.
 >
 > **The anti-shortcut clause.** The written output is the OUTPUT of this review, not a
 > substitute for it. If there is any non-trivial finding, the path to proceeding goes through
-> the human. This is the last stop before real code, and a gate that becomes a document
+> the human. This is the last gate on the direction itself — Loop 3 renders it, it does not
+> re-decide it — and a gate that becomes a document
 > somebody reads later has been removed rather than satisfied.
 >
 > **They approve the technique set, or cut what does not earn its place.** Cutting with
@@ -339,9 +342,13 @@ transition that uses it.
 >
 > **Then append to the ledger, before the gate closes.** Every deferral, skip, and cut technique
 > goes to `runs/<slug>/SKIPS.md` with its cost and the date — appended below Gate A's rows, never
-> rewritten. This is the last gate, so this file is what the build inherits as the honest list of
-> what the design does not cover. **A gate that closed without appending has recorded silence,
-> and `§16` says silence is not a skip.**
+> rewritten. **A gate that closed without appending has recorded silence, and `§16` says silence
+> is not a skip.**
+>
+> **Then go to [`loops/03-system.md`](./03-system.md).** The direction is decided and the
+> techniques are proven; what has not happened yet is anybody building the components those
+> decisions describe and looking at them together. That loop does it, and Gate C is the last
+> stop before code.
 
 ---
 
@@ -375,4 +382,4 @@ same rule as Gate A, and the same remedy: stop iterating, fix the row, come back
 | §4's tier-2 number | The heavy layer sizes itself |
 | §5's resolution | Every aesthetic decision this pipeline made gets re-made by the build step, from an image |
 | §6's `tokens.json` | Machine-readable values. The build step transcribes by hand, and transcription errors are silent |
-| Gate B | Motion review, budget review, and the last human stop before code |
+| Gate B | Motion review, budget review, and the last human look at the direction before Loop 3 starts building components against it |

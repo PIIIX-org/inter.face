@@ -1,7 +1,7 @@
 # inter.face
 
-Art direction for any interface. A six-row translation table in; a fully specified design
-direction out. Plain markdown, portable across seven coding agents. It stops before code.
+Art direction for any interface. An inbox and a six-row translation table in; a fully specified
+design direction out. Plain markdown, portable across seven coding agents. It stops before code.
 
 ## What it is, and what it is not
 
@@ -21,12 +21,20 @@ A design-only pipeline. The deliverable is:
   number came back under a real throttle, PARTIAL when it was measured against something other
   than what ships, INFERRED when it was not measured at all. An instrument that fails caps the
   label and says why; it never rounds up into a number
+- **one navigable board** — a standalone file holding every concept and every surface, opening
+  on the family-pass labels with the concepts hidden, because the gate's freshest judge is a
+  human matching a label to a design before they know which is which
+- **one component sheet, built from `tokens.json` alone** — every component the comps contain,
+  in every state it owes, both colour modes, walkable by keyboard. Its real output is the **gap
+  report**: every value the builder could not find in the handoff, named rather than quietly
+  filled in with something sensible
 
-Two human gates, both hard under [`PRINCIPLES.md`](./PRINCIPLES.md) `§16` — that file holds the
+Three human gates, all hard under [`PRINCIPLES.md`](./PRINCIPLES.md) `§16` — that file holds the
 sixteen numbered rules, and a bare `§N` here and throughout the corpus means one of them, while
 sections of any other file are named with their file, as in `AGENTS.md` §3. **Gate A** is where
-the human picks the concept; **Gate B** is where the human approves or cuts the technique set.
-The written output is the output of an interactive review, not a substitute for one.
+the human picks the concept; **Gate B** is where they approve or cut the technique set;
+**Gate C** is where they sign off the component set. The written output is the output of an
+interactive review, not a substitute for one.
 
 It does not build the site, the app, or the component. The package hands off to whatever comes
 next — a sibling pipeline's build loop, gstack's `/design-html`, a human, or another agent.
@@ -73,6 +81,20 @@ existing tools. gstack's `/design-consultation` and `/design-shotgun` already do
 and they are good. Shipping Loop 1 alone would be a less-integrated `design-consultation` with
 a better style catalog.
 
+**New, and the same shape as Loop 2:** Loop 3 builds the component sheet from `tokens.json` and
+`DIRECTION.md` **and nothing else**, which turns *"could a build agent execute this without
+making a single aesthetic decision?"* from a rhetorical question into one that gets run. Every
+value the builder cannot find is logged as a gap and rendered with a visibly wrong stand-in,
+because a builder that quietly picks a sensible value has destroyed the finding — and it will
+usually know the sensible value. Competitors specify design systems; the checkable claim here is
+that the specification is *complete*, and the gap report is what makes it falsifiable.
+
+**Not novel, and stated as a stance rather than a feature:** `IMPROVE.md` closes a run by
+harvesting its notes into findings about the plugin and asking — once, with the payload shown in
+full and the default set to no — whether to send them. There is no telemetry, no background
+reporting, and no phone-home; the gallery is a second, separate yes, because consent to send
+text findings is not consent to publish a picture of somebody's unreleased interface.
+
 The other real additions, stated without inflation: a style vocabulary with collision
 (32 entries across seven families, each with implementation implications and a named failure
 mode); performance budgets declared at design time rather than graded after; tool-shaped
@@ -81,24 +103,28 @@ agents, no Node app, no runtime, no git preconditions.
 
 ## How an agent reads it
 
-The corpus is 6,056 lines across eleven reference files, plus the 194-line router: 6,250 lines
+The corpus is 6,705 lines across thirteen reference files, plus the 218-line router: 6,923 lines
 in all. No agent should read it all.
 
 - **One resident router.** [`AGENTS.md`](./AGENTS.md) is the only always-loaded file, budgeted
-  at 200 lines and enforced by [`scripts/check.sh`](./scripts/check.sh).
+  at 220 lines and enforced by [`scripts/check.sh`](./scripts/check.sh). It was 200 through v0.2
+  and rose with the third loop, the third gate and the sixth agent — raised deliberately and by
+  a stated amount, rather than paid for by deleting the routing table's reasons.
 - **Phase-scoped reading.** The router's routing table names what each phase reads. A typical
-  page-shaped Loop 1 loads `AGENTS.md` 194 + `PRINCIPLES.md` 177 + `TRANSLATE.md` 266 +
-  `STYLES.md` 802 + `loops/01-direction.md` 503 + `ACCESS.md` §13 50 = **1,992 of 6,250 lines**,
-  the twelve-file total with the router in it. The same run's Loop 2 loads 1,358. Loop 1 never
-  opens `CRAFT.md`; Loop 2 never re-opens `STYLES.md`.
+  page-shaped Loop 1 loads `AGENTS.md` 218 + `PRINCIPLES.md` 177 + `TRANSLATE.md` 355 +
+  `STYLES.md` 802 + `loops/01-direction.md` 601 + `ACCESS.md` §13 50 = **2,203 of 6,923 lines**,
+  the fourteen-file total with the router in it. The same run's Loop 2 loads 1,389, and Loop 3
+  loads 507 plus the run's own artifacts, which are the only thing it is allowed to build from.
+  Loop 1 never opens `CRAFT.md`; Loop 2 never re-opens `STYLES.md`; Loop 3 opens neither.
 - **Most files open at a section, not at line 1.** `ACCESS.md` enters as its §13 decision list,
   50 lines of 1,429. `SURFACES.md` enters at §1–§3, 250 of 772, which the scout narrows to §2.
   `CRAFT.md` gives up the one or two arsenal groups a technique is assigned from, not all nine.
   `TOOLS.md` opens at the sections a tool-shaped run needs. `STYLES.md`'s seven family sections
   are a reference you consult, not a list you read through, and the scout takes `TRANSLATE.md` at
-  rows 1 and 6. `PRINCIPLES.md`, `REDESIGN.md`, `BREAKING.md` and the two loop files are read
-  whole wherever they appear — impeccable's author judged one extra file-read hop more expensive
-  than 500 extra resident lines, which is why this corpus is eleven files and not forty. That is
+  rows 1 and 6. `PRINCIPLES.md`, `REDESIGN.md`, `BREAKING.md`, `IMPROVE.md` and the three loop
+  files are read whole wherever they appear — impeccable's author judged one extra file-read hop
+  more expensive than 500 extra resident lines, which is why this corpus is thirteen files and
+  not forty. That is
   a design judgment recorded in that project, not a measurement anyone took. Which file opens
   where, and which two carry a follow-the-pointer escape deeper into the body, is
   [`AGENTS.md` §3](./AGENTS.md); this bullet is the shape of that table, and the table is the
@@ -110,10 +136,11 @@ in all. No agent should read it all.
 The honest version, because it differs by agent — and because a `tools:` list fences less than
 it looks like it does:
 
-- **`Bash` is not a fence, and all five agents hold it.** Both conductors, both workers and the
-  scout list `Bash`, because the loops order shell work and a frontmatter that fences what the
+- **`Bash` is not a fence, and all six agents hold it.** Both conductors, all three workers and
+  the scout list `Bash`, because the loops order shell work and a frontmatter that fences what the
   loop demands is a lie in the other direction — the conductors need a clock reading at every
-  phase boundary, the prototyper needs to measure and screenshot. `Bash` is an unrestricted
+  phase boundary, the prototyper needs to measure and screenshot, the system builder needs to
+  screenshot every state it renders. `Bash` is an unrestricted
   shell, so `git push`, `curl`, `ssh` and any deploy CLI are one command away in every one of
   them. What holds them back is a sentence: `agents/technique-prototyper.md` grants `Bash` and
   then writes "no remote, no deploy, no vendoring, no editing `DIRECTION.md`" as prose, under
@@ -121,7 +148,7 @@ it looks like it does:
   fencing, identical to what the six non-Claude harnesses have. **This repo ships zero
   shell-fenced agents.**
 - **What a `tools:` list still fences on Claude Code is what it omits** — and two omissions here
-  are real, checkable in the five frontmatters. Only the two conductors list `Agent`, so no
+  are real, checkable in the six frontmatters. Only the two conductors list `Agent`, so no
   worker can dispatch a worker and the fan-out stays one level deep. Only `surface-designer`
   lists image tools, so no other agent can call them. A third omission looks like a wall and is
   not: no agent lists a fetch or browser tool, but `Bash` reaches the network with `curl`, so
@@ -148,6 +175,14 @@ The plugin derives the design strategy it needs and nothing more.
 task · the three-second feel · archetype and shadow · anti-positioning · what is already
 owned — each carry a self-contained derivation: every row names the file and section it
 visibly changes downstream, or it would have been cut as decoration.
+
+Ahead of the rows sits the **inbox**: reference images, links with a line each on what the
+subject likes about them, brand assets, and the brand book where one exists, all in
+`runs/<slug>/inbox/` on the human's own disk. It is an accelerant for rows 4 to 6, not a
+seventh row, and it ships with the rule that makes it safe — **a reference is evidence about
+the subject's taste, never a specification of the output.** A moodboard read as a target
+produces a pastiche of the moodboard, which is the failure mode the whole pipeline is built
+against, arriving through a new door.
 
 It does **not** do market strategy: no ICP work, no competitive teardown, no message
 hierarchy. Those are assumed upstream. And if real brand strategy already exists — an owned
@@ -294,10 +329,13 @@ your agent family — not all of which work from a bare clone:
 
 **Claude Code.** Install from the plugin marketplace: `/plugin marketplace add
 PIIIX-org/inter.face`, then install `inter.face`. This wires up the `/interface` command, the
-skill at `skills/inter.face/SKILL.md`, and the five subagents under `agents/` with their
-`tools:` lists applied. Applied is not the same as fenced: all five lists include `Bash`, so
-what those lists buy you is the `Agent` and image-tool omissions above, plus subagent context
-isolation — not a sandbox.
+skill at `skills/inter.face/SKILL.md`, and the six subagents under `agents/` with their
+`tools:` and `model:` keys applied. Applied is not the same as fenced: all six lists include
+`Bash`, so what those lists buy you is the `Agent` and image-tool omissions above, plus subagent
+context isolation — not a sandbox. Every agent names `fable` (Fable 5, `claude-fable-5`): this
+pipeline is derivation and judgment against a long reading list, which is where a weaker model
+reaches for the category reflex every rule here exists to prevent. It is the plugin's default
+and not one of its rules — override it and record why.
 
 **Codex.** No adapter needed. Codex reads `AGENTS.md` natively: it walks from the project root
 down to your working directory and takes one instructions file per directory, up to a combined
@@ -313,7 +351,7 @@ catalog (`.agents/plugins/marketplace.json`, or `codex plugin marketplace add`) 
 does not ship. Treat the manifest as untested and unlikely to be doing anything.
 
 **Cursor.** `.cursor/rules/inter.face.mdc` ships as a non-always-applied rule: it sends the
-agent to `AGENTS.md` and `PRINCIPLES.md`, sets surface class first, and holds the two gates.
+agent to `AGENTS.md` and `PRINCIPLES.md`, sets surface class first, and holds all three gates.
 
 **Cline / Windsurf.** `.clinerules` and `.windsurfrules` carry the same pointer as plain
 prose — copy the file (or its contents) into your workspace rules.
@@ -346,9 +384,12 @@ as the method note that moved them; the superseded numbers are printed here and 
 - **191 identical `imagegen` lines, and the qualifier the audit drops.** 191 is the count of
   non-blank identical lines; the [audit line](./docs/audit/competitor-imagegen.md) records a bare
   "191 lines" without saying so. Counting blanks, the same pair matches on 381.
-- **Two corpus denominators, 6,056 and 6,250.** 6,056 is the eleven reference files. 6,250 is all
-  twelve, the 194-line router included, and reading budgets are quoted against 6,250 because the
-  sums that produce them load the router.
+- **Two corpus denominators, 6,705 and 6,923.** 6,705 is the thirteen reference files. 6,923 is
+  all fourteen, the 218-line router included, and reading budgets are quoted against 6,922 because
+  the sums that produce them load the router. Both numbers moved at v0.3 — they were 6,056 and
+  6,250 across eleven files and a 194-line router at v0.2 — and [`CHANGELOG.md`](./CHANGELOG.md)
+  keeps the old pair in place rather than restating it, because an entry that renumbers itself to
+  match today has stopped being a record.
 - **Four plausible-but-wrong claims caught on the way in, not five.** An earlier draft of that list
   carried a fifth item, "a claim that contradicted its own cited source." Its only trace is a
   method preamble at `docs/research/legal-and-focus-verified.md:7`, which names no claim, no doc,
