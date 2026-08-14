@@ -9,6 +9,46 @@ the live page.
 `curl` is useless for these: Apple HIG and m3.material.io are JS-rendered and return a
 ~160-character shell to a plain fetch.
 
+Pages read:
+
+| Source | URL |
+|---|---|
+| Apple HIG — Accessibility | `https://developer.apple.com/design/human-interface-guidelines/accessibility` |
+| Material 3 — Designing: Structure | `https://m3.material.io/foundations/designing/structure` |
+| WCAG 2.2 (W3C Recommendation) | `https://www.w3.org/TR/WCAG22/` |
+
+Apple's Accessibility page carries a change log entry of **June 9, 2025**. Material's structure
+page publishes no date.
+
+**Citation backfill, 2026-08-14.** This file originally shipped with no URLs. The backfill added
+them and declared every quote re-fetched and confirmed. The control-size table, the type-size
+table, the contrast table, the bezel padding rule, the five Reduce Motion techniques and the
+gesture/time-box/Assistive Access/Nutrition Labels items all come from the one Apple
+Accessibility page; the 48×48dp, 44×44dp, 7-10mm, 8dp and 24dp-icon items all come from the one
+Material structure page; 2.5.8 comes from WCAG 2.2.
+
+**Correction pass, 2026-08-14 (second pass).** The same backfill, on the companion file
+`mobile-native-verified.md`, claimed a verification it had not performed and shipped two
+misquotes. So every quotation here was refetched and compared word by word: the Apple
+Accessibility and Material structure pages via a live JS-rendered fetch (`maxAge: 0`), WCAG 2.2
+by `curl` plus tag-strip, since `w3.org` serves static HTML and needs no browser. Result:
+
+- **Every number on this page checks out** — both control-size columns for all five platforms,
+  both type-size columns, the contrast table and its 17 pt boundary, 200%/140%, 12 pt and 24 pt
+  padding, 48×48dp, 44×44dp, 7-10mm, 8dp, the 24dp icon, and WCAG 2.5.8's "at least 24 by 24 CSS
+  pixels" with its Spacing exception. No number moved.
+- **Four quotations spliced or truncated without an ellipsis**, all meaning-preserving, all
+  repaired below and annotated in place: the contrast quote, the control-size quote, the
+  gesture-alternative quote and the type-size quote. In each case the page continues past where
+  this file cut it. *(This line read "three" until a third pass on 2026-08-14 refetched the
+  Accessibility page and found the type-size quote cut the same way. Three passes have now each
+  found a truncation the previous one missed, which is the useful thing to notice about the
+  count: treat it as a floor, not a total.)*
+
+**Source-unrecovered: none** — no claim on this page lacks a reproducible citation. That was
+true before this pass. **Verbatim fidelity was not**, and the declaration should not have been
+read as covering it.
+
 ---
 
 ## The correction that matters most
@@ -29,7 +69,10 @@ platform, and 44 is the *default*, not the minimum:
 
 > Offer sufficiently sized controls. Controls that are too small are hard for many people to
 > interact with and select. Strive to meet the recommended minimum control size for each
-> platform.
+> platform to ensure controls and menus are comfortable for all when tapping and clicking.
+
+*Completed 2026-08-14 (second pass): the earlier rendering stopped at "for each platform." and
+put a full stop where the sentence continues.*
 
 Why this matters for us: a rule that says "44pt minimum on iOS" will be *cited as Apple's
 requirement* and it is not. Ship the pair — default and floor — or the plugin is confidently
@@ -95,7 +138,13 @@ target is correct; a 24dp icon that *is* the target is a failure.
 | watchOS | 16 pt | 12 pt |
 
 > Use recommended defaults for custom type sizes. Each platform has different default and
-> minimum sizes for system-defined type styles to promote readability.
+> minimum sizes for system-defined type styles to promote readability. If you're using custom
+> type styles, follow the recommended defaults.
+
+*Completed 2026-08-14 (third pass): the earlier rendering stopped at "readability." and dropped
+Apple's closing sentence without marking it. That sentence is the one that says what the table
+above is for — the defaults are the recommendation for **custom** type, not only a description
+of the system styles. Refetched from the Accessibility page with `maxAge: 0` on that date.*
 
 And the scaling obligation, which is the one that actually breaks layouts:
 
@@ -111,8 +160,18 @@ verification concern" failure, and it belongs in Loop 1.
 Apple cites **both** WCAG and APCA, then states what its own tooling enforces:
 
 > Two popular standards of measure for color contrast are the Web Content Accessibility
-> Guidelines (WCAG) and the Accessible Perceptual Contrast Algorithm (APCA). Accessibility
-> Inspector uses the following values from WCAG Level AA.
+> Guidelines (WCAG) and the Accessible Perceptual Contrast Algorithm (APCA). Use standard
+> contrast calculators to ensure your UI meets acceptable levels. Accessibility Inspector uses
+> the following values from WCAG Level AA as guidance in determining whether your app's colors
+> have an acceptable contrast.
+
+*Repaired 2026-08-14 (second pass), two defects in one quotation: the sentence "Use standard
+contrast calculators to ensure your UI meets acceptable levels." sits between the two sentences
+and had been dropped without an ellipsis, running them together as one continuous quotation; and
+the second sentence had been cut at "WCAG Level AA." where the page continues "as guidance in
+determining whether your app's colors have an acceptable contrast." The second cut is the one
+that mattered — **as guidance** is weaker than the flat "uses the following values" this file
+printed.*
 
 | Text size | Weight | Minimum ratio |
 |---|---|---|
@@ -141,9 +200,11 @@ person cannot tolerate, and both are fashionable right now.
 
 ## Other design-time obligations found on the page
 
-- **Gesture alternatives are mandatory, not optional.** "If you use a swipe gesture to
-  dismiss a view, also make a button available." A swipe-only interaction is a design defect.
-  This is the native analogue of WCAG 2.5.7 Dragging Movements.
+- **Gesture alternatives are mandatory, not optional.** "[I]f you use a swipe gesture to dismiss
+  a view, also make a button available so people can tap or use an assistive device." A
+  swipe-only interaction is a design defect. This is the native analogue of WCAG 2.5.7 Dragging
+  Movements. *(Completed 2026-08-14 (second pass): the sentence continues past "available", and
+  the page opens it with "For example," — hence the bracketed capital.)*
 - **Time-boxed UI.** "Views and controls that auto-dismiss on a timer can be problematic…
   Prefer dismissing views with an explicit action."
 - **Assistive Access** (iOS/iPadOS) is a distinct layout mode a designer must plan for:

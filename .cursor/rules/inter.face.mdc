@@ -1,5 +1,5 @@
 ---
-description: inter.face — art direction for any interface (six-row brief → direction → Gate A → craft → Gate B, stops before code)
+description: inter.face — art direction for any interface (inbox + six-row brief → direction → Gate A → craft → Gate B → system → Gate C, stops before code)
 alwaysApply: false
 ---
 
@@ -9,11 +9,18 @@ redesign an interface — web, mobile, tablet, or desktop — run it:
 1. Read `AGENTS.md` (the resident router) and `PRINCIPLES.md` (sixteen rules,
    three of them hard: accessibility, keyboard completeness on tool-shaped
    surfaces, human gates).
-2. Settle the surface class first — page-shaped or tool-shaped, `TRANSLATE.md`
+2. Collect the inbox into `runs/<slug>/inbox/` — reference images, links with one
+   line each on what they like, brand assets, and the brand book if one exists.
+   A reference is evidence about their taste, never a target to copy.
+3. Settle the surface class first — page-shaped or tool-shaped, `TRANSLATE.md`
    row 1, no safe default.
-3. Run `loops/01-direction.md` to **Gate A** (the human picks the concept), then
-   `loops/02-craft.md` to **Gate B** (the human approves or cuts the technique
-   set).
-4. Deliver `DIRECTION.md`, `tokens.json`, one design image per surface, and one
-   measured prototype per technique. It stops before code.
-5. Never publish past a gate without a human decision.
+4. Run `loops/01-direction.md` to **Gate A** (the human picks the concept on the
+   board), `loops/02-craft.md` to **Gate B** (they approve or cut the technique
+   set), and `loops/03-system.md` to **Gate C** (they sign off the component set).
+5. Deliver `DIRECTION.md`, `tokens.json`, one comp per surface — coded by
+   default, a generated image when the run opts in — the navigable board, one
+   measured prototype per technique, and the component sheet with its gap report.
+   It stops before code.
+6. Close the run through `IMPROVE.md`: ask once, show the payload in full,
+   default to no, send nothing without an explicit yes.
+7. Never publish past a gate without a human decision.

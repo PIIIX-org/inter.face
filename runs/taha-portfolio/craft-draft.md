@@ -312,6 +312,14 @@ stand-in, and it may never make a provenance claim about one.* The integrity bou
 ("never fake a screen that implies a feature that does not exist") lives in the arsenal, where a
 prototyper is told not to read.
 
+**And the second half of the finding, added 2026-08-13.** Cutting the technique did not remove the
+file. The image was committed with the run and stayed referenced by `p5-duotone-detail.html`, whose
+copy still asserted the plate was photographed off the running build — for a week, in a public repo,
+while three files described it as a fabrication. It was deleted on 2026-08-13 and the prototype now
+draws its schematic in the plate frame and prints the correction on the sheet. **Second fix:** a
+cut-on-integrity verdict has to name the artifact to delete and the copy to correct, or the verdict
+documents the problem and leaves it running.
+
 **7. Pixel-level verification cannot run under `file://`, which is the only protocol the prototyper
 file describes.** `technique-prototyper.md` prescribes `file://$PWD/<prototype>.html` throughout.
 Any proof that reads pixels back — `getImageData`, the exact proof T5's whole verdict rests on —

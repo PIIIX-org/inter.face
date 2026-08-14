@@ -6,8 +6,10 @@ decisions to make.
 
 **Input:** the approved concept from Gate A, and `DIRECTION.md` as far as Loop 1 wrote it.
 
-**Output:** `DIRECTION.md`, complete. `tokens.json` alongside it. One runnable prototype per
-technique, each with a measured verdict. A signed Gate B.
+**Output:** `DIRECTION.md`, written to every row of §5's schema. `tokens.json` alongside it.
+One runnable prototype per technique, each with a measured verdict. A signed Gate B — after
+which [`loops/03-system.md`](./03-system.md) builds the component set those rows describe, and
+finds out which of them were specified and which were only asserted.
 
 **Timekeeping:** run `date` at each phase boundary and write it into the run ledger — a
 subagent has no clock of its own.
@@ -72,9 +74,15 @@ everywhere is the same failure as restraint everywhere — a flat field with mor
 ## 2. Dispatch `technique-prototyper`
 
 **One agent per technique.** Each researches it properly, builds a standalone runnable HTML
-proof, screenshots it, measures frame rate under load, records the byte cost, and builds every
-state the surface class owes. Free rein while prototyping — any library, any CDN, any
-reference — and that freedom ends at handoff, where `§7` requires everything vendored.
+proof at the path its dispatch names, screenshots it, measures frame rate under load, records
+the byte cost, and builds every state the surface class owes. Free rein while prototyping —
+any library, any CDN, any reference — and that freedom ends at handoff, where `§7` requires
+everything vendored.
+
+**Each verdict is written beside its own prototype, with its measurements, before the worker
+returns.** A session boundary in the first real run destroyed all seven return messages at
+once, and the verdicts were recoverable only because artifacts were on disk. Treat the return
+message as an index of that file rather than as the record itself.
 
 **Report failure honestly. Failing cheap here is the entire point of the loop.** A technique
 that fails prototyping does not reach Gate B: it is not proposed, not promised, and not built
@@ -89,7 +97,7 @@ three labels. **Never guess. State the source.**
 
 | Label | What it means | What it looks like written down |
 |---|---|---|
-| **TESTED** | Measured, on a named machine, at a named viewport, with the number recorded | *"58fps sustained, 1440×900, M2 Air, 6× CPU throttle, 12k instances"* |
+| **TESTED** | Measured, on a named machine, at a named viewport, with the number recorded | *"58fps sustained, 1440×900, M2 Air, 4× CPU throttle, 12k instances"* |
 | **PARTIAL** | Measured, but not against what ships — one viewport, one machine, a stand-in for the real data, or fewer states than the class owes | *"61fps at desktop; phone not measured; reduced-motion state built, no-GPU state not"* |
 | **INFERRED** | Not measured. From the library's documentation, a reference implementation, or reasoning | *"the library documents 60fps at 10k instances; not run here"* |
 
@@ -118,8 +126,8 @@ Written at the resolution §5 below demands, which for motion means:
 - **The reduced-motion state per technique**, art-directed. `§10` is **[HARD]** and this is
   the part of it most often faked: `animation: none` on a layout that assumed motion leaves
   elements at `opacity: 0` and sequences that never complete. `CRAFT.md` carries Apple's five
-  techniques, and two of them — replacing z-axis transitions with fades, and not animating
-  into and out of blurs — are exactly what nobody removes.
+  techniques, and two of them — replacing x-, y-, and z-axis transitions with fades, and not
+  animating into and out of blurs — are exactly what nobody removes.
 
 Two rules that do not fork: **nothing animates in above the fold** (it is already visible;
 animating it makes it briefly not), and **motion never gates information**.
@@ -313,7 +321,8 @@ transition that uses it.
 >
 > **The anti-shortcut clause.** The written output is the OUTPUT of this review, not a
 > substitute for it. If there is any non-trivial finding, the path to proceeding goes through
-> the human. This is the last stop before real code, and a gate that becomes a document
+> the human. This is the last gate on the direction itself — Loop 3 renders it, it does not
+> re-decide it — and a gate that becomes a document
 > somebody reads later has been removed rather than satisfied.
 >
 > **They approve the technique set, or cut what does not earn its place.** Cutting with
@@ -333,9 +342,13 @@ transition that uses it.
 >
 > **Then append to the ledger, before the gate closes.** Every deferral, skip, and cut technique
 > goes to `runs/<slug>/SKIPS.md` with its cost and the date — appended below Gate A's rows, never
-> rewritten. This is the last gate, so this file is what the build inherits as the honest list of
-> what the design does not cover. **A gate that closed without appending has recorded silence,
-> and `§16` says silence is not a skip.**
+> rewritten. **A gate that closed without appending has recorded silence, and `§16` says silence
+> is not a skip.**
+>
+> **Then go to [`loops/03-system.md`](./03-system.md).** The direction is decided and the
+> techniques are proven; what has not happened yet is anybody building the components those
+> decisions describe and looking at them together. That loop does it, and Gate C is the last
+> stop before code.
 
 ---
 
@@ -369,4 +382,4 @@ same rule as Gate A, and the same remedy: stop iterating, fix the row, come back
 | §4's tier-2 number | The heavy layer sizes itself |
 | §5's resolution | Every aesthetic decision this pipeline made gets re-made by the build step, from an image |
 | §6's `tokens.json` | Machine-readable values. The build step transcribes by hand, and transcription errors are silent |
-| Gate B | Motion review, budget review, and the last human stop before code |
+| Gate B | Motion review, budget review, and the last human look at the direction before Loop 3 starts building components against it |

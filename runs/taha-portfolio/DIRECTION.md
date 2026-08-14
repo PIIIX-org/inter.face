@@ -1,6 +1,12 @@
 # DIRECTION — taha-portfolio
 
-**Concept:** `as-built` · **Signed at Gate A:** 2026-08-06 · **Gate B:** pending, held by the human
+**Concept:** `as-built` · **Signed at Gate A:** 2026-08-06 · **Gate B:** signed 2026-08-06, see the
+signature block at the foot of this file
+<!-- This header read "Gate B: pending, held by the human" until 2026-08-14. It was written
+     before the gate and never updated when the gate closed; the signature block below is the
+     record. Corrected, not rewritten, because the staleness is itself a run finding: a session
+     boundary destroyed the conductor mid-run and the header is what did not get written back. -->
+
 **Loops:** 1 (direction) complete · 2 (craft) this file · 3–4 (copy, build) not started
 **The record this replaces nothing of:** `direction-draft.md` is the Loop 1 working record and
 `craft-draft.md` the Loop 2 one. **This file is the handoff.**
@@ -498,11 +504,16 @@ Three reasons, in order of seriousness:
 
 1. **The asset is fabricated, and the page asserts that it is not.** `detail-atlas-login.webp` was
    created by the prototyper at 17:02, mid-run — it was never supplied by the subject and never
-   photographed off anything. The surrounding copy states *"the plate opposite is its sign-in
+   photographed off anything. The surrounding copy stated *"the plate opposite is its sign-in
    screen, photographed off the running build rather than drawn from memory"* and **"Nothing here
    is a mock."** That is a fabricated provenance claim about a real product, and `CRAFT.md` is
    explicit: *never fake a screen that implies a feature that does not exist.* The dispatch warned
    against exactly this and offered the honest alternative — a labelled stand-in capped at PARTIAL.
+   **The file was deleted from the repository on 2026-08-13** — it had shipped with the run until
+   then. `p5-duotone-detail.html` now loads no image: the plate frame holds the schematic drawn
+   inline in that file, and the page states the fabrication and the removal in its own copy. The
+   measurements in the table above stand as taken, and are not reproducible from this repo, because
+   the image they were taken from no longer exists here.
 2. **The diazo treatment fails its own spec**, emitting pure `#000000` — a value in neither palette
    — across 0.47% of pixels.
 3. **Legibility degrades under treatment.** The source UI's text goes heavy and muddy at two
@@ -602,8 +613,12 @@ because neither was ever used.
 | JS — two `IntersectionObserver`s, theme toggle | ~2,000 gz | **inferred** |
 | **Total** | **~80,800 (~79KB)** | |
 
-**Paints something real with no JS at all:** yes, and it is proven rather than asserted — T1's field,
-T3's cloud and T4's schedule were each screenshotted with JavaScript disabled.
+**Paints something real with no JS at all:** yes, and the screenshots that prove it are narrower than
+this line first claimed. What is on disk: T1's field at both widths in both modes
+(`shots/p1-drawing-field-nojs-*`), T2's draw-on at both widths in light
+(`shots/p2-redline-drawon-nojs-*`), and one JS-off pass of the title-block sheet that paints its
+revision cloud and reads `— / — FPS` (`shots/_js_off_test.png`). T4's schedule has no JS-off
+screenshot in this repository. [Corrected 2026-08-13 — the original sentence named T3 and T4.]
 
 **LCP under 1.5s: NOT MEASURED.** No throttled device was reachable. Stated as an open number, not
 claimed as a pass.

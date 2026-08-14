@@ -3,24 +3,27 @@
 **Goal:** decide what this surface is, who it is for, what it must not become, and what it
 looks like — and get a human to agree before anything expensive exists.
 
-**Input:** [`TRANSLATE.md`](../TRANSLATE.md), all six rows filled. Row 1 blank means this
-loop cannot start; it does not start generic.
+**Input:** [`TRANSLATE.md`](../TRANSLATE.md), all six rows filled, and whatever landed in
+`runs/<slug>/inbox/` — references, links, brand assets, a brand book. Row 1 blank means this
+loop cannot start; it does not start generic. An empty inbox is not a blocker, and that file's
+inbox section says why.
 
 **Output:** the direction half of `DIRECTION.md`, one comp per surface per concept — coded
-by default, rendered image when the run opts in (§8 below) — and a signed Gate A.
+by default, rendered image when the run opts in (§8 below) — the interactive board those comps
+are reviewed on (§11 below), and a signed Gate A.
 
-**Timing:** run `date` at each phase boundary and record it in the run ledger — six calls
-for the whole loop, and the only clock a subagent has.
+**Timing:** run `date` at each phase boundary and record it in the run ledger — the only
+clock a subagent has.
 
 ```text
 0 branch        1 class        2 platform      3 access        4 derive
-redesign or     page-shaped    iOS / Android   the Loop 1      physical experience
+redesign or     page-shaped    iOS / Android   the Loop 1      inbox as evidence
 greenfield      tool-shaped    or neutral      decision list   → three directions
                                                                      │
-5 palette ─► 6 type ─► 7 concepts ─► 8 ratio ─► 9 dispatch ─► 10 set check ─► Gate A
-per          per        one per       per class  one agent per  per concept,    human
-direction,   direction  direction,    announce   surface per    anti-repeat     decides
-sampled once            both tests    N first    concept
+5 palette ─► 6 type ─► 7 concepts ─► 8 ratio ─► 9 dispatch ─► 10 set check ─► 11 board ─► Gate A
+per          per        one per       N floored  one agent per  per concept,    one file,   human
+direction,   direction  direction,    per class  surface per    anti-repeat     navigable   decides
+sampled once            both tests               concept
 ```
 
 ---
@@ -32,7 +35,8 @@ every step below is looking for.
 
 **Page-shaped** — read for seconds, once. The concepts compete on the opening move: what a
 viewer understands in three seconds without reading a word. The surface list is a scroll
-order. The images are horizontal, the aspect ratios in §8 below say which.
+order. The comps are wide: in coded-comp mode a section at flow height across the container,
+in image mode a horizontal canvas at the aspect ratios §8 below assigns.
 
 **Tool-shaped** — read for hours, daily, by the same person. The concepts compete on the
 operator's day: which of the forty-times-a-day actions gets the layout. The surface list is
@@ -56,7 +60,7 @@ fork, not a slider — there is no "mostly a correction."
 | Classification | What this loop does |
 |---|---|
 | **Greenfield** | Start at §1 below. Nothing to preserve, so nothing to ask |
-| **Correction** — the position is right, execution drifted | **This loop does not run.** `REDESIGN.md`'s fix ladder runs against the extracted system, with its per-fix discipline as the stop. Any fix that touches position leaves the pass and escalates to Gate A |
+| **Correction** — the position is right, execution drifted | **This loop does not run.** `REDESIGN.md`'s fix ladder runs against the extracted system, with its per-fix discipline as the stop, **and the main session that holds the gates runs that ladder itself** — no agent owns this branch and none should, because `REDESIGN.md` §5 is one fix, one commit, re-screenshot, which is N=1 work editing shipped code, past the point where the rest of this plugin stops. Any fix that touches position leaves the pass and escalates to Gate A |
 | **Reposition** — the position itself is wrong | This loop runs **in full**, with `CURRENT.md` as an input constraint rather than a blank page, and with the survival list written *before* §1 below rather than during it |
 | **Conformance** — `TRANSLATE.md` row 6 names a design system the surface must obey | Neither path. `TRANSLATE.md`'s escape hatch fires, `PRINCIPLES.md`'s `§1`–`§3` are suspended wholesale
 (that file's rules, not this file's steps), and `BREAKING.md`'s recording rule covers writing that down. Route to conformance and say so plainly |
@@ -99,7 +103,8 @@ Web-only, desktop-only surfaces skip this step and record that they skipped it.
 ## 3. Run the `ACCESS.md` Loop 1 decisions
 
 [`ACCESS.md`](../ACCESS.md) §13 is a list of thirteen decisions both classes owe, six more
-tool-shaped, and four more native. **They run here, before a single image generates**, and
+tool-shaped, and four more native. **They run here, before any comp exists** — before the
+first spec block is written in coded-comp mode, before the first render in image mode — and
 they land in `DIRECTION.md` as answers.
 
 This is not an audit moved earlier. These are shapes, not defects: a non-drag affordance
@@ -132,6 +137,15 @@ than the subject.
 Then read the families — to name what you derived, to learn what it implies technically, and
 to be warned how it fails. Not to generate it.
 
+**Open `inbox/refs/` here, and open it as evidence.** `TRANSLATE.md`'s inbox section carries
+the rule in full; what binds in this step is its consequence. The references tell you what
+this subject responded to and what they passed over, and both feed the derivation above. They
+do not tell you what to draw. A direction that a viewer could match to a specific file in
+`inbox/` has been transcribed rather than derived, and the family pass in §7 below will not
+catch it because a transcription is perfectly internally consistent. Name, in one line per
+direction, **what the references taught and what was left behind** — that line goes to Gate A,
+where the human is the only person who can see both the reference and the comp at once.
+
 **What this step hands to the next one, stated because the singular is a trap.**
 `STYLES.md` ends its procedure with *"never one answer — bring three directions to Gate A."*
 That is binding, and it means **the directions do not collapse here.** Two or three survive
@@ -151,7 +165,7 @@ Two further outputs of this step are gating and both are easy to skip:
 - **The style-under-density line**, in the form *at forty rows this does X*. Asked at Gate A
   because the answer is sometimes *it cannot* — and a direction that is beautiful, coherent,
   correct for the archetype and structurally incapable of the surface it was chosen for is a
-  finding worth having before the images are signed off. Tool-shaped surfaces cannot proceed
+  finding worth having before the comps are signed off. Tool-shaped surfaces cannot proceed
   without this line. Page-shaped surfaces owe it wherever real data lands.
 
 ## 5. Palette — sampled from reality, in OKLCH, as pairs
@@ -161,6 +175,13 @@ real logo, product, or work. Sample the pixels. There is one subject and one log
 one sample, and every direction from §4 above reconciles against it. No existing brand means a
 deliberate choice defended by one sentence of physical scene, then reconciled against
 `TRANSLATE.md` row 3.
+
+**Where `inbox/brand/` holds a brand book, sample first and read it second.** The swatch
+printed in the book and the hex the site actually serves disagree often enough that taking
+either on trust is a coin toss; sampling the shipped logo settles what is true, and the book
+then supplies what a sample cannot — which colour is the accent as opposed to merely present,
+what the secondary is for, and which pairing the subject has already banned. A gap between the
+two is a Gate A line, not a rounding decision: print both values and say which this run used.
 
 Then build out **once per direction**: an accent, a substrate, a neutral ramp, and the full
 state set — dimmed and disabled included, for every direction brought to the gate, not only
@@ -257,9 +278,11 @@ Each concept states:
 
 ### The two distinctness tests
 
-`§4` says bring 2–3 distinct concepts. As a bare instruction that is what six of seven
-audited skills already fail at, two of them by asking the model to simulate a random number
-generator — which returns its prior with extra steps. So distinctness is tested **on the
+`§4` says bring 2–3 distinct concepts. As a bare instruction that is what the audited corpus
+already fails at. Five skills there instruct for variance; four fail, two of them by asking the
+model to simulate a random number generator — which returns its prior with extra steps. The one
+that works attaches a test to the output instead (`docs/audit/competitor-small-skills.md` §6,
+where the five are named and the failure of each is quoted). So distinctness is tested **on the
 artifact**, not asserted about the process. Both tests run before anything reaches Gate A.
 
 > **Swap test.** If someone could swap the headline text between two concepts without
@@ -318,13 +341,43 @@ than on evidence** — a later run that ships phone comps should record whether 
 coded-comp mode the question does not arise at all: the frame is 390px wide and the canvas is
 whatever the board is.
 
+### The floor on N — enough screens to be a design rather than a poster
+
+A concept rendered at three surfaces is a poster with a palette attached. What Gate A is
+choosing between is a **system**, and a system only becomes visible where it has to repeat,
+adapt, and fail. So N carries a floor per class, and the floor is derived rather than picked:
+
+- **Page-shaped — every surface on the scroll order from §7 above, plus the two that are not
+  on it**: the 404 and the failed submission, which §7 already made the concept answer and
+  which nothing else in this loop renders. A landing page that genuinely has four sections has
+  four and says so; what is not allowed is a surface list trimmed to make the render cheaper.
+- **Tool-shaped — the whole primary workflow, entry through outcome, with its failure branch
+  on the list**, not the dashboard three times. Then the three of `TOOLS.md`'s nine data states
+  that are different *designs* rather than the same design holding different content: **empty**,
+  **permission denied**, and **conflict**. Empty is what every new user sees and the one most
+  often left to the framework; conflict is the one that destroys work.
+
+**A non-default state is its own comp exactly when the concept differs there.** That test keeps
+the count honest in both directions. A loading state that is the default screen with a spinner
+laid over it is not a comp and padding N with it is inflation. An empty state that teaches an
+operator what the tool is for is a surface the concept is making a real claim about — count it
+in N, label it like any other, and let three concepts answer it three ways in front of the
+human.
+
+**Raising the floor is nearly free in coded-comp mode and costs 3× in image mode.** That
+asymmetry is why the floor is stated per class instead of as one number, and why a run that
+cannot afford the set cuts to two concepts, below, rather than to fewer surfaces. Cutting the
+surface list cuts the part of the design the build step has no picture of at all.
+
 **N is set once, before §7 above develops the concepts, and it is identical across concepts
 so the sets are comparable — a concept proposes content for N slots, never its own N.**
-**N is the surface count, not the image count** — every
-concept is rendered across all N, so three concepts and nine surfaces is twenty-seven images.
-Write both numbers in text before generating — *"three concepts, nine surfaces, twenty-seven
-images"* — and label every image **"\<concept label>: Surface X of N — \<name\>"**, with the
-label from the family pass in §7 above, so the three renders of the same surface never collide.
+**N is the surface count, not the comp count** — every
+concept covers all N, so three concepts and nine surfaces is twenty-seven comps, which are
+twenty-seven spec blocks in coded-comp mode and twenty-seven images in image mode. Write both
+numbers in text before starting — *"three concepts, nine surfaces, twenty-seven coded comps"*,
+or *"…twenty-seven images"* in image mode — and label every comp **"\<concept label>: Surface
+X of N — \<name\>"**, at the head of the spec block or on the image, with the
+label from the family pass in §7 above, so the three versions of the same surface never collide.
 
 That 3× is the real cost of `§4` in image mode and it is paid deliberately — in coded-comp
 mode it is nearly flat, which is part of why that mode is the default. The per-direction
@@ -345,18 +398,24 @@ compressed board hides exactly the detail the human needs to judge, and what it 
 the smallest type and the primary action.
 
 Each agent receives the concept, the palette with its pairs, the type system, the collision
-sentence, the platform mode, and the aspect ratio for its class. Each returns its image, its
-logged composition anchor, and its logged background mode — the log exists so §10 below has
-something to compare, since no single worker can see its neighbors.
+sentence, the platform mode, the aspect ratio for its class, and **the absolute path it writes
+to**. Each writes its comp there, writes its composition anchor and background mode in a
+sidecar beside it, and returns both tokens in the message — on disk because §10 below needs
+something to compare, no worker can see its neighbors, and a return message does not outlive
+the session that received it.
 
 A second **detail image** of the same surface is permitted on demand, focused on typography
 and spacing at larger scale, when the human at Gate A cannot read something. It is not a
-redesign and not a variant: same design system, cleaner render.
+redesign and not a variant: same design system, cleaner render. In coded-comp mode the answer
+to the same question is to expand that region of the existing block — the sizes, spacing, and
+hexes for the part they could not read — rather than to add a second comp.
 
 ## 10. The set-level check
 
-Run by the conductor, on what comes back, **once per concept** — the set is one concept's N
-surfaces, since that is the set a human reads as one thing. No worker can run it.
+Run by the conductor, on the tokens the workers wrote beside their comps, **once per concept**
+— the set is one concept's N surfaces, since that is the set a human reads as one thing. Read
+them off disk rather than out of the return messages; the check has to survive a restart. No
+worker can run it.
 
 Its validity rests on the tokens being logged by workers who could not see their neighbors.
 When no independent workers ran and the conductor assigned the tokens itself, the check
@@ -389,11 +448,55 @@ landing, an onboarding sequence, a teaching empty state — run all three across
 own subset.
 
 Also check what the set does *not* vary: **within one concept**, palette, type hierarchy,
-component family, and surface treatment stay identical across every image. Composition,
+component family, and surface treatment stay identical across every comp in it. Composition,
 emphasis, and visual tempo are where variation belongs. A set that varies the palette has not
 produced range, it has produced three different products. Across concepts the opposite holds —
 palette and type *must* differ, because that is what §5 and §6 above built per direction and
 what Gate A is choosing between.
+
+## 11. Assemble the board
+
+The comps sit on disk, one per surface per concept. The board is the single artifact the human
+actually reviews, and it exists because a gate held over twenty-seven separate files is a gate
+nobody attends properly.
+
+**One board for the run, not one per concept.** A standalone HTML file at
+`runs/<slug>/design/board.html`, vendored per `§7` — no CDN, faces loaded from the run's own
+font directory where the direction self-hosts them — holding every concept and every surface.
+The conductor builds it after §10 above passes, from what the workers wrote. **No worker builds
+it**: a worker cannot see its neighbours, and a board is entirely a claim about neighbours.
+
+What it owes, in the order the gate uses it:
+
+1. **The family-pass labels first, with the concepts hidden.** §7's family pass is only a fresh
+   judge if the human matches label to concept before seeing which is which. A board that opens
+   on the comps has spent that test before the gate starts.
+2. **Concept switching that holds position** — same surface, next concept, one key or one
+   click. This is the comparison Gate A exists for, and paging between three documents destroys
+   it.
+3. **Surface switching inside a concept**, in the order §7 derived, so the scroll order or the
+   screen flow is walkable rather than asserted.
+4. **The palette, the type, and the collision sentence per concept**, on the board beside the
+   comps — not in a document opened alongside it.
+5. **The real frame width, stated on screen** — 390 for a phone, 1024 or 1280 for a tablet,
+   1440×900 for a tool-shaped desktop screen, per §8 above. A comp speced at 390 and reviewed
+   at 1200 is being reviewed as a different design.
+
+**Interactive means navigable, not prototyped.** The board moves between comps; it does not
+implement the product. Hover, focus-visible, and the mode toggle are in scope because they
+*are* the comp and a static render is where focus rings go to die. A working form, a router,
+and live data are Loop 3's or the build's, and building them here spends Loop 2's budget before
+Loop 2 has run. **Nothing on the board animates** unless motion character is itself what the
+gate is choosing between — and then the reduced-motion state ships on the same board, because
+`§10` does not wait for Loop 2.
+
+**Image mode still gets a board.** The rendered images are the comps and the board is how three
+sets of them get compared; the structure above does not change.
+
+**Where the harness cannot open a local file, say so and fall back** to the comps as written.
+The board is how Gate A is best held, not a precondition for holding it — and the fallback goes
+to `SKIPS.md` with its cost, which is that the label-matching test and the side-by-side
+comparison both degrade to the human running them from memory.
 
 ---
 
@@ -405,7 +508,13 @@ what Gate A is choosing between.
 >   human matches label to concept. This is the fresh-judge half of §7's family pass: a label
 >   nobody can place, or one that fits two concepts, is a distinctness failure caught here
 >   rather than after a build
-> - **The rendered images**, per concept, all N surfaces of each, labeled
+> - **The comps, on the board from §11 above** — spec blocks in coded-comp mode, rendered
+>   images in image mode, whichever this run committed to at §8 — per concept, all N surfaces
+>   of each, labeled. In coded-comp mode they arrive with the disclosure that their ratios were
+>   computed rather than seen
+> - **What the references taught and what was left behind**, one line per concept, wherever
+>   `inbox/` was not empty. The human is the only person in the run who can see the reference
+>   and the comp at the same time, which makes them the only one who can catch a transcription
 > - **The palette per concept**, as pairs, each with its measured ratio, and the one sampled
 >   source they all reconcile against
 > - **The type system per concept**, each family with its reason on the same line
@@ -435,14 +544,15 @@ what Gate A is choosing between.
 > |---|---|
 > | Reduced-motion still frame not art-directed | Ships as `animation: none` — a plain freeze where a composed frame was |
 > | Second and third concept not generated | The direction has nothing to be chosen against; the first idea wins by default, which is `§1`'s failure mode |
-> | Style-under-density line not written | A family that cannot hold forty rows is discovered at build, with the images already approved |
+> | Style-under-density line not written | A family that cannot hold forty rows is discovered at build, with the comps already approved |
 > | `ACCESS.md` grid-or-table row left open | The keyboard model gets decided by whoever writes the component, in Loop 4, from the visual |
 > | Platform mode left unset on a native surface | Every number below it forks, and discovering the fork during the build is a rewrite |
 >
 > State the cost once, accept the answer, carry it into the run's confidence, and do not
 > raise it again.
 >
-> **Then write the ledger, before the gate closes.** The conductor appends every row the human
+> **Then write the ledger, before the gate closes.** The session holding this gate — not the
+> phase conductor, which cannot attend it — appends every row the human
 > deferred, skipped, or marked N/A to `runs/<slug>/SKIPS.md`, with its cost and the date —
 > append-only, never rewritten, and never summarised. `DIRECTION.md` carries the rows for this
 > phase; `SKIPS.md` is the run's single running list across both gates, which is the only place
@@ -454,16 +564,16 @@ what Gate A is choosing between.
 ## When Gate A rejects
 
 **Diagnose before regenerating anything.** The three rejections go to three different places
-and treating them alike is how a run burns its budget re-rendering a correct image.
+and treating them alike is how a run burns its budget redoing a correct comp.
 
 | What was rejected | Where it goes back to |
 |---|---|
-| **Execution** — wrong palette in the render, wrong crop, the image did not capture the concept | Regenerate those images with corrected direction. Same concept, same surface list, same collision |
+| **Execution** — wrong palette in the comp, wrong crop, wrong numbers, the surface did not come across | Redo those comps with corrected direction — regenerate the images in image mode, rewrite the spec blocks in coded-comp mode. Same concept, same surface list, same collision |
 | **Concept** — the collision does not land, the opening move is wrong, the content is presented wrong | Back to §7 above. New concepts, not a patch on the rejected one |
 | **Brief** — their reaction reveals the surface class, the viewer, the archetype, or the anti-positioning was misread | Back to `TRANSLATE.md`. Fix the table first. Designing on a misread table produces another rejection at the same gate |
 
-The third row is the one that gets missed. **When the human says the images look fine and
-still sounds unhappy, the table is the suspect, not the render.**
+The third row is the one that gets missed. **When the human says the comps look fine and
+still sounds unhappy, the table is the suspect, not the execution.**
 
 **Three rejections at the same gate means the translation table is wrong, not the work.**
 Stop iterating. Re-open `TRANSLATE.md`, fix the row that is wrong, and come back through this
@@ -482,7 +592,10 @@ capture. Recording only the correction throws away the more valuable half of it.
 | §3, the `ACCESS.md` decisions | They become Loop 8 defects instead of Loop 1 shapes. The ones that matter cannot be fixed by then — you redraw |
 | §4's derivation, picking from the family list instead | The training-data reflex, which is the exact thing the derivation exists to route around |
 | §7's second and third concept | The choice. One concept is a proposal presented as a conclusion |
-| The two distinctness tests | The word "distinct" doing all the work, which is what six of seven audited skills already ship |
-| §8's per-class ratio | Three quarters of the model's fidelity spent on background, on every mobile surface |
-| §10's set check | Nine images with the same composition, which reads as one idea rendered nine times |
+| The two distinctness tests | The word "distinct" doing all the work, which is what four of the five audited skills that instruct for variance already ship (`docs/audit/competitor-small-skills.md` §6) |
+| §8's per-class ratio | Image mode, three quarters of the model's fidelity spent on background, on every mobile surface. Coded-comp mode, a phone screen speced at a desktop frame width |
+| §8's floor on N | The states where the concepts actually differ — empty, denied, conflict, the 404 — get decided by whoever writes the component, from a comp that never showed them |
+| §10's set check | Nine comps with the same composition, which reads as one idea repeated nine times |
+| §11's board | The label-matching test and the side-by-side comparison. Both degrade to the human running them from memory across twenty-seven files |
+| The inbox, where the human offered one | Row 4 derived by interview instead of from evidence the subject already chose, and a brand book's do-not list discovered during the build |
 | Gate A | The direction choice. You pick; they see it at Gate B, with prototypes already built against it |

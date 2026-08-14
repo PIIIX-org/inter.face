@@ -1277,7 +1277,7 @@ V4.1.0 is the first edition prepared for the EAA — under standardisation reque
 
 > **Once the present document is cited in the Official Journal of the European Union** under that
 > Directive, compliance with the normative clauses … confers … a **presumption of conformity**
-> with the corresponding essential requirements of that Directive.
+> with the corresponding essential requirements of that Directive and associated EFTA regulations.
 
 So, as of **2026-08-08**: the EAA has applied since 28 June 2025, and **there is no published
 harmonised standard that maps to it.** The standard people reach for instead — V3.2.1 — carries

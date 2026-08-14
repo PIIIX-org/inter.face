@@ -21,7 +21,11 @@ Files read in full:
 | gstack design-html | `/Users/taha/.claude/skills/gstack/design-html/SKILL.md` | 1511 |
 | gstack devex-review | `/Users/taha/.claude/skills/gstack/devex-review/SKILL.md` | 1305 |
 | (reference) gstack DESIGN.md | `/Users/taha/.claude/skills/gstack/DESIGN.md` | 86 |
-| (reference) our parent | `/Users/taha/Documents/portfolio.me/STYLES.md` | 389 |
+| (reference) our parent | `/Users/taha/Documents/portfolio.me/STYLES.md` | 388 |
+
+*Last row corrected 2026-08-14: it read 389. The file is still on this machine and `wc -l`
+returns **388**, which is the figure `README.md`'s drift table and the design spec both use.
+The other thirteen rows were not re-measured on that pass.*
 
 ---
 
@@ -174,7 +178,11 @@ Plus the scope declaration that makes it honest: "Browse CANNOT test: CLI instal
 
 ## 2. The single-style-skill format — verdict
 
-The question: `minimalist-ui` and `industrial-brutalist-ui` each encode ONE aesthetic completely. Our `STYLES.md` carries seven families / 34 styles and asks the agent to shortlist. Which produces better design?
+The question: `minimalist-ui` and `industrial-brutalist-ui` each encode ONE aesthetic completely. Our `STYLES.md` carries seven families / 32 styles and asks the agent to shortlist. Which produces better design?
+
+**[Count corrected 2026-08-14, and re-derived independently the same day.]** This sentence and the two below it read **34**; the count is **32**. Method, so anyone can rerun it: take the lines beginning `**` between `## Surface and material` and `## Style under density` — there are 35 — and subtract the three that continue the entry above them rather than opening a new one (`**Implies**` and `**Fails**` under Bento, `**Right when**` under Ink / sumi). 35 − 3 = 32, six / six / five / four / four / four / three across the seven families. The same method run against the file as it first landed in git (`a4704e8`, 2026-08-02) gives 35 and 32 too, so it read 32 on arrival and reads 32 now — the intervening commits were not checked. This audit is dated the day before that commit, and where its 34 came from is **unverified**. 32 is also the figure `README.md` prints for the style vocabulary — *"32 entries across seven families"*, in its **What is genuinely new — and what is not** section. That citation gave `line 80` until 2026-08-14; checked that day, the phrase was no longer on line 80, so it is now cited by claim and section, which survive a restructure. No argument in this document turns on the number.
+
+*Four sentences below this one still print **34** for the same catalog — the failure-mode row of the §2 comparison table, the "shelf of 34 single-style skills" line, the "catalog in (34 briefs)" pipeline line, and step 2 of §3's assembled redesign method. They are left as written, as the record of what this audit concluded; read 32 in each.*
 
 ### They are not the same kind of object
 
@@ -316,7 +324,7 @@ Blunt version first: **Loop 1 of inter.face is roughly 70% already built inside 
 ### Where we genuinely add, ranked
 
 1. **Measured prototypes before commitment.** No prior art anywhere in gstack or the six small skills. Also the most expensive thing to build.
-2. **A style vocabulary with collision.** 34 entries with failure modes vs. 10 adjectives.
+2. **A style vocabulary with collision.** 32 entries with failure modes vs. 10 adjectives.
 3. **Two budget tiers declared at design time**, rather than a performance grade discovered after the build.
 4. **Tool-shaped surfaces designed rather than classified.** Nine states, keyboard completeness as a hard rule, density as a deliverable.
 5. **Portability.** Seven agents, plain markdown, no binaries, no `~/.gstack`, no git-state preconditions.
@@ -364,7 +372,7 @@ Deliberately **not** stealing: the Goodwill Reservoir point system, the letter-g
 
 `high-end-visual-design` §3 does the same thing with dice: "silently 'roll the dice' and select ONE combination." A model asked to simulate an RNG returns its prior with extra steps — and because the prompt is the seed, similar prompts produce identical "rolls." The goal (variance) is correct and is the same goal our `§1`/`§3` hold. The mechanism is theater. Compare `design-shotgun`, which solves the same problem with a test on the *output* rather than a ritual on the input. Lesson for us: enforce distinctness by checking what came out, never by instructing the model to be random.
 
-**Also, count the space.** `high-end-visual-design` promises "NEVER generate the exact same layout or aesthetic twice in a row" over 3 vibes × 3 layouts = 9 outcomes. Nine. Ours is 34 styles × collision × subversion, which is why the collision table has to survive the merge intact.
+**Also, count the space.** `high-end-visual-design` promises "NEVER generate the exact same layout or aesthetic twice in a row" over 3 vibes × 3 layouts = 9 outcomes. Nine. Ours is 32 styles × collision × subversion, which is why the collision table has to survive the merge intact.
 
 **Dials that nothing reads.** `stitch-design-taste` opens with four configurable dials, then writes ~120 rules of which exactly two are conditional on a dial ("Centered Hero layouts BANNED when variance exceeds 4"; "When density exceeds 7, all numbers must use Monospace"). Set Creativity to 1 and the file still bans Inter, still bans centered heroes in the shipped `DESIGN.md`, still mandates inline-image-typography as "the signature creative technique." The two files also disagree: `SKILL.md` says centered heroes are banned *above* variance 4, `DESIGN.md` says they are banned flat. A parameter that doesn't change the output is a lie about configurability. If our `TRANSLATE.md` rows do not each visibly change something downstream, we have the same bug — and the spec's own claim that "a blank row is a design decision downstream with no derivation" is the right defense only if we can point at what each row derives.
 
@@ -384,4 +392,6 @@ That's the correct framing — the ban is about *convergence*, not about the typ
 
 **Nobody covers native.** Our scope claims web + mobile + tablet + desktop. Across all twelve skills, "mobile" means a breakpoint, "tablet" means `768px`, and "desktop" means `1440px`. Not one line addresses iOS, Android, or a desktop application. `imagegen-frontend-mobile` exists elsewhere in the skills directory but is image generation, not design method. The spec's own out-of-scope note — "For iOS or Android the principles hold... and the arsenal does not" — is the right call, and this audit found zero prior art that would let us do better. State the limit in `AGENTS.md` as planned; do not quietly let the four-platform claim in the scope line imply otherwise.
 
-**One more, aimed at us.** Every skill in this corpus that has a "creativity" or "variance" instruction — all six small ones plus `design-consultation`'s anti-convergence directive — is trying to solve the same problem our `§1` states ("creativity is the baseline"). Six of the seven attempts fail because they instruct the model to *be* creative. The one that works (`design-shotgun`'s swap test) checks the artifact. `PRINCIPLES.md §1` is currently an instruction. It needs a check attached, or it joins them.
+**One more, aimed at us.** Five skills in this corpus carry an instruction aimed at variance between runs, and all five are trying to solve the same problem our `§1` states ("creativity is the baseline"): `gpt-taste`'s simulated `random.choice()` ("forbidden from defaulting to the same UI twice"), `high-end-visual-design`'s Variance Mandate ("NEVER generate the exact same layout or aesthetic twice in a row") and its dice, `stitch-design-taste`'s Variance dial, `design-consultation`'s anti-convergence directive ("Across multiple generations in the same project, VARY light/dark, fonts, and aesthetic directions"), and `design-shotgun`'s. **Four of the five fail**, because they instruct the model to *be* creative. The one that works is `design-shotgun`, and the reason it works is that the directive ends in a test on the artifact — the swap test — instead of a demand on the process. `PRINCIPLES.md §1` is currently an instruction. It needs a check attached, or it joins them.
+
+*[Set corrected 2026-08-14.] This paragraph read "all six small ones plus `design-consultation`" and "six of the seven", which contradicted itself: on that reading `design-shotgun` was not in the seven, so it could not be "the one that works". Re-checked against the files. `minimalist-ui` carries no variance instruction of any kind (it bans generic defaults, which is a different move), `redesign-existing-projects` audits an existing site for generic patterns rather than instructing variance, and `industrial-brutalist-ui`'s "extreme variance in scale, weight, and spacing" is about type inside one design, not between runs. That leaves the five named above. The count moved; the finding did not.*

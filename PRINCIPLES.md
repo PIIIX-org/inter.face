@@ -69,13 +69,18 @@ also generate imagery with an image tool and then **treat it in-browser** (duoto
 grain, displacement, dithering) rather than placing raw output. This is deliberate:
 it forces the visuals to be yours.
 
-## 9. Anti-slop, aimed at what the images say.
+## 9. Anti-slop, aimed at what the comp says — image or code.
 
-This pipeline writes almost no prose — but every design image renders text, and an
-unconstrained image model writes "Elevate your workflow" over an invented logo.
-Realistic copy lengths. Minimal text per image. No invented brand names. No hollow
-superlatives. No "not X, but Y." Where real copy exists, use it; where it does not,
-use plausible-length lorem-free placeholder drawn from the subject's actual domain.
+This pipeline writes almost no prose, so every word the human reads at a gate was invented
+by the comp carrying it, and an unconstrained image model writes "Elevate your workflow"
+over an invented logo. Realistic copy lengths. Minimal text per comp. No invented brand
+names. No hollow superlatives. No "not X, but Y." Where real copy exists, use it; where it
+does not, use plausible-length lorem-free placeholder drawn from the subject's actual
+domain.
+
+**A coded comp raises the stakes rather than lowering them.** An invented headline inside a
+rendered image is legibly a sketch. The same words in a spec block read as *specified*, and
+a spec is the thing somebody builds from.
 
 ## 10. Accessible by default. **[HARD]**
 
@@ -157,9 +162,9 @@ in `TOOLS.md`.
 
 ## 16. Human gates are real stops. **[HARD]**
 
-Gate A (direction) and Gate B (craft). Neither is a status update: the written
-output is the OUTPUT of the interactive review, not a substitute for it. If there is
-any non-trivial finding, the path to proceeding goes through the human.
+Gate A (direction), Gate B (craft), Gate C (system). None is a status update: the
+written output is the OUTPUT of the interactive review, not a substitute for it. If
+there is any non-trivial finding, the path to proceeding goes through the human.
 
 Skipping is allowed, silent degradation is not. The human may skip any non-**[HARD]**
 step. When they do, record it in `DIRECTION.md` as a decision, not an omission:

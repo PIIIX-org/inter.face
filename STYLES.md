@@ -151,11 +151,13 @@ content.
 **Liquid glass.** Apple's 2025 material language, where the panel refracts rather than
 merely blurs: content bends passing under the edge, specular highlights track the light,
 the shape lenses on scroll. Real implementation is an SDF and shader job; `backdrop-filter`
-alone gets glassmorphism with a borrowed name. It is a functional layer that floats above
-content to hold navigation and controls, never a treatment applied to the content layer,
-and it is never stacked on itself. **Implies** WebGL, an SDF panel, scroll-linked light, a
-hard `§11` budget. **Fails** as chrome that buries the work (`§5`). **Right when** the
-subject or product is material or hardware.
+alone gets glassmorphism with a borrowed name. It is the functional layer that floats above
+content to hold navigation and controls: Apple's rule is *don't use it in the content
+layer*, carrying its own exception — a transient control there, a slider or a toggle, takes
+the appearance while a person activates it. On stacking, Apple's verb is *avoid*, not never:
+don't crowd or layer glass onto glass. `SURFACES.md` §4 sources both. **Implies** WebGL, an
+SDF panel, scroll-linked light, a hard `§11` budget. **Fails** as chrome that buries the
+work (`§5`). **Right when** the subject or product is material or hardware.
 
 **Neumorphism / soft UI.** Every element extruded from one background hue by a matched
 shadow pair, dark and light, cast from a single committed angle. No borders and almost no

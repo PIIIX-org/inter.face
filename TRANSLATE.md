@@ -23,6 +23,71 @@ dial — set every dial to its lowest value and the shipped output is identical.
 that changes no output is a lie about configurability. Each row below states, concretely, what
 it derives.
 
+## Before the rows: the inbox
+
+The rows are answers. The inbox is the material they get answered from, and asking for it
+costs one message where deriving row 4 cold costs an interview. **Ask for all four items
+before filling anything in.** Then fill the rows against what arrived, not against what you
+imagined would.
+
+Everything lands in `runs/<slug>/inbox/`, in the invoking project, beside the run it belongs
+to. Nothing here is uploaded, fetched into a third-party service, or sent anywhere: the files
+sit on the human's own disk and this pipeline reads them from there.
+
+| Ask for | Where it goes | The row it fills |
+|---|---|---|
+| **Reference images** — screenshots, photographs, printed matter, a moodboard they already keep | `inbox/refs/` | 4, and 5 by recoil |
+| **Reference links** — sites, apps, or products they like, each with one line on *what* they like about it | `inbox/refs.md` | 4, 5 |
+| **Brand assets** — the logo as shipped (SVG, or the largest raster there is), the font files, the production CSS or the live URL to sample from | `inbox/brand/` | 6, and `§6`'s sample |
+| **The brand book**, where one exists — PDF, a Figma export, an internal page | `inbox/brand/` | 6, and usually 5 as well |
+
+**A path is as good as a file.** *"The logo is in `~/work/identity/`"*, or *"sample it off the
+live site"*, is a filled inbox item — the run reads from there and says so. What is not filled
+is silence, and silence here is the same non-answer it is everywhere else in this file.
+
+**The brand book is the highest-value item on that list and the one people forget they have.**
+It normally carries the logo lockups and their clear space, the palette with its intended
+roles, the type system, the tone of voice, and the do-not list — which is rows 4, 5, and 6
+already written down by someone who was paid to think about them. Ask for it by name; *"do you
+have brand guidelines, even an old PDF?"* recovers it, where *"any brand assets?"* does not.
+
+### What a reference is read for, and what it is not
+
+**A reference is evidence about the subject's taste. It is not a specification of the output.**
+This is the failure mode the inbox introduces, so it is stated before the feature is used: a
+moodboard read as a target produces a pastiche of the moodboard, which is `§1`'s failure mode
+arriving through a new door. `§3` still binds — reinvent every component, every run — and a
+reference that survives into the comp recognisably has been copied, not read.
+
+So read each one twice:
+
+1. **What is on the screen.** Layout, palette, type, motion, density. Record it as evidence;
+   do not adopt it.
+2. **What it says about them.** Why *this* one, out of everything they have ever seen. That
+   answer is row 4. What they rejected while collecting is row 5.
+
+The second reading goes into the rows. The first stays in `inbox/` as evidence, and is quoted
+at Gate A when a decision traces to it. **Ask the one-line why for every reference**: five
+links with no reasons is a mood, five links with one line each is row 4 derived from data, and
+the difference costs the human about ninety seconds.
+
+**Convergence across the references is a warning, not a direction.** If four of five are the
+same dark, high-contrast, big-type landing page, that is what the category already looks like
+— and `STYLES.md`'s cliché fence reads it as a fence rather than as a brief. Say so at Gate A
+instead of delivering the fifth copy of it. A subject who has collected five references that
+genuinely disagree has handed over something far more useful, and the disagreement is the row.
+
+**Two things the inbox does not do.** It does not replace `§6`'s sample-from-reality: the
+accent is sampled from the pixels of the shipped logo, never read off the brand book's swatch
+page, because the printed swatch and the production hex disagree more often than they agree —
+sample first, reconcile against the book second, and record the gap where there is one. And it
+does not settle row 1. What a subject likes says nothing about whether this surface is read
+for seconds or lived in for hours.
+
+**An empty inbox blocks nothing.** The derivation section at the end of this file is the whole
+route in that case, unchanged; that is what it is for. The inbox is an accelerant, exactly like
+`/design-consultation`, and never a prerequisite.
+
 ## The six rows
 
 ### 1. Surface class
@@ -115,6 +180,12 @@ category-typical family — the exact outcome anti-positioning exists to rule ou
 load-bearing brand element that has to survive this run. Also where an existing design system
 the subject must conform to — GOV.UK, Material, a corporate DS — gets named.
 
+**This row is the written summary of `inbox/brand/`**, which the section at the top of this
+file collects. The files are the fact and the row is the index: a row that names a typeface no
+file in `inbox/brand/` contains is a claim, and Loop 1 will discover it as one. Where the
+inbox holds a brand book, this row also names the page or section each value came off, so a
+disagreement between the book and the production CSS is a finding rather than a coin toss.
+
 **The accent is a required field, not an optional extra.** Fill it with the sampled accent
 hex, or with the explicit sentence "none exists — an accent will be chosen and justified in
 Loop 1" — never with silence, because a row that lists the substrate colors and stops before
@@ -202,6 +273,14 @@ subject-indexed catalog: the reflex `STYLES.md`'s "derive, don't pick" procedure
 route around, arrived at one file early. Every consultancy lands on Sage, every startup on
 Explorer, and the row stops deriving anything.
 
+**Where `inbox/refs/` is not empty, start there instead of at step 1 below**, because the
+references are already the subject's own choices and they arrived without an interview. Read
+them the second way — why *this* one — and the recurring answer across five references is the
+archetype, arrived at from evidence rather than from adjectives. Then run step 3 below on
+what they passed over. The word check at the end of this subsection still applies, and applies
+hardest here: reference-derived words describe what the subject admires, which is not always
+what their own work can back.
+
 Work from the subject's own words instead:
 
 1. Ask for **five sentences they have actually said about the work** — to a customer, in a
@@ -232,11 +311,21 @@ strong negative is worth more than a weak positive**: "never anything that dark 
 cinematic" cuts the style space, polite interest in all four cuts nothing — and means the
 row is still empty, so probe again with directions further apart.
 
+A filled `inbox/refs/` shortens this to one question. Show them the two references furthest
+apart in what they handed over and ask which is wrong for *this* surface — the recoil is
+sharper against something they chose than against something you described, and the answer
+names a real thing rather than a family. Where the references converge instead of disagreeing,
+the convergence itself is the ban: the category default they have been looking at all along.
+
 ### Deriving row 6 — what is already owned
 
 This row is an audit, not an interview: the logo file as shipped, the colors actually in
 production rather than the ones in the brand PDF, the typeface the last three real things
-were set in, any design system the subject is bound to. For owned type the audit enumerates
+were set in, any design system the subject is bound to. **The brand PDF is still worth having
+in `inbox/brand/`** — it is where the intended roles, the clear space, the tone, and the
+do-not list are written down, none of which the production CSS reports — and the audit is what
+decides which of the two wins per value when they disagree. Record the disagreement; do not
+silently take either side. For owned type the audit enumerates
 the actual `@font-face` declarations — families, weights, and styles as the files declare
 them, never the family name alone. A type scale written against weights the files do not
 hold renders in whatever the browser substitutes, and the standard font-loading check will

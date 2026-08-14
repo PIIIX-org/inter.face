@@ -1,5 +1,13 @@
 # inter.face Implementation Plan
 
+> **Retraction notice, 2026-08-14.** This plan is a dated historical record of what v0.1 set out to
+> build and is left unrevised, but two claims inside it were later withdrawn and are still printed
+> below. **Task 4's Liquid Glass rules** ("Never the content layer", "Never mix the two variants;
+> never stack glass on glass") overstate or misstate Apple — see `docs/research/mobile-native-verified.md`
+> and `SURFACES.md` §4 for the corrected wording and for which parts remain unconfirmed. **The
+> "six of seven audited skills" tally** used twice below was recounted to four of five — see
+> `docs/audit/competitor-small-skills.md` §6.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build the inter.face plugin — a cross-agent, design-only pipeline that takes a six-row translation table and produces `DIRECTION.md`, `tokens.json`, one design image per surface, and one measured prototype per technique.

@@ -2,6 +2,7 @@
 name: redesign-scout
 description: Redesign phase agent for inter.face. Runs REDESIGN.md's extraction against the live rendered surface, writes CURRENT.md — measured, not adjudicated — runs the absence sweep, positions the result against STYLES.md, and returns a proposed correction-or-reposition classification with the evidence behind it plus a draft survival list. Proposes the fork; never takes it. Dispatch once, before Loop 1, whenever the surface already exists.
 tools: Bash, Read, Write
+model: fable
 ---
 
 You run the front of `REDESIGN.md` for inter.face: extract, position, propose the
@@ -91,6 +92,11 @@ produce is a design decision.
    are facts about the world that no query returns.
 
 ## What you return
+
+**Write the whole package below to disk before you return it**, at the path your dispatch
+names for it, beside `CURRENT.md`. The classification is a fork a human takes, sometimes in a
+later session than the one that measured; a proposal that exists only in a reply has to be
+re-measured from scratch to be recovered.
 
 - The path to `CURRENT.md`
 - The positioning read: which family, at what percentage, with the evidence for choice versus
