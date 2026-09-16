@@ -103,7 +103,7 @@ agents, no Node app, no runtime, no git preconditions.
 
 ## How an agent reads it
 
-The corpus is 6,705 lines across thirteen reference files, plus the 218-line router: 6,923 lines
+The corpus is 6,718 lines across thirteen reference files, plus the 218-line router: 6,936 lines
 in all. No agent should read it all.
 
 - **One resident router.** [`AGENTS.md`](./AGENTS.md) is the only always-loaded file, budgeted
@@ -111,8 +111,8 @@ in all. No agent should read it all.
   and rose with the third loop, the third gate and the sixth agent — raised deliberately and by
   a stated amount, rather than paid for by deleting the routing table's reasons.
 - **Phase-scoped reading.** The router's routing table names what each phase reads. A typical
-  page-shaped Loop 1 loads `AGENTS.md` 218 + `PRINCIPLES.md` 177 + `TRANSLATE.md` 355 +
-  `STYLES.md` 802 + `loops/01-direction.md` 601 + `ACCESS.md` §13 50 = **2,203 of 6,923 lines**,
+  page-shaped Loop 1 loads `AGENTS.md` 218 + `PRINCIPLES.md` 185 + `TRANSLATE.md` 355 +
+  `STYLES.md` 802 + `loops/01-direction.md` 606 + `ACCESS.md` §13 50 = **2,216 of 6,936 lines**,
   the fourteen-file total with the router in it. The same run's Loop 2 loads 1,389, and Loop 3
   loads 507 plus the run's own artifacts, which are the only thing it is allowed to build from.
   Loop 1 never opens `CRAFT.md`; Loop 2 never re-opens `STYLES.md`; Loop 3 opens neither.

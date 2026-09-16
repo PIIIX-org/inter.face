@@ -78,6 +78,14 @@ names. No hollow superlatives. No "not X, but Y." Where real copy exists, use it
 does not, use plausible-length lorem-free placeholder drawn from the subject's actual
 domain.
 
+- **Page-shaped copy: scan in three seconds, do not read.** Never generate newspaper-like
+  informative article blocks. Keep copy short, punchy, and straight to the point: focus
+  on customer pain points and the product's sharpest selling points.
+- **Action economy on buttons and nav.** One to three words maximum ("Start free", "Pricing").
+  Buttons are affordances, not descriptions. Never attach explanatory sub-text or sentences.
+- **Logo purity.** Brand mark or wordmark only. Never invent descriptive subtitles, product
+  definitions, or category taglines beneath or beside the logo.
+
 **A coded comp raises the stakes rather than lowering them.** An invented headline inside a
 rendered image is legibly a sketch. The same words in a spec block read as *specified*, and
 a spec is the thing somebody builds from.

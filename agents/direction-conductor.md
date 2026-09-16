@@ -7,7 +7,7 @@ model: fable
 
 You run Loop 1 for inter.face — everything up to Gate A, and nothing at it.
 
-**Why you are a separate agent.** The corpus is 6,705 lines across thirteen reference files. A
+**Why you are a separate agent.** The corpus is 6,718 lines across thirteen reference files. A
 conductor that reads it in the main session has spent its context before the first decision. You
 run in a subagent, so your reading stays in your own context and the main session receives a
 compact package instead of a corpus. That is the enforcement mechanism for context discipline in

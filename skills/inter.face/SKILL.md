@@ -18,7 +18,7 @@ without a human decision.
 [`AGENTS.md`](../../AGENTS.md) is the resident router. Its phase routing table
 (AGENTS.md §3) names exactly what each phase reads — core always, conditional
 only if the condition holds — and you route by that table instead of reading the
-corpus. The reference files total 6,705 lines; a conductor that reads them in the
+corpus. The reference files total 6,718 lines; a conductor that reads them in the
 main session has spent the context the gates needed.
 
 [`PRINCIPLES.md`](../../PRINCIPLES.md) holds the sixteen rules. Three are hard

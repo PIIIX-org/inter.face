@@ -329,6 +329,11 @@ board; image generation is the opt-in mode, for when the reviewer wants imagery 
 build target needs it. Either mode fills the same table: the canvas
 column for images, the coded column for comps.
 
+**Page-shaped coded comps enforce `§9`'s copy economy strictly.** An agent producing coded
+comps inline easily drifts into newspaper-like article blocks. Prevent it: write scannable,
+punchy copy focused on customer pain points and selling points; limit buttons and nav links to
+1–3 action words; leave logos as clean marks with no invented descriptive subtitles.
+
 Two to three phones on one canvas is the **only** exception to never compressing a board,
 and it holds because they are the same surface across a flow at readable scale rather than
 different surfaces stacked. The moment type stops being legible, drop to one phone per canvas.

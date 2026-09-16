@@ -28,13 +28,13 @@ Nothing else until §3 sends you there.
 
 ## 3. The phase routing table
 
-The corpus is **6,705 lines** across thirteen reference files. An agent that reads it before
+The corpus is **6,718 lines** across thirteen reference files. An agent that reads it before
 deciding anything has spent the context the decisions needed. Read by phase.
 
 | Phase | Core — always | Conditional — read only if the condition holds |
 |---|---|---|
 | **Scout** (brownfield only) | [`REDESIGN.md`](./REDESIGN.md) 331 · `TRANSLATE.md` rows 1 and 6 · `STYLES.md`'s family sections, for positioning only · **`SURFACES.md` §2**, to adjudicate the target sweep | `TOOLS.md` §4 **if tool-shaped** — what the nine data states owe, so the absence sweep knows what it is looking for |
-| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 177 · [`TRANSLATE.md`](./TRANSLATE.md) 355 · [`STYLES.md`](./STYLES.md) 802 · [`loops/01-direction.md`](./loops/01-direction.md) 601 · **`ACCESS.md` §13 only** — 50 of 1,429 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 250 of 772 **if this surface runs on a phone or a tablet** — platform mode has three branches and `cross-platform-neutral` is one of them, so a responsive mobile web surface owes §1 too · `CURRENT.md` **if reposition** |
+| **Loop 1 · direction** | [`PRINCIPLES.md`](./PRINCIPLES.md) 185 · [`TRANSLATE.md`](./TRANSLATE.md) 355 · [`STYLES.md`](./STYLES.md) 802 · [`loops/01-direction.md`](./loops/01-direction.md) 606 · **`ACCESS.md` §13 only** — 50 of 1,429 | [`TOOLS.md`](./TOOLS.md) 273 **if tool-shaped** · **`SURFACES.md` §1–§3** 250 of 772 **if this surface runs on a phone or a tablet** — platform mode has three branches and `cross-platform-neutral` is one of them, so a responsive mobile web surface owes §1 too · `CURRENT.md` **if reposition** |
 | **Gate A** | the returned package. Nothing new is read at a gate | — |
 | **Loop 2 · craft** | [`CRAFT.md`](./CRAFT.md) 786 · [`loops/02-craft.md`](./loops/02-craft.md) 385 | [`TOOLS.md`](./TOOLS.md) **if tool-shaped** · [`BREAKING.md`](./BREAKING.md) 339 **only when a rule is actually being broken** |
 | **Gate B** | the returned package | — |
@@ -61,9 +61,9 @@ row 1 is tool-shaped; `CRAFT.md` by named section in Loop 2 alone, one or two ar
 all nine — or entered whole and read by name inside it, as `STYLES.md`'s seven family sections are
 a reference you consult rather than a list you read through.
 
-**Worked example — page-shaped, web, Loop 1.** This file 218 + `PRINCIPLES.md` 177 +
-`TRANSLATE.md` 355 + `STYLES.md` 802 + `loops/01-direction.md` 601 + `ACCESS.md` §13 50 =
-**2,203 of 6,923**, the fourteen-file total with this router in it; the 6,705 above excludes it.
+**Worked example — page-shaped, web, Loop 1.** This file 218 + `PRINCIPLES.md` 185 +
+`TRANSLATE.md` 355 + `STYLES.md` 802 + `loops/01-direction.md` 606 + `ACCESS.md` §13 50 =
+**2,216 of 6,936**, the fourteen-file total with this router in it; the 6,718 above excludes it.
 `TOOLS.md`, `SURFACES.md`, `REDESIGN.md`, `BREAKING.md`, `IMPROVE.md`, `loops/03-system.md` and
 1,379 lines of `ACCESS.md` never load. Loop 2 is 218 + 786 + 385 = **1,389**; Loop 3 is
 218 + 289 = **507**, plus this run's own artifacts, which is the point of that loop.

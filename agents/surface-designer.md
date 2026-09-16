@@ -72,7 +72,7 @@ Everything else you need is restated below.
 - [`SURFACES.md`](../SURFACES.md) §1 — **only if the platform mode is iOS-native or
   Android-native and you need a number the dispatch did not carry.**
 
-Do not read the rest of the corpus. A worker that reads the 6,705-line corpus to draw one
+Do not read the rest of the corpus. A worker that reads the 6,718-line corpus to draw one
 screen has spent the budget the conductor saved by dispatching you.
 
 ## Platform mode is honored, not averaged
@@ -197,6 +197,13 @@ builder pastes into the product.
   copy has to fit
 - **Minimal text per comp.** A screen title, a primary action's label, a handful of real
   labels, a value. Not a populated settings page of invented rows
+- **Page-shaped copy: scanned in seconds, never read as prose.** Do not generate newspaper
+  articles or encyclopedic paragraphs. Write punchy, concise copy targeting customer pain
+  points and direct selling points
+- **Button and navigation economy: 1–3 words max.** Interactive controls are action triggers,
+  not descriptive summaries. Ban explanatory sub-text, subtitles, or run-on phrases
+- **Clean logos: no invented descriptions.** The logo mark or name stands alone. Never add
+  invented category taglines, product explanations, or subtitles under or next to it
 - **No invented brand names, and no invented logos.** Use the subject's real name and real
   mark. Where neither exists, design around the absence
 - **No hollow superlatives, no "not X, but Y", no marketing filler, no lorem.** Where real
