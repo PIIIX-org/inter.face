@@ -361,6 +361,7 @@ prose — copy the file (or its contents) into your workspace rules.
 - **Subagents**: The single-agent inline fallback is strictly banned in Antigravity. Subagents are registered via `define_subagent` from [`antigravity/subagents.json`](./antigravity/subagents.json) (or bootstrapped via `node antigravity/bootstrap.js`) and dispatched via `invoke_subagent`. Conductors are equipped with `enable_subagent_tools: true` to dispatch worker subagents concurrently in isolated contexts.
 - **Human Gates**: Gate A, Gate B, and Gate C are held interactively in the main conductor session using Antigravity's `ask_question` tool alongside rendered HTML artifacts (`design/board.html`, `system/sheet.html`).
 - **Autonomous Multi-Agent Teams (`/teamwork-preview`)**: Fully supported per [`teamwork/TEAMWORK.md`](./teamwork/TEAMWORK.md) and the [Antigravity design spec](./docs/superpowers/specs/2026-09-21-gemini-antigravity-teamwork.md). Includes pre-structured task prompts in `teamwork/prompts/` and automated programmatic verification test suites in `teamwork/verification/` (`verify-loop1.js`, `verify-loop2.js`, `verify-loop3.js`, `verify-all.js`) providing objective verification guardrails before each gate.
+- **Installation & Verification Report**: Complete installation walk-through and verification audit in [`docs/ANTIGRAVITY-INSTALLATION.md`](./docs/ANTIGRAVITY-INSTALLATION.md).
 - **Gemini CLI**: `gemini-extension.json` configures `GEMINI.md` as the extension context.
 
 

@@ -54,3 +54,9 @@ Main Session (Conductor / Gate Holder)
 1. **§10 Accessible by Default**: Decided in Loop 1 before any comp is drafted. Contrast ratios checked against WCAG AA standards. Designed reduced-motion state for all animations.
 2. **§15 Keyboard Completeness**: Hard constraint on tool-shaped surfaces. Every workflow walkable by keyboard alone, verified on the component sheet.
 3. **§16 Human Gates are Real Stops**: Under no circumstances may an agent self-certify past Gate A, Gate B, or Gate C. The main session must halt, present the package, and receive an explicit decision from the human user.
+
+---
+
+## 5. Installation & Verification Report
+
+For full setup details, verification logs, and environment confirmation across sessions, refer to [`docs/ANTIGRAVITY-INSTALLATION.md`](./docs/ANTIGRAVITY-INSTALLATION.md).
