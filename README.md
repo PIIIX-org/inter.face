@@ -356,15 +356,13 @@ agent to `AGENTS.md` and `PRINCIPLES.md`, sets surface class first, and holds al
 **Cline / Windsurf.** `.clinerules` and `.windsurfrules` carry the same pointer as plain
 prose — copy the file (or its contents) into your workspace rules.
 
-**Google Antigravity & Gemini.** First-class multi-agent support. Discovered natively via
-`.agents/` workspace customizations (`.agents/skills/inter.face/SKILL.md`,
-`.agents/rules/GEMINI.md`, `.agents/plugins/inter.face/plugin.json`) and root `GEMINI.md`.
-Subagents are defined via `define_subagent` from `antigravity/subagents.json` and dispatched via
-`invoke_subagent`. Conductors hold Gate A, B, and C with the human interactively via `ask_question`.
-For autonomous multi-agent execution with objective verification forcing functions, run under
-`/teamwork-preview` using the structured prompts in `teamwork/prompts/` and verification test
-suites in `teamwork/verification/` per [`teamwork/TEAMWORK.md`](./teamwork/TEAMWORK.md). In Gemini CLI,
-`gemini-extension.json` wires `GEMINI.md` as context.
+**Google Antigravity & Gemini.** First-class multi-agent pipeline support:
+- **Discovery**: Automatically discovered through `.agents/` customizations ([`.agents/skills/inter.face/SKILL.md`](./.agents/skills/inter.face/SKILL.md), [`.agents/rules/GEMINI.md`](./.agents/rules/GEMINI.md), [`.agents/plugins/inter.face/plugin.json`](./.agents/plugins/inter.face/plugin.json)) and root [`GEMINI.md`](./GEMINI.md).
+- **Subagents**: The single-agent inline fallback is strictly banned in Antigravity. Subagents are registered via `define_subagent` from [`antigravity/subagents.json`](./antigravity/subagents.json) (or bootstrapped via `node antigravity/bootstrap.js`) and dispatched via `invoke_subagent`. Conductors are equipped with `enable_subagent_tools: true` to dispatch worker subagents concurrently in isolated contexts.
+- **Human Gates**: Gate A, Gate B, and Gate C are held interactively in the main conductor session using Antigravity's `ask_question` tool alongside rendered HTML artifacts (`design/board.html`, `system/sheet.html`).
+- **Autonomous Multi-Agent Teams (`/teamwork-preview`)**: Fully supported per [`teamwork/TEAMWORK.md`](./teamwork/TEAMWORK.md) and the [Antigravity design spec](./docs/superpowers/specs/2026-09-21-gemini-antigravity-teamwork.md). Includes pre-structured task prompts in `teamwork/prompts/` and automated programmatic verification test suites in `teamwork/verification/` (`verify-loop1.js`, `verify-loop2.js`, `verify-loop3.js`, `verify-all.js`) providing objective verification guardrails before each gate.
+- **Gemini CLI**: `gemini-extension.json` configures `GEMINI.md` as the extension context.
+
 
 **opencode.** `opencode.json` loads `AGENTS.md` as instructions; the router routes to the
 rest on demand.
