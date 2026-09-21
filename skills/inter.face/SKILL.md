@@ -71,15 +71,22 @@ has been removed, not satisfied — the written output is the output of an
 interactive review, not a substitute for it. Three rejections at one gate means
 `TRANSLATE.md` is wrong, not the work.
 
-## Where the harness has no subagents
+## Subagent harnesses and teamwork
 
-Dispatch the conductors as subagents where the harness supports it. Where it
-does not, read the agent files inline and work them yourself — same steps, same
-order, same reading list. Two costs, both named in AGENTS.md §9: the reading
-lands in your context, so the phase table becomes a manual discipline; and the
-checks that existed because no worker sees its neighbors become checks run
-against your own output — run them against the logged tokens and the measured
-numbers, never against your memory of the work.
+Dispatch the conductors as subagents where the harness supports it. In Claude
+Code and Google Antigravity, multi-agent dispatch is fully supported: in
+Antigravity, subagents are registered via `define_subagent` from
+`antigravity/subagents.json` and dispatched via `invoke_subagent`, with gates
+held interactively via `ask_question`. For autonomous multi-agent execution with
+objective verification forcing functions, run `/teamwork-preview` per
+`teamwork/TEAMWORK.md`.
+
+Where a harness has zero subagent primitives, read the agent files inline and
+work them yourself — same steps, same order, same reading list. Two costs, both
+named in AGENTS.md §9: the reading lands in your context, so the phase table
+becomes a manual discipline; and the checks that existed because no worker sees
+its neighbors become checks run against your own output — run them against the
+logged tokens and the measured numbers, never against your memory of the work.
 
 ## It stops before code
 

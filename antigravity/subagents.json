@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "inter.face-antigravity-subagents",
+  "version": "0.3.0",
+  "description": "Antigravity subagent definitions for the inter.face design pipeline",
+  "subagents": [
+    {
+      "name": "direction-conductor",
+      "role": "Direction Conductor",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": true,
+      "enable_mcp_tools": true,
+      "description": "Loop 1 phase agent for inter.face. Runs derivation, per-direction palette and type, concepts and distinctness tests, ACCESS.md §13 decisions, and dispatches surface-designer workers. Returns the assembled Gate A package.",
+      "agent_file": "agents/direction-conductor.md"
+    },
+    {
+      "name": "surface-designer",
+      "role": "Surface Designer",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": false,
+      "enable_mcp_tools": true,
+      "description": "Loop 1 worker for inter.face. Produces ONE comp of ONE surface for ONE concept (coded spec block or image mode). Logs composition anchor and background mode tokens.",
+      "agent_file": "agents/surface-designer.md"
+    },
+    {
+      "name": "craft-conductor",
+      "role": "Craft Conductor",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": true,
+      "enable_mcp_tools": true,
+      "description": "Loop 2 phase agent for inter.face. Assigns a technique per surface against the three-question test, dispatches technique-prototyper workers, writes motion spec and budget tiers, and completes DIRECTION.md plus tokens.json.",
+      "agent_file": "agents/craft-conductor.md"
+    },
+    {
+      "name": "technique-prototyper",
+      "role": "Technique Prototyper",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": false,
+      "enable_mcp_tools": false,
+      "description": "Loop 2 worker for inter.face. Proves ONE technique before design depends on it — standalone runnable HTML file, screenshot of every state, measured frame rate under load, real byte cost.",
+      "agent_file": "agents/technique-prototyper.md"
+    },
+    {
+      "name": "system-builder",
+      "role": "System Builder",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": false,
+      "enable_mcp_tools": false,
+      "description": "Loop 3 worker for inter.face. Builds ONE navigable component sheet from tokens.json and DIRECTION.md alone — every component in every state it owes, both colour modes, keyboard-walkable — screenshots it, walks it, and returns gap report.",
+      "agent_file": "agents/system-builder.md"
+    },
+    {
+      "name": "redesign-scout",
+      "role": "Redesign Scout",
+      "model": "pro",
+      "enable_write_tools": true,
+      "enable_subagent_tools": false,
+      "enable_mcp_tools": true,
+      "description": "Redesign phase agent for inter.face. Runs REDESIGN.md extraction against live rendered surface, writes CURRENT.md, runs absence sweep, positions result against STYLES.md, returns proposed fork.",
+      "agent_file": "agents/redesign-scout.md"
+    }
+  ]
+}

@@ -182,21 +182,21 @@ A subagent does not inherit this session's context, so a phase's reading never e
 **No conductor holds a gate.** They assemble the package and stop; the session that talks to
 the human holds Gate A, Gate B, and Gate C. `§16` does not degrade.
 
-**On `model:` in the frontmatter.** All six name `fable` — Fable 5, `claude-fable-5` — because
+**On `model:` in the frontmatter.** All six name `fable` (`claude-fable-5`) or Gemini `pro` —
 this pipeline is derivation and judgment against a long reading list, which is where a weaker
-model reaches for the category reflex every rule here exists to prevent. Harnesses that read the
-key apply it; on the ones that do not, set it before dispatching. It is the plugin's default and
-not one of its rules: a run with a reason to use something else records the reason and proceeds.
+model reaches for the category reflex every rule here exists to prevent. In Google Antigravity,
+models default to `pro` (Gemini Pro). Harnesses apply their equivalent high-reasoning model. A
+run with a reason to use something else records the reason in `SKIPS.md` and proceeds.
 
-**On `tools:` in the frontmatter.** A **hard capability restriction on Claude Code**, enforced by
-the harness and **absent on most others** — a key nobody reads is not a fence. Where it is absent
-it binds as an instruction: the direction conductor does not open `CRAFT.md`, the prototyper does
-not vendor or deploy, the system builder does not invent a value. **The fallback is keyed on the
-agent's own capability, not on whether the harness recognizes the key.** An agent that cannot spawn
-subagents reads `agents/*.md` and works inline — same steps, same order, same reading list — at two
-costs named in those files: the reading lands in this context, so §3's budget becomes a manual
-discipline, and the checks that existed because no worker sees its neighbors become checks against
-your own output. Run those against the logged tokens and the measured numbers, never against memory.
+**On `tools:` in the frontmatter.** Enforced on Claude Code via `Agent`, and on Google Antigravity
+via `define_subagent` and `invoke_subagent` (or `/teamwork-preview` per `teamwork/TEAMWORK.md`).
+Both harnesses run conductors and workers as subagents to preserve context and verification.
+Where a key is absent it binds as instruction: conductors do not open `CRAFT.md`, prototypers do
+not deploy, builders do not invent values. An agent on a single-agent harness lacking subagents
+reads `agents/*.md` and works inline — same steps, same order, same reading list — at two costs:
+the reading lands in this context, so §3's budget becomes a manual discipline, and worker checks
+become checks against your own output. Run those against logged tokens and measured numbers,
+never against memory.
 
 ## 10. What it hands off to, and how the run closes
 

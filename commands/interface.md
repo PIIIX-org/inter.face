@@ -22,10 +22,11 @@ every reference file applies, so nothing starts until it is set.
 Run Loop 1 (direction) to **Gate A**, where the human picks the concept on the
 board; Loop 2 (craft) to **Gate B**, where they approve or cut the technique set;
 Loop 3 (system) to **Gate C**, where they sign off the component set on a sheet
-built from the tokens alone. Dispatch the phase agents as subagents where the
-harness supports it; read them inline where it does not. If the surface already
-exists, dispatch `redesign-scout` first and let the human take the fork it
-proposes.
+built from the tokens alone. Dispatch the phase agents as subagents (in Claude
+Code via Agent tools, in Google Antigravity via `define_subagent` and
+`invoke_subagent`, or via `/teamwork-preview`). Read inline only on single-agent
+CLI harnesses without subagent primitives. If the surface already exists,
+dispatch `redesign-scout` first and let the human take the fork it proposes.
 
 If no subject was given, ask what surface this is for and have `TRANSLATE.md`'s
 six rows filled in before dispatching anything.

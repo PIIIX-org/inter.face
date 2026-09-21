@@ -4,6 +4,16 @@ All notable changes to inter.face. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-21
+
+Google Antigravity, Gemini, and `/teamwork-preview` multi-agent optimization.
+
+### Added
+
+- **Google Antigravity & Gemini multi-agent support.** First-class integration in `.agents/` (`.agents/skills/inter.face/SKILL.md`, `.agents/rules/GEMINI.md`, `.agents/rules/AGENTS.md`, `.agents/plugins/inter.face/plugin.json`, `.agents/workflows/interface.md`) and root `GEMINI.md`. Subagents are registered via `define_subagent` from `antigravity/subagents.json` and dispatched via `invoke_subagent`. Inline execution in Antigravity is strictly banned.
+- **Teamwork-Preview optimization.** Full support for `/teamwork-preview` autonomous multi-agent runs documented in `teamwork/TEAMWORK.md`. Programmatic verification test suites in `teamwork/verification/` (`verify-loop1.js`, `verify-loop2.js`, `verify-loop3.js`, `verify-all.js`) providing objective verification forcing functions for Gate A, Gate B, and Gate C. Pre-structured task prompts in `teamwork/prompts/` for page-shaped, tool-shaped, and redesign surfaces.
+- **Interactive gates in Antigravity.** Conductors hold Gate A, Gate B, and Gate C with the human user using `ask_question` and rendered HTML artifacts (`design/board.html`, `system/sheet.html`).
+
 ## [0.3.0] — 2026-08-14
 
 Four additions, all of them things the first real run had to do by hand or did not do at all:
