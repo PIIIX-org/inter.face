@@ -1,8 +1,7 @@
 {
   "name": "inter.face",
   "version": "0.3.0",
-  "description": "Art direction for any interface — web, mobile, tablet, desktop. Multi-agent design pipeline with three human gates optimized for Google Antigravity, Gemini, and teamwork-preview.",
-  "contextFileName": "GEMINI.md",
+  "description": "Art direction for any interface — web, mobile, tablet, desktop. Multi-agent pipeline with human gates optimized for Google Antigravity, Gemini, and teamwork-preview.",
   "author": {
     "name": "PIIIX",
     "url": "https://github.com/PIIIX-org"

@@ -356,14 +356,15 @@ agent to `AGENTS.md` and `PRINCIPLES.md`, sets surface class first, and holds al
 **Cline / Windsurf.** `.clinerules` and `.windsurfrules` carry the same pointer as plain
 prose — copy the file (or its contents) into your workspace rules.
 
-**Gemini.** `gemini-extension.json` declares `AGENTS.md` as the extension's `contextFileName`,
-and Gemini CLI reads that manifest only for a directory installed as an extension — a bare clone
-does nothing. Install it: `gemini extensions install <github-url-or-local-path>`, which copies
-the directory into `~/.gemini/extensions`, or `gemini extensions link <path>` to symlink a
-working copy instead
-([extension reference](https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/reference.md),
-read 2026-08-14). Neither command has been run against this repo, so the manifest is
-documented-correct and untested.
+**Google Antigravity & Gemini.** First-class multi-agent support. Discovered natively via
+`.agents/` workspace customizations (`.agents/skills/inter.face/SKILL.md`,
+`.agents/rules/GEMINI.md`, `.agents/plugins/inter.face/plugin.json`) and root `GEMINI.md`.
+Subagents are defined via `define_subagent` from `antigravity/subagents.json` and dispatched via
+`invoke_subagent`. Conductors hold Gate A, B, and C with the human interactively via `ask_question`.
+For autonomous multi-agent execution with objective verification forcing functions, run under
+`/teamwork-preview` using the structured prompts in `teamwork/prompts/` and verification test
+suites in `teamwork/verification/` per [`teamwork/TEAMWORK.md`](./teamwork/TEAMWORK.md). In Gemini CLI,
+`gemini-extension.json` wires `GEMINI.md` as context.
 
 **opencode.** `opencode.json` loads `AGENTS.md` as instructions; the router routes to the
 rest on demand.

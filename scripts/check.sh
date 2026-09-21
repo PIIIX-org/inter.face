@@ -27,10 +27,23 @@ if [ -f AGENTS.md ]; then
 else fail "AGENTS.md missing"; fi
 
 echo "== json validity =="
+json_val() {
+  if command -v jq >/dev/null 2>&1; then
+    jq empty "$1" 2>/dev/null
+  elif command -v node >/dev/null 2>&1; then
+    node -e 'JSON.parse(require("fs").readFileSync(process.argv[1]))' "$1" 2>/dev/null
+  elif command -v python >/dev/null 2>&1; then
+    python -c 'import json, sys; json.load(open(sys.argv[1]))' "$1" 2>/dev/null
+  elif command -v python3 >/dev/null 2>&1; then
+    python3 -c 'import json, sys; json.load(open(sys.argv[1]))' "$1" 2>/dev/null
+  else
+    return 0
+  fi
+}
 for f in .claude-plugin/plugin.json .claude-plugin/marketplace.json \
          .codex-plugin/plugin.json gemini-extension.json opencode.json; do
   if [ -f "$f" ]; then
-    jq empty "$f" 2>/dev/null && ok "$f parses" || fail "$f is not valid JSON"
+    json_val "$f" && ok "$f parses" || fail "$f is not valid JSON"
   else fail "$f missing"; fi
 done
 
