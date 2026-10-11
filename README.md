@@ -1,9 +1,17 @@
+<div align="center">
+
+<img src="./assets/hero.svg" width="100%" alt="A DIRECTION.md page on paper. Six rows from a real run: an adjective is struck through and replaced by the value it became. warm paper becomes #fbf8f1, deep ink #0e2e2c, coral #c63f28, tappable 44px, readable 60rem, light 500. Signed at Gate A, 2026-08-06."/>
+
+<img src="./assets/tokens/license.svg" height="46" alt="license = MIT"/> <img src="./assets/tokens/version.svg" height="46" alt="version = 0.3.0"/> <img src="./assets/tokens/loops.svg" height="46" alt="loops = 3"/> <img src="./assets/tokens/gates.svg" height="46" alt="gates = A · B · C"/> <img src="./assets/tokens/agents.svg" height="46" alt="agents = 6"/> <img src="./assets/tokens/platforms.svg" height="46" alt="platforms = 7"/> <img src="./assets/tokens/stops-before.svg" height="46" alt="stops.before = code"/> <img src="./assets/tokens/runs.svg" height="46" alt="runs = 1"/>
+
+</div>
+
 # inter.face
 
 Art direction for any interface. An inbox and a six-row translation table in; a fully specified
 design direction out. Plain markdown, portable across seven coding agents. It stops before code.
 
-## What it is, and what it is not
+**Status: in testing.** One real run so far ([`runs/taha-portfolio`](./runs/taha-portfolio/RUN-NOTES.md)); v0.3.0 is what that run's findings produced.
 
 A design-only pipeline. The deliverable is:
 
@@ -39,69 +47,9 @@ interactive review, not a substitute for one.
 It does not build the site, the app, or the component. The package hands off to whatever comes
 next — a sibling pipeline's build loop, gstack's `/design-html`, a human, or another agent.
 
-## Why it exists
-
-Three PIIIX pipelines — [portfolio.me](https://github.com/PIIIX-org), webcrab, and systemcicy,
-the parents of this plugin — each grew their own design system, and they drifted:
-
-| Doc | portfolio.me | webcrab | systemcicy |
-|---|---|---|---|
-| `STYLES.md` | 388 | 255 | — |
-| `CRAFT.md` | 418 | 240 | — |
-| `loops/02-design.md` | 188 | 258 | — |
-| `INTERFACE.md` | — | — | 229 |
-
-Only **12** of portfolio.me's 324 non-blank `STYLES.md` lines still appear anywhere in webcrab's
-202. The drift is not decay — each fork grew material the others lack. webcrab has a style
-selection procedure and a category-cliché fence portfolio.me never got; portfolio.me has the
-deeper technique arsenal; systemcicy is the only one that knows how to design a tool rather than
-a page. inter.face is the union of their design halves, made canonical. Full lineage in the
-[design spec](./docs/superpowers/specs/2026-07-28-inter-face-design.md), which prints an older,
-different figure for that overlap — see [Corrections](#corrections).
-
-This is a general failure of design guidance kept as prose, not PIIIX housekeeping. The
-[imagegen audit](./docs/audit/competitor-imagegen.md) found the same thing in someone else's
-skills directory: `imagegen-frontend-web` and `image-to-code` are the same file forked — **191**
-non-blank lines still literally identical — and each fork has since grown what the other lacks.
-The web fork gained composition anchors and a set-level anti-repeat check; the code fork gained
-extraction rules and anti-drift. Neither got the other's additions.
-
-## What is genuinely new — and what is not
-
-**New:** nothing in the surveyed landscape (four competitor audits, in
-[`docs/audit/`](./docs/audit/competitor-impeccable.md)) builds a runnable proof of a design
-technique, requires it to measure its own frame rate under load, prices it in bytes, and returns
-a verdict *before* the design commits. That is Loop 2, and it is the product. The demand for the
-measurement is unconditional; the number coming back is not. Where the instrument fails, the
-verdict says so and the evidence label caps at PARTIAL or INFERRED — the first real run is that
-case, and it is the third finding in the run section below.
-
-**Not new:** Loop 1 — direction, palette, concepts, comps — overlaps substantially with
-existing tools. gstack's `/design-consultation` and `/design-shotgun` already do most of it,
-and they are good. Shipping Loop 1 alone would be a less-integrated `design-consultation` with
-a better style catalog.
-
-**New, and the same shape as Loop 2:** Loop 3 builds the component sheet from `tokens.json` and
-`DIRECTION.md` **and nothing else**, which turns *"could a build agent execute this without
-making a single aesthetic decision?"* from a rhetorical question into one that gets run. Every
-value the builder cannot find is logged as a gap and rendered with a visibly wrong stand-in,
-because a builder that quietly picks a sensible value has destroyed the finding — and it will
-usually know the sensible value. Competitors specify design systems; the checkable claim here is
-that the specification is *complete*, and the gap report is what makes it falsifiable.
-
-**Not novel, and stated as a stance rather than a feature:** `IMPROVE.md` closes a run by
-harvesting its notes into findings about the plugin and asking — once, with the payload shown in
-full and the default set to no — whether to send them. There is no telemetry, no background
-reporting, and no phone-home; the gallery is a second, separate yes, because consent to send
-text findings is not consent to publish a picture of somebody's unreleased interface.
-
-The other real additions, stated without inflation: a style vocabulary with collision
-(32 entries across seven families, each with implementation implications and a named failure
-mode); performance budgets declared at design time rather than graded after; tool-shaped
-surfaces designed rather than classified; and portability — plain markdown across seven
-agents, no Node app, no runtime, no git preconditions.
-
 ## How an agent reads it
+
+<img src="./assets/routing.svg" width="100%" alt="What each phase reads, from AGENTS.md section 3. Scout: REDESIGN.md, TRANSLATE.md rows 1 and 6, STYLES.md family sections, SURFACES.md section 2. Loop 1 direction: PRINCIPLES.md, TRANSLATE.md, STYLES.md, loops/01-direction.md, ACCESS.md section 13 only; 2,203 of 6,923 lines. Gate A: nothing new is read. Loop 2 craft: CRAFT.md and loops/02-craft.md; 1,389 lines. Gate B. Loop 3 system: loops/03-system.md plus this run's DIRECTION.md and tokens.json; 507 lines. Gate C. Close: IMPROVE.md."/>
 
 The corpus is 6,705 lines across thirteen reference files, plus the 218-line router: 6,923 lines
 in all. No agent should read it all.
@@ -131,139 +79,9 @@ in all. No agent should read it all.
   contract. The Loop 1 budget above still charges `STYLES.md` and `TRANSLATE.md` at full length,
   because the Loop 1 row names no section for either.
 
-## What is enforced where
-
-The honest version, because it differs by agent — and because a `tools:` list fences less than
-it looks like it does:
-
-- **`Bash` is not a fence, and all six agents hold it.** Both conductors, all three workers and
-  the scout list `Bash`, because the loops order shell work and a frontmatter that fences what the
-  loop demands is a lie in the other direction — the conductors need a clock reading at every
-  phase boundary, the prototyper needs to measure and screenshot, the system builder needs to
-  screenshot every state it renders. `Bash` is an unrestricted
-  shell, so `git push`, `curl`, `ssh` and any deploy CLI are one command away in every one of
-  them. What holds them back is a sentence: `agents/technique-prototyper.md` grants `Bash` and
-  then writes "no remote, no deploy, no vendoring, no editing `DIRECTION.md`" as prose, under
-  its *When this file is run inline instead of dispatched* heading. That is instruction-level
-  fencing, identical to what the six non-Claude harnesses have. **This repo ships zero
-  shell-fenced agents.**
-- **What a `tools:` list still fences on Claude Code is what it omits** — and two omissions here
-  are real, checkable in the six frontmatters. Only the two conductors list `Agent`, so no
-  worker can dispatch a worker and the fan-out stays one level deep. Only `surface-designer`
-  lists image tools, so no other agent can call them. A third omission looks like a wall and is
-  not: no agent lists a fetch or browser tool, but `Bash` reaches the network with `curl`, so
-  that one fences nothing. Read the frontmatter as what an agent cannot reach *through a granted
-  tool*, and remember `Bash` is a door around most of it.
-- **Subagent context isolation is the enforcement that actually holds**, and it is not in the
-  frontmatter at all: a subagent does not inherit the session's context, which is what makes
-  phase-scoped reading real rather than requested.
-- **On Codex, Cursor, Cline, Windsurf, Gemini, and opencode**, even the omission wall is gone. A
-  frontmatter key nobody reads is not a fence. There the protocol degrades to the resident
-  router plus `scripts/check.sh`, and the `tools:` lists bind as instructions throughout.
-
-The one real run never exercised the wall at all: that harness had no registered inter.face agent
-types, so the conductor ran as a general-purpose subagent *reading* `agents/direction-conductor.md`
-with every tool granted. The prose held; the harness was not what held it.
-
-The ceiling is stated in `AGENTS.md` itself: an agent that ignores the protocol still gets
-correct guidance — just expensively, and with less context left to use it.
-
-## Strategy scope
-
-The plugin derives the design strategy it needs and nothing more.
-[`TRANSLATE.md`](./TRANSLATE.md)'s six rows — surface class · viewer and their decision or
-task · the three-second feel · archetype and shadow · anti-positioning · what is already
-owned — each carry a self-contained derivation: every row names the file and section it
-visibly changes downstream, or it would have been cut as decoration.
-
-Ahead of the rows sits the **inbox**: reference images, links with a line each on what the
-subject likes about them, brand assets, and the brand book where one exists, all in
-`runs/<slug>/inbox/` on the human's own disk. It is an accelerant for rows 4 to 6, not a
-seventh row, and it ships with the rule that makes it safe — **a reference is evidence about
-the subject's taste, never a specification of the output.** A moodboard read as a target
-produces a pastiche of the moodboard, which is the failure mode the whole pipeline is built
-against, arriving through a new door.
-
-It does **not** do market strategy: no ICP work, no competitive teardown, no message
-hierarchy. Those are assumed upstream. And if real brand strategy already exists — an owned
-palette, a mandated design system such as GOV.UK or Material — it wins: row 6 routes to
-conformance instead of invention.
-
-## Scope and limits
-
-- **Four surfaces:** web, mobile, tablet, desktop. Nothing else is covered.
-- **`CRAFT.md`'s arsenal is web technique.** Shaders, `backdrop-filter`, scroll-linked
-  timelines. On native, the principles hold — prototype before you design around it, a
-  technique with one state is unfinished — and the arsenal does not.
-- **`tokens.json` is web-scoped.** DTCG dimensions close their unit set to `px` and `rem`, so
-  Apple's `pt` and Material's `dp`/`sp` are not expressible; native numbers live in
-  `DIRECTION.md` prose or in `$extensions`. A token file that silently rounds 44pt to 44px
-  has produced a wrong layout with a valid schema.
-- **Named gaps stay named.** `SURFACES.md` closes with what never survived verification —
-  cross-platform navigation models, Android 15 edge-to-edge, gesture conflicts, Fluent,
-  Material's canonical layouts. Unresearched, not settled.
-
-## Every number is sourced
-
-A checkable quality claim, with its one exception named below rather than left to be found:
-numbers in the reference files trace to a dated verification doc, of which there are two kinds.
-Facts about the world trace to
-[`docs/research/`](./docs/research/accessibility-wcag.md), and everything there was read off
-rendered primary sources with a headless browser — not summarizer output, not memory. Numbers
-and quotes taken from someone else's skill trace to
-[`docs/audit/`](./docs/audit/competitor-small-skills.md) instead, where the audited file is the
-primary source: `STYLES.md`'s four paired colour hexes and its bimodal-density and
-font-convergence quotes are audit-sourced, not research-sourced.
-
-**The exception, a single grep from anyone who wants to check:**
-
-- **`CRAFT.md`'s Libraries table.** Fourteen libraries carry an approximate weight — ~600KB
-  three.js, ~70KB GSAP with ScrollTrigger, ~900KB p5 — and no file in `docs/research/` or
-  `docs/audit/` contains any of those figures. `CRAFT.md` is honest about it in place: *"Weights
-  are approximate and exist so the tier decision is informed. Check the real number for the
-  version you pull."* They are a tier-decision aid the file tells you to replace with a measured
-  number, not verified figures.
-
-There were two exceptions until this release. The second was the tally behind
-`loops/01-direction.md`'s distinctness tests, printed there as *six of seven audited skills* — a
-count that lived in the design spec and the build plan and in no verification doc. It stopped
-being an exception because it stopped being that number. Re-checking the corpus found five
-skills that instruct for variance between runs and four that fail, and the corrected set, the
-re-check, and a dated correction note are now printed under `docs/audit/` — grep **Four of the
-five** in [`docs/audit/competitor-small-skills.md`](./docs/audit/competitor-small-skills.md) §6.
-`loops/01-direction.md` §7 now reads *five skills there instruct for variance; four fail*, and
-its skip-cost table *four of the five*, so the shipping file and its receipt print the same
-number and the tally is audit-sourced like the rest. The old count also contradicted itself: it
-placed `design-shotgun` outside the seven while calling it the one skill that works.
-
-Every other number in the reference files traces to one of the two kinds of doc.
-
-That discipline exists because this project caught **four** plausible-but-wrong claims on the
-way in, each documented in the research docs:
-
-1. A summarizer returned invented WCAG 2.5.8 exception wording that appears nowhere in the
-   spec (`docs/research/accessibility-wcag.md`).
-2. A summarizer invented a security exception for WCAG 3.3.8 — wording that would have shipped
-   a non-existent carve-out (`docs/research/accessibility-wcag.md`).
-3. A Liquid Glass quote attributed to Apple's Materials page whose wording does not occur
-   anywhere on that page (`docs/research/mobile-native-verified.md`).
-4. **"Apple's minimum touch target is 44×44 pt"** — repeated in most design skills, and
-   unusable as stated, because it collapses two different Apple numbers. Apple's Accessibility
-   page publishes a *control size* table where 44×44 pt is the iOS **default** and 28×28 pt the
-   **minimum**, under the verb "strive to meet" — a recommendation, not a floor the way
-   Android's 48 dp is. Apple's Buttons page separately publishes a 44×44 pt **hit region**, and
-   that is the like-for-like comparison to 48 dp. So 44×44 pt is a real published Apple number
-   for a different measure, and the flat claim is wrong in both directions at once.
-   `SURFACES.md` ships both qualifiers and forbids dropping either
-   (`docs/research/platform-numbers-verified.md`, [`SURFACES.md` §2](./SURFACES.md)).
-
-The list was five items until one was cut for having no receipt; [Corrections](#corrections) names
-it. If a fact did not verify, the files say so instead of filling the gap from memory.
-
-A separate fifth was caught later and by a different mechanism — not a summarizer on the way in,
-but one of this pipeline's own workers, mid-run. It is the first finding below.
-
 ## The first real run
+
+<img src="./assets/run.svg" width="100%" alt="The first real run: taha-portfolio, concept as-built, Gate A and Gate B signed 2026-08-06, six techniques shipped and one cut. Committed: DIRECTION.md, tokens.json, seven prototypes, 110 screenshots. Missing: comps and verdict files."/>
 
 [`runs/taha-portfolio/`](./runs/taha-portfolio/RUN-NOTES.md) is a run against a real subject: the
 owner's own portfolio, swapped in at kickoff for the greenfield landing page the plan had
@@ -368,7 +186,231 @@ documented-correct and untested.
 **opencode.** `opencode.json` loads `AGENTS.md` as instructions; the router routes to the
 rest on demand.
 
-## Corrections
+## The rest of the record
+
+<details>
+<summary><b>Why it exists</b></summary>
+<br>
+
+Three PIIIX pipelines — [portfolio.me](https://github.com/PIIIX-org), webcrab, and systemcicy,
+the parents of this plugin — each grew their own design system, and they drifted:
+
+| Doc | portfolio.me | webcrab | systemcicy |
+|---|---|---|---|
+| `STYLES.md` | 388 | 255 | — |
+| `CRAFT.md` | 418 | 240 | — |
+| `loops/02-design.md` | 188 | 258 | — |
+| `INTERFACE.md` | — | — | 229 |
+
+Only **12** of portfolio.me's 324 non-blank `STYLES.md` lines still appear anywhere in webcrab's
+202. The drift is not decay — each fork grew material the others lack. webcrab has a style
+selection procedure and a category-cliché fence portfolio.me never got; portfolio.me has the
+deeper technique arsenal; systemcicy is the only one that knows how to design a tool rather than
+a page. inter.face is the union of their design halves, made canonical. Full lineage in the
+[design spec](./docs/superpowers/specs/2026-07-28-inter-face-design.md), which prints an older,
+different figure for that overlap — see [Corrections](#corrections).
+
+This is a general failure of design guidance kept as prose, not PIIIX housekeeping. The
+[imagegen audit](./docs/audit/competitor-imagegen.md) found the same thing in someone else's
+skills directory: `imagegen-frontend-web` and `image-to-code` are the same file forked — **191**
+non-blank lines still literally identical — and each fork has since grown what the other lacks.
+The web fork gained composition anchors and a set-level anti-repeat check; the code fork gained
+extraction rules and anti-drift. Neither got the other's additions.
+
+</details>
+
+<details>
+<summary><b>What is genuinely new — and what is not</b></summary>
+<br>
+
+**New:** nothing in the surveyed landscape (four competitor audits, in
+[`docs/audit/`](./docs/audit/competitor-impeccable.md)) builds a runnable proof of a design
+technique, requires it to measure its own frame rate under load, prices it in bytes, and returns
+a verdict *before* the design commits. That is Loop 2, and it is the product. The demand for the
+measurement is unconditional; the number coming back is not. Where the instrument fails, the
+verdict says so and the evidence label caps at PARTIAL or INFERRED — the first real run is that
+case, and it is the third finding in the run section below.
+
+**Not new:** Loop 1 — direction, palette, concepts, comps — overlaps substantially with
+existing tools. gstack's `/design-consultation` and `/design-shotgun` already do most of it,
+and they are good. Shipping Loop 1 alone would be a less-integrated `design-consultation` with
+a better style catalog.
+
+**New, and the same shape as Loop 2:** Loop 3 builds the component sheet from `tokens.json` and
+`DIRECTION.md` **and nothing else**, which turns *"could a build agent execute this without
+making a single aesthetic decision?"* from a rhetorical question into one that gets run. Every
+value the builder cannot find is logged as a gap and rendered with a visibly wrong stand-in,
+because a builder that quietly picks a sensible value has destroyed the finding — and it will
+usually know the sensible value. Competitors specify design systems; the checkable claim here is
+that the specification is *complete*, and the gap report is what makes it falsifiable.
+
+**Not novel, and stated as a stance rather than a feature:** `IMPROVE.md` closes a run by
+harvesting its notes into findings about the plugin and asking — once, with the payload shown in
+full and the default set to no — whether to send them. There is no telemetry, no background
+reporting, and no phone-home; the gallery is a second, separate yes, because consent to send
+text findings is not consent to publish a picture of somebody's unreleased interface.
+
+The other real additions, stated without inflation: a style vocabulary with collision
+(32 entries across seven families, each with implementation implications and a named failure
+mode); performance budgets declared at design time rather than graded after; tool-shaped
+surfaces designed rather than classified; and portability — plain markdown across seven
+agents, no Node app, no runtime, no git preconditions.
+
+</details>
+
+<details>
+<summary><b>What is enforced where</b></summary>
+<br>
+
+The honest version, because it differs by agent — and because a `tools:` list fences less than
+it looks like it does:
+
+- **`Bash` is not a fence, and all six agents hold it.** Both conductors, all three workers and
+  the scout list `Bash`, because the loops order shell work and a frontmatter that fences what the
+  loop demands is a lie in the other direction — the conductors need a clock reading at every
+  phase boundary, the prototyper needs to measure and screenshot, the system builder needs to
+  screenshot every state it renders. `Bash` is an unrestricted
+  shell, so `git push`, `curl`, `ssh` and any deploy CLI are one command away in every one of
+  them. What holds them back is a sentence: `agents/technique-prototyper.md` grants `Bash` and
+  then writes "no remote, no deploy, no vendoring, no editing `DIRECTION.md`" as prose, under
+  its *When this file is run inline instead of dispatched* heading. That is instruction-level
+  fencing, identical to what the six non-Claude harnesses have. **This repo ships zero
+  shell-fenced agents.**
+- **What a `tools:` list still fences on Claude Code is what it omits** — and two omissions here
+  are real, checkable in the six frontmatters. Only the two conductors list `Agent`, so no
+  worker can dispatch a worker and the fan-out stays one level deep. Only `surface-designer`
+  lists image tools, so no other agent can call them. A third omission looks like a wall and is
+  not: no agent lists a fetch or browser tool, but `Bash` reaches the network with `curl`, so
+  that one fences nothing. Read the frontmatter as what an agent cannot reach *through a granted
+  tool*, and remember `Bash` is a door around most of it.
+- **Subagent context isolation is the enforcement that actually holds**, and it is not in the
+  frontmatter at all: a subagent does not inherit the session's context, which is what makes
+  phase-scoped reading real rather than requested.
+- **On Codex, Cursor, Cline, Windsurf, Gemini, and opencode**, even the omission wall is gone. A
+  frontmatter key nobody reads is not a fence. There the protocol degrades to the resident
+  router plus `scripts/check.sh`, and the `tools:` lists bind as instructions throughout.
+
+The one real run never exercised the wall at all: that harness had no registered inter.face agent
+types, so the conductor ran as a general-purpose subagent *reading* `agents/direction-conductor.md`
+with every tool granted. The prose held; the harness was not what held it.
+
+The ceiling is stated in `AGENTS.md` itself: an agent that ignores the protocol still gets
+correct guidance — just expensively, and with less context left to use it.
+
+</details>
+
+<details>
+<summary><b>Strategy scope</b></summary>
+<br>
+
+The plugin derives the design strategy it needs and nothing more.
+[`TRANSLATE.md`](./TRANSLATE.md)'s six rows — surface class · viewer and their decision or
+task · the three-second feel · archetype and shadow · anti-positioning · what is already
+owned — each carry a self-contained derivation: every row names the file and section it
+visibly changes downstream, or it would have been cut as decoration.
+
+Ahead of the rows sits the **inbox**: reference images, links with a line each on what the
+subject likes about them, brand assets, and the brand book where one exists, all in
+`runs/<slug>/inbox/` on the human's own disk. It is an accelerant for rows 4 to 6, not a
+seventh row, and it ships with the rule that makes it safe — **a reference is evidence about
+the subject's taste, never a specification of the output.** A moodboard read as a target
+produces a pastiche of the moodboard, which is the failure mode the whole pipeline is built
+against, arriving through a new door.
+
+It does **not** do market strategy: no ICP work, no competitive teardown, no message
+hierarchy. Those are assumed upstream. And if real brand strategy already exists — an owned
+palette, a mandated design system such as GOV.UK or Material — it wins: row 6 routes to
+conformance instead of invention.
+
+</details>
+
+<details>
+<summary><b>Scope and limits</b></summary>
+<br>
+
+- **Four surfaces:** web, mobile, tablet, desktop. Nothing else is covered.
+- **`CRAFT.md`'s arsenal is web technique.** Shaders, `backdrop-filter`, scroll-linked
+  timelines. On native, the principles hold — prototype before you design around it, a
+  technique with one state is unfinished — and the arsenal does not.
+- **`tokens.json` is web-scoped.** DTCG dimensions close their unit set to `px` and `rem`, so
+  Apple's `pt` and Material's `dp`/`sp` are not expressible; native numbers live in
+  `DIRECTION.md` prose or in `$extensions`. A token file that silently rounds 44pt to 44px
+  has produced a wrong layout with a valid schema.
+- **Named gaps stay named.** `SURFACES.md` closes with what never survived verification —
+  cross-platform navigation models, Android 15 edge-to-edge, gesture conflicts, Fluent,
+  Material's canonical layouts. Unresearched, not settled.
+
+</details>
+
+<a id="every-number-is-sourced"></a>
+<details>
+<summary><b>Every number is sourced</b></summary>
+<br>
+
+A checkable quality claim, with its one exception named below rather than left to be found:
+numbers in the reference files trace to a dated verification doc, of which there are two kinds.
+Facts about the world trace to
+[`docs/research/`](./docs/research/accessibility-wcag.md), and everything there was read off
+rendered primary sources with a headless browser — not summarizer output, not memory. Numbers
+and quotes taken from someone else's skill trace to
+[`docs/audit/`](./docs/audit/competitor-small-skills.md) instead, where the audited file is the
+primary source: `STYLES.md`'s four paired colour hexes and its bimodal-density and
+font-convergence quotes are audit-sourced, not research-sourced.
+
+**The exception, a single grep from anyone who wants to check:**
+
+- **`CRAFT.md`'s Libraries table.** Fourteen libraries carry an approximate weight — ~600KB
+  three.js, ~70KB GSAP with ScrollTrigger, ~900KB p5 — and no file in `docs/research/` or
+  `docs/audit/` contains any of those figures. `CRAFT.md` is honest about it in place: *"Weights
+  are approximate and exist so the tier decision is informed. Check the real number for the
+  version you pull."* They are a tier-decision aid the file tells you to replace with a measured
+  number, not verified figures.
+
+There were two exceptions until this release. The second was the tally behind
+`loops/01-direction.md`'s distinctness tests, printed there as *six of seven audited skills* — a
+count that lived in the design spec and the build plan and in no verification doc. It stopped
+being an exception because it stopped being that number. Re-checking the corpus found five
+skills that instruct for variance between runs and four that fail, and the corrected set, the
+re-check, and a dated correction note are now printed under `docs/audit/` — grep **Four of the
+five** in [`docs/audit/competitor-small-skills.md`](./docs/audit/competitor-small-skills.md) §6.
+`loops/01-direction.md` §7 now reads *five skills there instruct for variance; four fail*, and
+its skip-cost table *four of the five*, so the shipping file and its receipt print the same
+number and the tally is audit-sourced like the rest. The old count also contradicted itself: it
+placed `design-shotgun` outside the seven while calling it the one skill that works.
+
+Every other number in the reference files traces to one of the two kinds of doc.
+
+That discipline exists because this project caught **four** plausible-but-wrong claims on the
+way in, each documented in the research docs:
+
+1. A summarizer returned invented WCAG 2.5.8 exception wording that appears nowhere in the
+   spec (`docs/research/accessibility-wcag.md`).
+2. A summarizer invented a security exception for WCAG 3.3.8 — wording that would have shipped
+   a non-existent carve-out (`docs/research/accessibility-wcag.md`).
+3. A Liquid Glass quote attributed to Apple's Materials page whose wording does not occur
+   anywhere on that page (`docs/research/mobile-native-verified.md`).
+4. **"Apple's minimum touch target is 44×44 pt"** — repeated in most design skills, and
+   unusable as stated, because it collapses two different Apple numbers. Apple's Accessibility
+   page publishes a *control size* table where 44×44 pt is the iOS **default** and 28×28 pt the
+   **minimum**, under the verb "strive to meet" — a recommendation, not a floor the way
+   Android's 48 dp is. Apple's Buttons page separately publishes a 44×44 pt **hit region**, and
+   that is the like-for-like comparison to 48 dp. So 44×44 pt is a real published Apple number
+   for a different measure, and the flat claim is wrong in both directions at once.
+   `SURFACES.md` ships both qualifiers and forbids dropping either
+   (`docs/research/platform-numbers-verified.md`, [`SURFACES.md` §2](./SURFACES.md)).
+
+The list was five items until one was cut for having no receipt; [Corrections](#corrections) names
+it. If a fact did not verify, the files say so instead of filling the gap from memory.
+
+A separate fifth was caught later and by a different mechanism — not a summarizer on the way in,
+but one of this pipeline's own workers, mid-run. It is the first finding below.
+
+</details>
+
+<a id="corrections"></a>
+<details>
+<summary><b>Corrections</b></summary>
+<br>
 
 Six figures on this page differ from what an earlier draft of it, a source document, or the run's
 own log says. A repo whose pitch is *the files say what did not verify* does not get to quietly
@@ -408,7 +450,16 @@ exception, and it is named under [Every number is sourced](#every-number-is-sour
 second exception that stood beside it until 2026-08-14, when the tally it named was corrected
 and its receipt landed under `docs/audit/`.
 
+</details>
+
 ## License
 
 [MIT](./LICENSE) — Copyright (c) 2026 PIIIX. Parents credited above: portfolio.me, webcrab,
 systemcicy.
+
+<div align="center">
+<img src="./assets/footer.svg" width="100%" alt="inter.face, a PIIIX pipeline. Named values, not adjectives."/>
+</div>
+
+<!-- forged-with: git-a-profile -->
+<sub>Forged with <a href="https://github.com/PIIIX-org/git-a-profile">git-a-profile</a> · <a href="https://github.com/PIIIX-org">PIIIX</a></sub>
