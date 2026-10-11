@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 150" width="100%" role="img" aria-label="The first real run: taha-portfolio, concept as-built, Gate A and Gate B signed 2026-08-06, six techniques shipped and one cut; committed: DIRECTION.md, tokens.json, seven prototypes, 110 screenshots; missing: comps and verdict files.">
+<style>text{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#272625} .mut{fill:#6a6967}</style>
+<rect width="1200" height="150" fill="#f5f9fb"/><rect x="40" y="20" width="1120" height="110" fill="#ffffff" stroke="#272625"/>
+<text x="64" y="40" font-size="10" class="mut" letter-spacing="1.5">RUN</text><text x="64" y="58" font-size="14" fill="#272625">taha-portfolio</text>
+<text x="254" y="40" font-size="10" class="mut" letter-spacing="1.5">CONCEPT</text><text x="254" y="58" font-size="14" fill="#272625">as-built</text>
+<text x="444" y="40" font-size="10" class="mut" letter-spacing="1.5">GATE A</text><text x="444" y="58" font-size="14" fill="#b35b00">signed 2026-08-06</text>
+<text x="634" y="40" font-size="10" class="mut" letter-spacing="1.5">GATE B</text><text x="634" y="58" font-size="14" fill="#b35b00">signed 2026-08-06, 4 rulings</text>
+<text x="64" y="90" font-size="10" class="mut" letter-spacing="1.5">SHIPPED</text><text x="64" y="108" font-size="14" fill="#272625">6 techniques · 1 cut</text>
+<text x="276.0" y="90" font-size="10" class="mut" letter-spacing="1.5">COMMITTED</text><text x="276.0" y="108" font-size="14" fill="#272625">DIRECTION.md · tokens.json · 7 prototypes · 110 shots</text>
+<text x="771.8" y="90" font-size="10" class="mut" letter-spacing="1.5">MISSING</text><text x="771.8" y="108" font-size="14" fill="#c63f28">comps · verdict files</text>
+</svg>
