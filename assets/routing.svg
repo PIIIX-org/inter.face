@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 528" width="100%" role="img" aria-labelledby="t d">
+<title id="t">What each phase reads</title>
+<desc id="d">Scout: REDESIGN.md 331, TRANSLATE.md rows 1 + 6, STYLES.md families, SURFACES.md §2; Loop 1 · direction: PRINCIPLES.md 177, TRANSLATE.md 355, STYLES.md 802, loops/01-direction.md 601, ACCESS.md §13 · 50/1,429; Gate A: the human picks the concept; Loop 2 · craft: CRAFT.md 786, loops/02-craft.md 385; Gate B: the human approves or cuts the technique set; Loop 3 · system: loops/03-system.md 289, DIRECTION.md, tokens.json; Gate C: the human signs off the component set; Close: IMPROVE.md 166</desc>
+<style>text{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;fill:#272625} .serif{font-family:Georgia, 'Iowan Old Style', 'Times New Roman', serif} .mut{fill:#6a6967}</style>
+<rect width="1200" height="528" fill="#f5f9fb"/>
+<text x="40" y="36" font-size="18" class="serif">What each phase reads</text>
+<text x="1160" y="36" font-size="11" class="mut" text-anchor="end">AGENTS.md §3 · nobody reads all 6,923 lines</text>
+<line x1="40" y1="50" x2="1160" y2="50" stroke="#272625"/>
+<line x1="40" y1="106" x2="1160" y2="106" stroke="#dcdad9"/>
+<text x="60" y="77" font-size="14" class="serif">Scout</text>
+<rect x="300" y="66" width="129" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="309" y="82" font-size="11.5">REDESIGN.md 331</text>
+<rect x="437.0" y="66" width="188" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="446.0" y="82" font-size="11.5">TRANSLATE.md rows 1 + 6</text>
+<rect x="633.2" y="66" width="151" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="642.2" y="82" font-size="11.5">STYLES.md families</text>
+<rect x="792.4000000000001" y="66" width="122" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="801.4000000000001" y="82" font-size="11.5">SURFACES.md §2</text>
+<text x="60" y="94" font-size="10.5" class="mut">brownfield only</text>
+<line x1="40" y1="162" x2="1160" y2="162" stroke="#dcdad9"/>
+<text x="60" y="133" font-size="14" class="serif">Loop 1 · direction</text>
+<rect x="300" y="122" width="144" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="309" y="138" font-size="11.5">PRINCIPLES.md 177</text>
+<rect x="451.8" y="122" width="136" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="460.8" y="138" font-size="11.5">TRANSLATE.md 355</text>
+<rect x="596.2" y="122" width="114" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="605.2" y="138" font-size="11.5">STYLES.md 802</text>
+<rect x="718.4000000000001" y="122" width="203" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="727.4000000000001" y="138" font-size="11.5">loops/01-direction.md 601</text>
+<rect x="929.4000000000001" y="122" width="196" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="938.4000000000001" y="138" font-size="11.5">ACCESS.md §13 · 50/1,429</text>
+<text x="60" y="150" font-size="10.5" class="mut">2,203 of 6,923 lines</text>
+<line x1="40" y1="218" x2="1160" y2="218" stroke="#dcdad9"/>
+<rect x="40" y="178" width="8" height="24" fill="#b35b00"/>
+<text x="60" y="195" font-size="13" fill="#b35b00" letter-spacing="1.5">GATE A</text>
+<text x="200" y="195" font-size="12" class="mut">the human picks the concept · nothing new is read at a gate</text>
+<line x1="40" y1="274" x2="1160" y2="274" stroke="#dcdad9"/>
+<text x="60" y="245" font-size="14" class="serif">Loop 2 · craft</text>
+<rect x="300" y="234" width="107" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="309" y="250" font-size="11.5">CRAFT.md 786</text>
+<rect x="414.8" y="234" width="173" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="423.8" y="250" font-size="11.5">loops/02-craft.md 385</text>
+<text x="60" y="262" font-size="10.5" class="mut">1,389 lines</text>
+<line x1="40" y1="330" x2="1160" y2="330" stroke="#dcdad9"/>
+<rect x="40" y="290" width="8" height="24" fill="#b35b00"/>
+<text x="60" y="307" font-size="13" fill="#b35b00" letter-spacing="1.5">GATE B</text>
+<text x="200" y="307" font-size="12" class="mut">the human approves or cuts the technique set · nothing new is read at a gate</text>
+<line x1="40" y1="386" x2="1160" y2="386" stroke="#dcdad9"/>
+<text x="60" y="357" font-size="14" class="serif">Loop 3 · system</text>
+<rect x="300" y="346" width="181" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="309" y="362" font-size="11.5">loops/03-system.md 289</text>
+<rect x="488.8" y="346" width="107" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="497.8" y="362" font-size="11.5">DIRECTION.md</text>
+<rect x="603.6" y="346" width="99" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="612.6" y="362" font-size="11.5">tokens.json</text>
+<text x="60" y="374" font-size="10.5" class="mut">507 lines + this run's own files</text>
+<line x1="40" y1="442" x2="1160" y2="442" stroke="#dcdad9"/>
+<rect x="40" y="402" width="8" height="24" fill="#b35b00"/>
+<text x="60" y="419" font-size="13" fill="#b35b00" letter-spacing="1.5">GATE C</text>
+<text x="200" y="419" font-size="12" class="mut">the human signs off the component set · nothing new is read at a gate</text>
+<line x1="40" y1="498" x2="1160" y2="498" stroke="#dcdad9"/>
+<text x="60" y="469" font-size="14" class="serif">Close</text>
+<rect x="300" y="458" width="122" height="24" fill="#ffffff" stroke="#dcdad9"/>
+<text x="309" y="474" font-size="11.5">IMPROVE.md 166</text>
+</svg>
